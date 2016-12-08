@@ -8,10 +8,10 @@ class Utilisateur extends Model
 {
     protected $table = "utilisateur";
     public $timestamps = false;
-    protected $primaryKey = 'identite_acces_id';
+    protected $primaryKey = 'identiteacces_id';
 
     public function identite()
     {
-        return $this->belongsTo('App\IdentiteAcces');
+        return $this->belongsTo('App\IdentiteAcces','identiteacces_id');
     }
 }

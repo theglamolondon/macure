@@ -44,7 +44,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="{{route(Auth::user()->getHomeUrl())}}" class="site_title"><i class="fa fa-paw"></i> <span>Marcure !</span></a>
+              <a href="{{route(\Illuminate\Support\Facades\Auth::user()->getHomeUrl())}}" class="site_title"><i class="fa fa-paw"></i> <span>Marcure !</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -56,7 +56,7 @@
               </div>
               <div class="profile_info">
                 <span>Bonjour,</span>
-                <h2>{{ Auth::user()->name() }}</h2>
+                <h2>{{ \Illuminate\Support\Facades\Auth::user()->name() }}</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -68,7 +68,7 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  @if( Auth::user()->hasRole(\App\Autorisation::ADMIN))
+                  @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::ADMIN))
                   <li><a><i class="fa fa-home"></i> Administration <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="#">Utilisateur</a>
@@ -93,7 +93,7 @@
                     </ul>
                   </li>
                   @endif
-                  @if( Auth::user()->hasRole(\App\Autorisation::RBOM))
+                  @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::RBOM))
                   <li><a><i class="fa fa-edit"></i> RBOM <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="javascript:void(0);">Bon de travaux</a>
@@ -113,7 +113,7 @@
                     </ul>
                   </li>
                   @endif
-                  @if( Auth::user()->hasRole(\App\Autorisation::RTM))
+                  @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::RTM))
                   <li><a><i class="fa fa-desktop"></i>RTM <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="../gentelella/general_elements.html">General Elements</a></li>
@@ -128,7 +128,7 @@
                     </ul>
                   </li>
                   @endif
-                  @if( Auth::user()->hasRole(\App\Autorisation::EQUIPE_TRAVAUX))
+                  @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::EQUIPE_TRAVAUX))
                   <li><a><i class="fa fa-table"></i> EQUIPE TRAVAUX <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="../gentelella/tables.html">Tables</a></li>
@@ -136,7 +136,7 @@
                     </ul>
                   </li>
                   @endif
-                  @if( Auth::user()->hasRole(\App\Autorisation::CIE))
+                  @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::CIE))
                   <li><a><i class="fa fa-bar-chart-o"></i> CIE <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="../gentelella/chartjs.html">Chart JS</a></li>
@@ -147,7 +147,7 @@
                     </ul>
                   </li>
                   @endif
-                  @if( Auth::user()->hasRole(\App\Autorisation::DIRECTEUR))
+                  @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::DIRECTEUR))
                   <li><a><i class="fa fa-clone"></i> DIRECTEUR <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="../gentelella/fixed_sidebar.html">Fixed Sidebar</a></li>
@@ -174,11 +174,11 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{{request()->getBaseUrl()}}/images/img.jpg" alt="">{{ Auth::user()->name() }}
+                    <img src="{{request()->getBaseUrl()}}/images/img.jpg" alt="">{{ \Illuminate\Support\Facades\Auth::user()->name() }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="{{route( Auth::user()->getProfileUrl())}}"> Profile</a></li>
+                    <li><a href="{{route( \Illuminate\Support\Facades\Auth::user()->getProfileUrl())}}"> Profile</a></li>
                     <li>
                       <a href="javascript:;">
                         <span class="badge bg-red pull-right">50%</span>

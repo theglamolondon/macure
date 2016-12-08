@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ActionMaintenanceCurrative extends Model
 {
-    protected $table = "action_maintenance_currative";
+    protected $table = "actionmaintenancecurrative";
     public $timestamps = false;
 }

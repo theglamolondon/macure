@@ -12,39 +12,39 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('type_identite')->insert([
+        DB::table('typeidentite')->insert([
             ['libelle' => 'Utilisateur'],
             ['libelle' => 'Groupe Travaux']
         ]);
-        DB::table('identite_acces')->insert([
+        DB::table('identiteacces')->insert([
             [
                 'login' => 'glamolondon@gmail.com',
                 'password' => bcrypt('flavie'),
-                'type_identite_id'=>1,
+                'typeidentite_id'=>1,
                 'autorisation' => json_encode(['admin','cie','rtmdoc','rbom','directeur'])
             ],
             [
                 'login' => 'akejeansidoine@yahoo.fr',
                 'password' => bcrypt('leandre'),
-                'type_identite_id'=>1,
+                'typeidentite_id'=>1,
                 'autorisation' => json_encode(['admin','cie','rtmdoc','rbom','directeur'])
             ],
             [
                 'login' => 'groupe1',
                 'password' => bcrypt('macure'),
-                'type_identite_id'=>2,
+                'typeidentite_id'=>2,
                 'autorisation' => json_encode(['equipe'])
             ],
             [
                 'login' => 'groupe2',
                 'password' => bcrypt('macure'),
-                'type_identite_id'=>2,
+                'typeidentite_id'=>2,
                 'autorisation' => json_encode(['equipe'])
             ],
             [
                 'login' => 'groupe3',
                 'password' => bcrypt('macure'),
-                'type_identite_id'=>2,
+                'typeidentite_id'=>2,
                 'autorisation' => json_encode(['equipe'])
             ],
         ]);
@@ -54,14 +54,14 @@ class UsersTableSeeder extends Seeder
                 'prenoms' => 'Bérenger Wilfried',
                 'telephone' => '+225 47631443',
                 'email' => 'glamolondon@gmail.com',
-                'identite_acces_id' => 1
+                'identiteacces_id' => 1
             ],
             [
                 'nom' => 'Ake',
                 'prenoms' => 'Jean Sidoine',
                 'telephone' => null,
                 'email' => null,
-                'identite_acces_id' => 2
+                'identiteacces_id' => 2
             ],
         ]);
         DB::table('urgence')->insert([
@@ -78,27 +78,27 @@ class UsersTableSeeder extends Seeder
                 'libelle' => 'Urgent'
             ],
         ]);
-        DB::table('etat_bon')->insert([
+        DB::table('etatbon')->insert([
             ['libelle' => 'Bon enregistré'],
             ['libelle' => 'Etude faite'],
             ['libelle' => 'Travaux encours de réalisation'],
             ['libelle' => 'Travaux terminés']
         ]);
-        DB::table('equipe_travaux')->insert([
+        DB::table('equipetravaux')->insert([
             [
-                "identite_acces_id" => 3,
+                "identiteacces_id" => 3,
                 "nom" => "Equipe 1",
                 "chargemaintenance" => 1,
                 "chefequipe" => 2
             ],
             [
-                "identite_acces_id" => 4,
+                "identiteacces_id" => 4,
                 "nom" => "Equipe 2",
                 "chargemaintenance" => 1,
                 "chefequipe" => 3
             ],
             [
-                "identite_acces_id" => 5,
+                "identiteacces_id" => 5,
                 "nom" => "Equipe 3",
                 "chargemaintenance" => 4,
                 "chefequipe" => 2
@@ -109,61 +109,61 @@ class UsersTableSeeder extends Seeder
                 "nom" => "Kouassi",
                 "prenoms" => "Eugène",
                 "niveau" => "Ingénieur de technique",
-                "equipe_travaux_id" => 1
+                "equipetravaux_id" => 1
             ],[
                 "nom" => "Mael",
                 "prenoms" => "Franck",
                 "niveau" => "Technicien BT",
-                "equipe_travaux_id" => 1
+                "equipetravaux_id" => 1
             ],[
                 "nom" => "Atébi",
                 "prenoms" => "Yaro Francis",
                 "niveau" => "Ingénieur de technique",
-                "equipe_travaux_id" => 1
+                "equipetravaux_id" => 1
             ],[
                 "nom" => "Ohoucou",
                 "prenoms" => "Sandrine",
                 "niveau" => "Ingénieur de technique",
-                "equipe_travaux_id" => 2
+                "equipetravaux_id" => 2
             ],[
                 "nom" => "Kouassi",
                 "prenoms" => "Eugène",
                 "niveau" => "Technicien",
-                "equipe_travaux_id" => 2
+                "equipetravaux_id" => 2
             ],[
                 "nom" => "Traoré",
                 "prenoms" => "Aboubakar",
                 "niveau" => "Technicien",
-                "equipe_travaux_id" => 2
+                "equipetravaux_id" => 2
             ],[
                 "nom" => "Adjéhi",
                 "prenoms" => "Lucien",
                 "niveau" => "Ingénieur de technique",
-                "equipe_travaux_id" => 3
+                "equipetravaux_id" => 3
             ],[
                 "nom" => "Toungblé",
                 "prenoms" => "Martial",
                 "niveau" => "Ingénieur de technique",
-                "equipe_travaux_id" => 3
+                "equipetravaux_id" => 3
             ],[
                 "nom" => "Sylla",
                 "prenoms" => "Fofana",
                 "niveau" => "Ingénieur de technique",
-                "equipe_travaux_id" => 3
+                "equipetravaux_id" => 3
             ],
         ]);
-        DB::table("cause_chantier")->insert([
+        DB::table("causechantier")->insert([
            ["libelle" => 'Incident' ],
            ["libelle" => 'Avarie' ],
            ["libelle" => 'Incendie' ]
         ]);
-        DB::table("type_operation")->insert([
+        DB::table("typeoperation")->insert([
             ["libelle" => 'Visite'],
             ["libelle" => 'Réparation'],
             ["libelle" => 'Modification'],
             ["libelle" => 'Rénovation']
         ]);
-        DB::table("type_gamme")->insert([
+        DB::table("typegamme")->insert([
             [
                 "libelle" => 'Gamme de remplacement d\'une grille de dérivation',
                 "reference" => 'GAM IT 688',
@@ -189,7 +189,7 @@ class UsersTableSeeder extends Seeder
             $date = rand(2015,2016).'-'.rand(01,12).'-'.rand(01,28);
             $heure = ' '.rand(00,23).':'.rand(0,59);
 
-            DB::table("bon_travaux")->insert([
+            DB::table("bontravaux")->insert([
                 'numerobon' => 145800266450+$i,
                 'nomabonne' => $abonnees[$rand[0]],
                 'referenceabonne' => '10004586550'.$i,
@@ -210,9 +210,8 @@ class UsersTableSeeder extends Seeder
                 'codeuo' => null,
                 'nbreuo' => 0,
                 'responsablebt' => $abonnees[$rand[3]],
-                'etat_bon_id' => EtatBon::Bon_enregistre,
-                'createur' => Auth::user()->id,
-                'dateheurecreation' => Carbon::now()->toDateTimeString(),
+                'etatbon_id' => \App\EtatBon::Bon_enregistre,
+                'dateexecution' => \Carbon\Carbon::now()->toDateTimeString(),
             ]);
         }
         /*

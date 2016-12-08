@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MoyenHumain extends Model
 {
-    protected $table = "moyen_humain";
+    protected $table = "moyenhumain";
     public $timestamps = false;
     protected $guarded = [];
 

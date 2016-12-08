@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class RapportTechniqueMaintenanceCurrative extends Model
 {
-    protected $table = "rapport_technique_maintenance_currative";
+    protected $table = "rtmaintenancecurrative";
     public $timestamps = false;
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TypeGamme extends Model
 {
-    protected $table = "type_gamme";
+    protected $table = "typegamme";
     public $timestamps = false;
 
     public function gamme()

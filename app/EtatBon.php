@@ -11,6 +11,6 @@ class EtatBon extends Model
     const Travaux_encours = 3;
     const Travaux_termines = 4;
 
-    protected $table = "etat_bon";
+    protected $table = "etatbon";
     public $timestamps = false;
 }

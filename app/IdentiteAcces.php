@@ -10,7 +10,7 @@ class IdentiteAcces extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = "identite_acces";
+    protected $table = "identiteacces";
     public $timestamps = false;
     protected $guarded = [];
 
@@ -18,13 +18,14 @@ class IdentiteAcces extends Authenticatable
     {
         return $this->belongsTo('App\TypeIdentite');
     }
+
     public function getComplement()
     {
-        if($this->type_identite_id == TypeIdentite::TYPE_IDENTITE_UTILISATEUR)
+        if($this->typeidentite_id == TypeIdentite::TYPE_IDENTITE_UTILISATEUR)
         {
             return $this::with('utilisateur')->first();
         }
-        elseif($this->type_identite_id == TypeIdentite::TYPE_IDENTITE_EQUIPE_TRAVAUX)
+        elseif($this->typeidentite_id == TypeIdentite::TYPE_IDENTITE_EQUIPE_TRAVAUX)
         {
             return $this::with('equipeTravaux')->first();
         }
@@ -32,11 +33,11 @@ class IdentiteAcces extends Authenticatable
 
     public function name()
     {
-        if($this->type_identite_id == TypeIdentite::TYPE_IDENTITE_UTILISATEUR)
+        if($this->typeidentite_id == TypeIdentite::TYPE_IDENTITE_UTILISATEUR)
         {
             return $this->utilisateur->prenoms;
         }
-        elseif($this->type_identite_id == TypeIdentite::TYPE_IDENTITE_EQUIPE_TRAVAUX)
+        elseif($this->typeidentite_id == TypeIdentite::TYPE_IDENTITE_EQUIPE_TRAVAUX)
         {
             return $this->equipeTravaux->nom;
         }
@@ -59,7 +60,7 @@ class IdentiteAcces extends Authenticatable
 
     public function utilisateur()
     {
-        return $this->hasOne('App\Utilisateur');
+        return $this->hasOne('App\Utilisateur','identiteacces_id');
     }
 
     public function equipeTravaux()

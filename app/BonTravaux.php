@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BonTravaux extends Model
 {
-    protected $table = 'bon_travaux';
+    protected $table = 'bontravaux';
     public $timestamps = false;
     protected $guarded = [];
 
@@ -17,7 +17,7 @@ class BonTravaux extends Model
     ];
 
     function etatbon(){
-        return $this->belongsTo('App\EtatBon','etat_bon_id');
+        return $this->belongsTo('App\EtatBon');
     }
 
     function urgence(){
@@ -29,13 +29,5 @@ class BonTravaux extends Model
 
     function preparationactiontravaux(){
         return $this->hasOne('App\PreparationActionMaintenance');
-    }
-
-    function createur(){
-        return $this->belongsTo('App\IdentiteAcces');
-    }
-
-    function modificateur(){
-        return $this->belongsTo('App\IdentiteAcces');
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class IndicateurMaintenance extends Model
 {
-    protected $table = "indicateur_maintenance";
+    protected $table = "indicateurmaintenance";
     public $timestamps = false;
 
     public function rapportTechnique()

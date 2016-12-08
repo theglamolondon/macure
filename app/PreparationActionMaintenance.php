@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PreparationActionMaintenance extends Model
 {
-    protected $table = 'preparation_action_maintenance';
+    protected $table = 'fpactionmaintenance';
     public $timestamps = false;
     protected $guarded = [];
 

@@ -70,9 +70,6 @@ class RbomController extends Controller
     public function sendResponseNewFPAM($initiateur, Request $request)
     {
         try {
-            //dd(request());
-
-
             $this->validate($request,[
                     "localisation" => "required",
                     "bon_travaux_id" => "required|numeric|not_in:0",
@@ -110,8 +107,7 @@ class RbomController extends Controller
 
             //création de la fiche FPAM
             $fpam = new PreparationActionMaintenance($request->except(['_token', 'dateprepa', "gamme", "dateheurepanne", "nbrecadre", "nbreagentdemaitrise",'disponibiliteagentcie',
-                "nbreagentemploye", "nbreagentouvrier", "interllocuteur", "datecontact", "solliciationexprimee", "rdv", "conclusion", "document","datecontact",
-                'longitude','lattitude']));
+                "nbreagentemploye", "nbreagentouvrier", "interllocuteur", "datecontact", "solliciationexprimee", "rdv", "conclusion", "document","datecontact"]));
 
             $fpam->dateprepa = Carbon::createFromFormat('d/m/Y', $request->input('dateprepa'))->toDateString();
             $fpam->dateheuredebutprevi = Carbon::createFromFormat('d/m/Y H:i', $request->input('dateheuredebutprevi'))->toDateString();
@@ -130,11 +126,6 @@ class RbomController extends Controller
                 $moyensHumains->preparationActionMaintenance()->associate($fpam);
                 $fpam->save();
             }
-
-            //coordonnees GPS
-            $gps = new CoordonneeGPS($request->only(['longitude','lattitude']));
-            $gps->preparationaction()->associate($fpam);
-            $gps->save();
 
             //Solicitation extérieures
             if(!empty($request->input('interllocuteur')))
@@ -157,7 +148,7 @@ class RbomController extends Controller
             return back()->withInput()->withErrors(['status' => Lang::get('rbom.failfpam')]);
         }catch (\Exception $e){
             DB::rollback();
-            return back()->withInput()->withErrors(['status' => Lang::get('rbom.failfpam')]);
+            return back()->withInput()->withErrors(['status' => $e->getMessage()]);
         }
     }
 
@@ -187,11 +178,11 @@ class RbomController extends Controller
         $this->validate($request,[
             "nomabonne" => "required",
             "dateheurepanne" => "date_format:d/m/Y H:i",
-            "dateexecution" => "date_format:d/m/Y H:i",
+            "dateexecution" => "date_format:d/m/Y",
         ],[
             "nomabonne.required" => "Veuillez saisir le nom de l\'abonné SVP",
-            "dateheurepanne.date_format" => "Le format de la date doit-être au format JJ/MM/AAAA HH:MM",
-            "dateexecution.date_format" => "Le format de la date doit-être au format JJ/MM/AAAA HH:MM",
+            "dateheurepanne.date_format" => "Le format de la date de panne doit-être au format JJ/MM/AAAA HH:MM",
+            "dateexecution.date_format" => "Le format de la date d\' dexécution doit-être au format JJ/MM/AAAA HH:MM",
         ]);
 
         $bonTravaux = new BonTravaux($request->except(['_token','dateheurepanne','dateexecution','abonnepanne','abonneabsent','abonnetrouve','dateheuredep']));
@@ -200,12 +191,10 @@ class RbomController extends Controller
         $bonTravaux->abonnepanne = $request->has('abonnepanne') ? true : false;
         $bonTravaux->abonneabsent = $request->has('abonneabsent') ? true : false;
         $bonTravaux->abonnetrouve = $request->has('abonnetrouve') ? true : false;
-        $bonTravaux->etat_bon_id = EtatBon::Bon_enregistre;
-        $bonTravaux->createur = Auth::user()->id;
-        $bonTravaux->dateheurecreation = new Carbon('now');
+        $bonTravaux->etatbon_id = EtatBon::Bon_enregistre;
         $bonTravaux->save();
 
-        return redirect()->route('liste_bt')->with('status',Lang::get('rbom.btajout'));
+        return redirect()->route('liste_bt')->withSuccess('status',Lang::get('rbom.btajout'));
     }
 
     public function planning()

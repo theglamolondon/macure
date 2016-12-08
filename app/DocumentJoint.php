@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DocumentJoint extends Model
 {
-    protected $table = "document_joint";
+    protected $table = "documentjoint";
     public $timestamps = false;
 
     public function preparationaction()

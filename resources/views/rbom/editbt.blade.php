@@ -96,10 +96,10 @@
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <div id="gender" class="btn-group" data-toggle="buttons">
                             <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                <input type="radio" name="typedepannage" value="1"> Définitif
+                                <input type="radio" name="typedepannage" value="1" checked /> Définitif
                             </label>
                             <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                <input type="radio" name="typedepannage" value="2"> Provisoire
+                                <input type="radio" name="typedepannage" value="2" /> Provisoire
                             </label>
                         </div>
                     </div>
@@ -108,12 +108,12 @@
                 <div class="form-group">
                     <label class="control-label col-md-2 col-sm-2 col-xs-12">Des abonnés restent en panne</label>
                     <div class="col-md-2 col-sm-2 col-xs-12">
-                        <input type="checkbox" class="js-switch" name="abonnepanne" @if(old('abonnetrouve'))checked @endif/>
+                        <input type="checkbox" class="js-switch" name="abonnepanne" @if(old('abonnepanne'))checked @endif/>
                     </div>
 
                     <label class="control-label col-md-2 col-sm-2 col-xs-12">Abonné Absent</label>
                     <div class="col-md-2 col-sm-2 col-xs-12">
-                        <input type="checkbox" class="js-switch" name="abonneabsent" @if(old('abonnetrouve'))checked @endif/>
+                        <input type="checkbox" class="js-switch" name="abonneabsent" @if(old('abonneabsent'))checked @endif/>
                     </div>
 
                     <label class="control-label col-md-2 col-sm-2 col-xs-12">Abonné Non trouvé</label>

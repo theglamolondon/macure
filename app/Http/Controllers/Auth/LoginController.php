@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -66,9 +67,6 @@ class LoginController extends Controller
         //routage des utilisateurs
         $request->session()->put("user", $this->guard()->user()->getComplement());
         $authorizations = json_decode($this->guard()->user()->autorisation);
-
-
-        //dd($authorizations);
 
         //directeur
         if (array_search(Autorisation::DIRECTEUR, $authorizations)) {

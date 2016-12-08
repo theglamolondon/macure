@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class TypeOperation extends Model
 {
-    protected $table = "type_operation";
+    protected $table = "typeoperation";
     public $timestamps = false;
 }

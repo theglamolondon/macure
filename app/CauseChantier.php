@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class CauseChantier extends Model
 {
-    protected $table = "cause_chantier";
+    protected $table = "causechantier";
     public $timestamps = false;
 }
