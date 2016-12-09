@@ -9,7 +9,16 @@
             min-width: 200px;
         }
     </style>
-    <div id="map"></div>
+    <div class="rows">
+        <div class="col-md-9 col-sm-9 col-xs-12">
+            <div class="">
+                <label>
+                    <input type="checkbox" class="js-switch" id="myPosition" onclick="switchPosition();"/> Calculer en fonction de ma position
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="clear" id="map"></div>
     <script>
         var directionsDisplay;
         var directionsService = null;
@@ -19,8 +28,8 @@
 
         function initialize() {
             directionsService = new google.maps.DirectionsService();
-            djeraPosition  = new google.maps.LatLng(5.3057055, -3.9910777);
-            pannePosition = new google.maps.LatLng(5.3178887, -3.9641001);
+            djeraPosition  = new google.maps.LatLng({{\App\Http\Controllers\Map\MapsApiController::DJERA_POSITION_LATTITUDE}},{{\App\Http\Controllers\Map\MapsApiController::DJERA_POSITION_LONGITUDE}});
+            pannePosition = new google.maps.LatLng({{$fpam->lattitude}},{{$fpam->longitude}});
 
             directionsDisplay = new google.maps.DirectionsRenderer();
             var mapOptions = {
@@ -31,12 +40,12 @@
             directionsDisplay.setMap(map);
 
             //Calcul et affichage de la route
-            calcRoute();
+            calcRoute(djeraPosition);
         }
 
-        function calcRoute() {
+        function calcRoute(_origine) {
             var request = {
-                origin: djeraPosition,
+                origin: _origine,
                 destination: pannePosition,
                 // Note that Javascript allows us to access the constant
                 // using square brackets and a string value as its
@@ -48,6 +57,38 @@
                     directionsDisplay.setDirections(response);
                 }
             });
+        }
+        
+        function switchPosition() {
+            var chk = document.getElementById("myPosition");
+            if(chk.checked)
+            {
+                if(navigator.geolocation)
+                {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        myPlace = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                        console.log(myPlace);
+                        calcRoute(myPlace);
+                    });
+                }else{ alert('Impossible d\'avoir accès à votre position !'); }
+            } else {
+                calcRoute(djeraPosition);
+            }
+        }
+
+        function getCoordonnees() {
+            var myPlace = null;
+            if(navigator.geolocation)
+            {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    myPlace = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+
+                    console.log(myPlace);
+                });
+            }else{
+                alert('Impossible d\'avoir accès à votre position !');
+                return null;
+            }
         }
     </script>
 

@@ -9,13 +9,18 @@
 namespace App\Http\Controllers\Map;
 
 
+use App\BonTravaux;
 use App\Http\Controllers\Controller;
+use App\PreparationActionMaintenance;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class MapsApiController extends Controller
 {
     //key=API_KEY
     private $google_api_key = "AIzaSyA7nl4IYZVJCWievWF7yv8xu8-WFind8CM";
+    const DJERA_POSITION_LATTITUDE = 5.3057055;
+    const DJERA_POSITION_LONGITUDE = -3.9910777;
 
     public function __construct()
     {
@@ -27,8 +32,30 @@ class MapsApiController extends Controller
         return view("rbom.map");
     }
 
-    public function showItinerairePoinToPoint()
+    public function showItinerairePoinToPoint($bt, $fpam = null)
     {
-        return view('rbom.pointopoint');
+        $FpreparationAM = null;
+        try{
+            if($fpam != null)
+            {
+                $FpreparationAM = PreparationActionMaintenance::where('numerofpam','=',$fpam)->firstOrFail();
+            }else{
+                $bt = BonTravaux::with('preparationactiontravaux')->where('numerobon','=',$bt)->firstOrFail();
+                if($bt->preparationactiontravaux == null)
+                {
+                    throw new ModelNotFoundException('La fiche FPAM n\'a pas encore été éditée');
+                }
+                $FpreparationAM = $bt->preparationactiontravaux;
+            }
+
+            return view('rbom.pointopoint',["fpam" => $FpreparationAM]);
+
+        }catch (ModelNotFoundException $e)
+        {
+            return back()->withErrors(['fpam' => "La fiche FPAM n'a pas encore été éditée ! Veuillez en créer une SVP"]);
+        }catch (\Exception $e)
+        {
+            return back()->withErrors(['exception' => $e->getMessage()]);
+        }
     }
 }

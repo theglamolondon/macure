@@ -215,6 +215,9 @@ class UsersTableSeeder extends Seeder
             ]);
         }
         /*
+         *
+                'longitude' => 5.3144139 + rand(0.0001500,0.1999000),
+                'lattitude' => -3.9943673 - rand(0.0001500,0.1999000),
         DB::table('type_identite')->insert([
             ['libelle' => 'Utilisateur'],
             ['libelle' => 'Groupe Travaux']

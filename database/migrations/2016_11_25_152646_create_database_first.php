@@ -114,7 +114,7 @@ class CreateDatabaseFirst extends Migration
             $table->increments('id');
             $table->date('dateprepa');
             $table->integer('bontravaux_id',false,true);
-            $table->string('numerofpam',20);
+            $table->string('numerofpam',20)->unique();
             $table->string('localisation',150);
             $table->string('equipement',200)->nullable();
             $table->integer('causechantier_id',false,true);
@@ -125,7 +125,6 @@ class CreateDatabaseFirst extends Migration
             $table->integer('urgence_id',false,true);
             $table->text('recommendation')->nullable();
             $table->string('naturetravaux');
-            $table->integer('gamme_id',false,true);
             $table->dateTime('dateheuredebutprevi');
             $table->dateTime('dateheurefinprevi');
             $table->string('ouvrageaconsigner');
@@ -134,12 +133,13 @@ class CreateDatabaseFirst extends Migration
             $table->string('mesurepartdispo')->nullable();
             $table->string('moyenderemiseetatdispo')->default('RAS');
             $table->string('remarqueobs')->default('RAS');
+            $table->string('longitude',50);
+            $table->string('lattitude',50);
             //clés
             $table->foreign('causechantier_id','fk_prepa_action_cause')->references('id')->on('cause_chantier');
             $table->foreign('typeoperation_id','fk_prepa_action_type_ope')->references('id')->on('type_operation');
             $table->foreign('titreoperation_id','fk_prepa_action_titre_ope')->references('id')->on('type_operation');
             $table->foreign('urgence_id','fk_prepa_action_urgence')->references('id')->on('urgence');
-            $table->foreign('gamme_id','fk_prepa_action_gamme')->references('id')->on('gamme');
             $table->foreign('equipetravaux_id','fk_prepa_equipe')->references('id')->on('equipe_travaux');
         });
 

@@ -17,7 +17,7 @@ trait HelperFunctions
     public function withSuccess(array $data, $key = 'default')
     {
         session()->flash(
-            'success', session()->get('success', new MessageBag())->put($key, $data)
+            'success', session()->put($key, $data)
         );
         return $this;
     }

@@ -21,9 +21,9 @@
 
                             <label class="control-label col-md-2 col-sm-2 col-xs-12">Equipe <span class="required">*</span></label>
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <select class="form-control select2_single" name="equipe_travaux_id">
+                                <select class="form-control select2_single" name="equipetravaux_id">
                                     @foreach($equipes as $equipe)
-                                        <option value="{{$equipe->id}}" @if(old('equipe_travaux_id')) selected @endif>{{$equipe->nom}} | {{$equipe->chargeEquipe->nom}} {{$equipe->chargeEquipe->prenoms}}</option>
+                                        <option value="{{$equipe->id}}" @if(old('equipetravaux_id')) selected @endif>{{$equipe->nom}} | {{$equipe->chargeEquipe->nom}} {{$equipe->chargeEquipe->prenoms}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -50,7 +50,7 @@
                             <label class="control-label col-md-2 col-sm-2 col-xs-12 ">Code initiateur</label>
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <input disabled type="text" class="form-control" name="codeinitiateur" value="{{$bon->numerobon}}"/>
-                                <input type="hidden" name="bon_travaux_id" value="{{$bon->id}}"/>
+                                <input type="hidden" name="bontravaux_id" value="{{$bon->id}}"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -69,18 +69,18 @@
                         <div class="form-group">
                             <label class="control-label col-md-2 col-sm-2 col-xs-12">Cause du chantier <span class="required">*</span></label>
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <select class="form-control select2_single" name="cause_chantier_id">
+                                <select class="form-control select2_single" name="causechantier_id">
                                     @foreach($causes as $cause)
-                                        <option value="{{$cause->id}}" @if(old('cause_chantier_id') == $cause->id) selected @endif>{{$cause->libelle}}</option>
+                                        <option value="{{$cause->id}}" @if(old('causechantier_id') == $cause->id) selected @endif>{{$cause->libelle}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <label class="control-label col-md-2 col-sm-2 col-xs-12">Type opération <span class="required">*</span></label>
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <select class="form-control select2_single" name="type_operation_id">
+                                <select class="form-control select2_single" name="typeoperation_id">
                                     @foreach($types as $type)
                                         @continue($type->id < 3)
-                                        <option value="{{$type->id}}" @if(old('type_operation_id') == $type->id) selected @endif>{{$type->libelle}}</option>
+                                        <option value="{{$type->id}}" @if(old('typeoperation_id') == $type->id) selected @endif>{{$type->libelle}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -88,10 +88,10 @@
                         <div class="form-group">
                             <label class="control-label col-md-2 col-sm-2 col-xs-12">Titre opération <span class="required">*</span></label>
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <select class="form-control select2_single" name="titre_operation_id">
+                                <select class="form-control select2_single" name="titreoperation_id">
                                     @foreach($types as $titre)
                                         @continue($titre->id > 2)
-                                        <option value="{{$titre->id}}" @if(old('titre_operation_id') == $titre->id) selected @endif>{{$titre->libelle}}</option>
+                                        <option value="{{$titre->id}}" @if(old('titreoperation_id') == $titre->id) selected @endif>{{$titre->libelle}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Pricipales recommendations</label>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Principales recommendations</label>
                             <div class="col-md-10 col-sm-10 col-xs-12">
                                 <textarea class="form-control" placeholder="Principales récommendations" name="recommendation" rows="3">{{old('recommendation')}}</textarea>
                             </div>
@@ -138,14 +138,14 @@
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group">
                                 <div class="input-prepend input-group">
                                     <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                    <input type="text" name="dateheuredebutprevi" class="form-control datepicker-time" value="{{old('dateheuredebutprevi') or $today}}" />
+                                    <input type="text" name="dateheuredebutprevi" class="form-control datepicker-time" value="{{old('dateheuredebutprevi') ? old('dateheuredebutprevi') : $todaytime}}" />
                                 </div>
                             </div>
                             <label class="control-label col-md-2 col-sm-2 col-xs-12">Date et heure fin</label>
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group">
                                 <div class="input-prepend input-group">
                                     <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                    <input type="text" name="dateheurefinprevi" class="form-control datepicker-time" value="{{old('dateheurefinprevi') or $today}}" />
+                                    <input type="text" name="dateheurefinprevi" class="form-control datepicker-time" value="{{old('dateheurefinprevi') ? old('dateheurefinprevi') : $todaytime}}" />
                                 </div>
                             </div>
                         </div>
@@ -208,13 +208,13 @@
                         <div class="form-group">
                             <label class="control-label col-md-2 col-sm-2 col-xs-12">Interlocuteur</label>
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <input type="text"  class="form-control" name="interllocuteur" value=""/>
+                                <input type="text"  class="form-control" name="interllocuteur" value="{{old('interllocuteur')}}"/>
                             </div>
                             <label class="control-label col-md-2 col-sm-2 col-xs-12">Date de contact</label>
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="input-prepend input-group">
                                     <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                    <input type="text" name="datecontact" class="form-control datepicker" value="{{old('datecontact') or $today}}" />
+                                    <input type="text" name="datecontact" class="form-control datepicker" value="{{old('datecontact') ? old('datecontact'): $today }}" />
                                 </div>
                             </div>
                         </div>
@@ -227,7 +227,7 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="input-prepend input-group">
                                     <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                    <input type="text" name="rdv" class="form-control datepicker" value="{{old('rdv') or $today}}" />
+                                    <input type="text" name="rdv" class="form-control datepicker" value="{{old('rdv') ? old('rdv') : $today}}" />
                                 </div>
                             </div>
                         </div>

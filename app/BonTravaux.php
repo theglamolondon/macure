@@ -28,6 +28,6 @@ class BonTravaux extends Model
     }
 
     function preparationactiontravaux(){
-        return $this->hasOne('App\PreparationActionMaintenance');
+        return $this->hasOne('App\PreparationActionMaintenance','bontravaux_id');
     }
 }

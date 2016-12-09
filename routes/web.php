@@ -42,10 +42,11 @@ Route::group(['prefix' => \App\Autorisation::RBOM],function (){
     Route::get('bontravaux','RbomController@showListBT')->name('liste_bt');
     Route::get('bontravaux/json','RbomController@JsonListBT')->name('liste_bt_json');
     Route::get('map','Map\MapsApiController@Index')->name('map');
-    Route::get('map/pointopoint','Map\MapsApiController@showItinerairePoinToPoint')->name('pointopoint');
+    Route::get('map/pointopoint/BT{bt}FPAM{fpam?}','Map\MapsApiController@showItinerairePoinToPoint')->name('pointopoint');
     Route::get('fpam/{initiateur}/nouveau','RbomController@showNewFormFPAM')->name('nouveau_fpam');
     Route::post('fpam/{initiateur}/nouveau','RbomController@sendResponseNewFPAM')->name('nouveau_fpam');
     Route::get('fpam','RbomController@showListFPAM')->name('liste_fpam');
+    Route::get('fpam/json','RbomController@JsonListFPAM')->name('liste_fpam_json');
 });
 Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     Route::get('/','adminController@index');

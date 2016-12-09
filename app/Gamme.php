@@ -26,6 +26,6 @@ class Gamme extends Model
 
     public function preparationActionMaintenance()
     {
-        return $this->hasOne('App\PreparationActionMaintenance');
+        return $this->belongsTo('App\PreparationActionMaintenance','fpactionmaintenance_id');
     }
 }

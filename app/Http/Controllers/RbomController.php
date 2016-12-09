@@ -24,7 +24,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\MessageBag;
 
 class RbomController extends Controller
 {
@@ -59,6 +58,7 @@ class RbomController extends Controller
         return view('rbom.editfpam',[
             "bon" => $bonTravaux,
             "today" => date('d/m/Y'),
+            "todaytime" => date('d/m/Y H:i'),
             "urgences" => Urgence::all(),
             "causes" => CauseChantier::all(),
             "types" => TypeOperation::all(),
@@ -72,12 +72,12 @@ class RbomController extends Controller
         try {
             $this->validate($request,[
                     "localisation" => "required",
-                    "bon_travaux_id" => "required|numeric|not_in:0",
+                    "bontravaux_id" => "required|numeric|not_in:0",
                     "nbrecadre" => "numeric|present",
                     "interllocuteur" => "required_if:solliciationexprimee,*",
                     "nbreagentdemaitrise" => "numeric|present",
-                    "nbreagentemploye" => "numeric|present",
-                    "nbreagentouvrier" => "numeric|present",
+                    "nbreagentemploye" => "numeric",
+                    "nbreagentouvrier" => "numeric",
                     "dateheurepanne" => "date_format:d/m/Y H:i",
                     "datecontact" => "date_format:d/m/Y",
                     "rdv" => "date_format:d/m/Y",
@@ -86,24 +86,14 @@ class RbomController extends Controller
                 ],[
                     "localisation.required" => "Veuillez saisir la localisation de panne SVP",
                     "interllocuteur.required_if" => "Veuillez saisir l\'interllocuteur de la prestation extérieure SVP",
-                    "longitude" => [
-                        "required"=>"Veuillez autoriser la détermination de votre position SVP",
-                        "numeric"=>"Vos coordonnées GPS sont dans un format inconnu",
-                        ],
-                    "lattitude" => [
-                        "required" => "Veuillez autoriser la détermination de votre position SVP",
-                        "numeric" => "Vos coordonnées GPS sont dans un format inconnu",
-                        ]
+                    "longitude.required"=>"Veuillez autoriser la détermination de votre position SVP",
+                    "longitude.numeric"=>"Vos coordonnées GPS sont dans un format inconnu",
+                    "lattitude.required" => "Veuillez autoriser la détermination de votre position SVP",
+                    "lattitude.numeric" => "Vos coordonnées GPS sont dans un format inconnu",
                 ]
             );
 
             DB::beginTransaction();
-
-            // creation de la gamme
-            $typegamme = TypeGamme::findOrFail($request->input('gamme'));
-            $gamme = new Gamme();
-            $gamme->typegamme()->associate($typegamme);
-            $gamme->saveOrFail();
 
             //création de la fiche FPAM
             $fpam = new PreparationActionMaintenance($request->except(['_token', 'dateprepa', "gamme", "dateheurepanne", "nbrecadre", "nbreagentdemaitrise",'disponibiliteagentcie',
@@ -112,8 +102,14 @@ class RbomController extends Controller
             $fpam->dateprepa = Carbon::createFromFormat('d/m/Y', $request->input('dateprepa'))->toDateString();
             $fpam->dateheuredebutprevi = Carbon::createFromFormat('d/m/Y H:i', $request->input('dateheuredebutprevi'))->toDateString();
             $fpam->dateheurefinprevi = Carbon::createFromFormat('d/m/Y H:i', $request->input('dateheurefinprevi'))->toDateString();
-            $fpam->gamme()->associate($gamme);
             $fpam->saveOrFail();
+
+            // creation de la gamme
+            $typegamme = TypeGamme::findOrFail($request->input('gamme'));
+            $gamme = new Gamme();
+            $gamme->typegamme()->associate($typegamme);
+            $gamme->preparationActionMaintenance()->associate($fpam);
+            $gamme->saveOrFail();
 
             // creation de moyens humains
             if (intval($request->input("nbrecadre"))+
@@ -138,7 +134,8 @@ class RbomController extends Controller
             }
             DB::commit();
 
-            redirect()->route('liste_fpam')->withSuccess(["fpam" => "Nouvelle fiche de préparation d\'action de maintenance crée avec succès !"]);
+            $this->withSuccess(["fpam" => "Nouvelle fiche de préparation d\'action de maintenance crée avec succès !"]);
+            return redirect()->route('liste_fpam');
 
         }catch (TokenMismatchException $e){
             DB::rollback();
@@ -154,9 +151,23 @@ class RbomController extends Controller
 
     public function JsonListBT(Request $request)
     {
-        $perPage = intval($request->length);
+        //$perPage = intval($request->length);
         $offset  = intval($request->start);
         $data = BonTravaux::with(['etatbon','urgence'])->offset($offset)->limit(20)->get();
+
+        return response()->json([
+            "draw" => $request->draw,
+            "recordsTotal" => count($data),
+            "record" => count($data),
+            "data" => $data
+        ]);
+    }
+
+    public function JsonListFPAM(Request $request)
+    {
+        //$perPage = intval($request->length);
+        $offset  = intval($request->start);
+        $data = PreparationActionMaintenance::with(['titreoperation','typeoperation','bontravaux'])->offset($offset)->limit(20)->get();
 
         return response()->json([
             "draw" => $request->draw,
@@ -194,7 +205,8 @@ class RbomController extends Controller
         $bonTravaux->etatbon_id = EtatBon::Bon_enregistre;
         $bonTravaux->save();
 
-        return redirect()->route('liste_bt')->withSuccess('status',Lang::get('rbom.btajout'));
+        $this->withSuccess('status',Lang::get('rbom.btajout'));
+        return redirect()->route('liste_bt');
     }
 
     public function planning()
