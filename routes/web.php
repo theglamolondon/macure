@@ -47,6 +47,7 @@ Route::group(['prefix' => \App\Autorisation::RBOM],function (){
     Route::post('fpam/{initiateur}/nouveau','RbomController@sendResponseNewFPAM')->name('nouveau_fpam');
     Route::get('fpam','RbomController@showListFPAM')->name('liste_fpam');
     Route::get('fpam/json','RbomController@JsonListFPAM')->name('liste_fpam_json');
+    Route::get('gamme/verification/{fpam}/edit','EquipeController@showNewFormGamme')->name('edit_gamme');
 });
 Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     Route::get('/','adminController@index');

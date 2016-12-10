@@ -11,7 +11,7 @@ class Gamme extends Model
 
     public function typegamme()
     {
-        return $this->belongsTo('App\TypeGamme');
+        return $this->belongsTo('App\TypeGamme','typegamme_id');
     }
 
     public function ouvrage()

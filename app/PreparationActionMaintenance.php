@@ -27,7 +27,7 @@ class PreparationActionMaintenance extends Model
 
     public function gamme()
     {
-        return $this->belongsTo('App\Gamme');
+        return $this->hasOne('App\Gamme','id');
     }
 
     public function typeOperation()

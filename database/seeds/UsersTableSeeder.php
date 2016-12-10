@@ -214,6 +214,31 @@ class UsersTableSeeder extends Seeder
                 'dateexecution' => \Carbon\Carbon::now()->toDateTimeString(),
             ]);
         }
+
+        DB::table('checklist')->insert([
+            ["typegamme_id" => 1 ,"libelle" => "Porter les équipements individuels de protection"],
+            ["typegamme_id" => 1 ,"libelle" => "S'assurer de la consignation effective du départ concerné"],
+            ["typegamme_id" => 1 ,"libelle" => "Recevoir du chargé de consignation une attestation de consignation pour travaux"],
+            ["typegamme_id" => 1 ,"libelle" => "Tester l'état de bon fonctionnement du détecteur sonore de tension"],
+            ["typegamme_id" => 1 ,"libelle" => "Vérifier l'absence de tension à l'aide du détecteur de tension sonore"],
+            ["typegamme_id" => 1 ,"libelle" => "Informer le ou les clients"],
+            ["typegamme_id" => 1 ,"libelle" => "Déclencher le ou les disjoncteurs"],
+            ["typegamme_id" => 1 ,"libelle" => "Ouvrir le coffret à fusible et retirer les fusibles"],
+            ["typegamme_id" => 1 ,"libelle" => "Déconnecter un à un les câbles et les marquer au fur et à mésure"],
+            ["typegamme_id" => 1 ,"libelle" => "Déposer l'ancienne grille"],
+            ["typegamme_id" => 1 ,"libelle" => "Poser la nouvelle grille"],
+            ["typegamme_id" => 1 ,"libelle" => "Passer les câbles et les raccorder au fur et à mésure en respectant le repérage et en les serrant convenablement"],
+            ["typegamme_id" => 1 ,"libelle" => "Ranger le matériel et nettoyer le chantier"],
+            ["typegamme_id" => 1 ,"libelle" => "Restituer l'avis de fin de travail"],
+            ["typegamme_id" => 1 ,"libelle" => "Mettre la grille sous tension"],
+            ["typegamme_id" => 1 ,"libelle" => "Mesurer les tensions simples et composées pour le contrôle de la livraison du produit (230 à 410 V)"],
+            ["typegamme_id" => 1 ,"libelle" => "Plomber la grille"],
+            ["typegamme_id" => 1 ,"libelle" => "Enclencher le ou les disjoncteurs"],
+            ["typegamme_id" => 1 ,"libelle" => "Informer le ou les clients de la fin du travail"],
+            ["typegamme_id" => 1 ,"libelle" => "Remplir le check list au fil de l'eau"],
+            ["typegamme_id" => 1 ,"libelle" => "Rédiger et faire signer le compte rendu d'intervention"],
+            ["typegamme_id" => 1 ,"libelle" => "Rédiger le compte rendu d'intervention"]
+        ]);
         /*
          *
                 'longitude' => 5.3144139 + rand(0.0001500,0.1999000),
