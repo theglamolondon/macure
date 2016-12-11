@@ -73,7 +73,7 @@
                         {
                             link_ = '<a href="{{route("modifier_bt" ,["initiateur" => "_number_"])}}">Voir <span class="fa fa-eye"> </span></a> | '
                                     +'<a href="{{route("pointopoint" ,["initiateur" => "_number_"])}}">Carte <span class="fa fa-map-marker"> </span></a> |'
-                                    +'<a href="{{route("edit_gamme",["fpam" => "_number_"])}}">Gamme <span class="fa fa-edit"> </span></a>';
+                                    +'<a href="{{route("edit_checkgamme",["fpam" => "_number_"])}}">Gamme <span class="fa fa-edit"> </span></a>';
                             json.data[i].lien_ = link_.replace(regex,json.data[i].numerofpam);
                         }
                         return json.data;

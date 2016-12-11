@@ -47,7 +47,9 @@ Route::group(['prefix' => \App\Autorisation::RBOM],function (){
     Route::post('fpam/{initiateur}/nouveau','RbomController@sendResponseNewFPAM')->name('nouveau_fpam');
     Route::get('fpam','RbomController@showListFPAM')->name('liste_fpam');
     Route::get('fpam/json','RbomController@JsonListFPAM')->name('liste_fpam_json');
-    Route::get('gamme/verification/{fpam}/edit','EquipeController@showNewFormGamme')->name('edit_gamme');
+    Route::get('gamme/verification/{fpam}/edit','EquipeController@showNewFormCheckGamme')->name('edit_checkgamme');
+    //Route::post('gamme/verification/{fpam}/edit','EquipeController@sendResponseCheckList');
+    Route::post('gamme/checklist/add','EquipeController@sendResponseCheckList')->name('save_checklist');
 });
 Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     Route::get('/','adminController@index');
@@ -63,6 +65,8 @@ Route::group(['prefix' => \App\Autorisation::EQUIPE_TRAVAUX],function (){
     Route::get('/','EquipeController@index');
     Route::get('home','EquipeController@index')->name('accueil_'.\App\Autorisation::EQUIPE_TRAVAUX);
     Route::get('profile','EquipeController@editProfil')->name('profile_'.\App\Autorisation::EQUIPE_TRAVAUX);
+    Route::get('gamme/{fpam}/edit','EquipeController@showNewFormGamme')->name('edit_gamme');
+
 });
 Route::group(['prefix' => \App\Autorisation::CIE],function (){
     Route::get('/','CieController@index');

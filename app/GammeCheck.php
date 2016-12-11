@@ -8,6 +8,7 @@ class GammeCheck extends Model
 {
     protected $table ='gammecheck';
     public $timestamps = false;
+    protected $guarded = [];
 
     public function checkList()
     {
