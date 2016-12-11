@@ -219,11 +219,17 @@ class RbomController extends Controller
         $data = PreparationActionMaintenance::all();
         return view('rbom.listefpam',[
             'data' => $data,
+            'equipes'  => EquipeTravaux::all()
         ]);
     }
 
     public function showEditFormBT()
     {
         return view('rbom.editbt');
+    }
+
+    public function sendResponsePlanning(Request $request)
+    {
+        dd($request);
     }
 }

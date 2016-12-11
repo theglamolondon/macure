@@ -257,10 +257,17 @@ class CreateDatabaseFirst extends Migration
             $table->foreign('actionmaintenancecurative_id','fk_indicateurmaintenance_rtmaintenancecurative')
                 ->references('fpactionmaintenance_id')->on('rtmaintenancecurative');
         });
-        /*
-        Schema::create('',function (Blueprint $table){
 
+        Schema::create('planning',function (Blueprint $table){
+            $table->integer('equipe_id',false,true);
+            $table->integer('actionmaintenance_id',false,true);
+            $table->date('datedepannage');
+            //clés
+            $table->primary(['equipe_id','actionmaintenance_id'],'pk_planning');
+            $table->foreign('equipe_id','fk_planning_equipetravaux')->references('id')->on('equipetravaux');
+            $table->foreign('actionmaintenance_id','fk_planning_fpam')->references('id')->on('fpactionmaintenance');
         });
+        /*
         Schema::create('',function (Blueprint $table){
 
         });
@@ -308,5 +315,6 @@ class CreateDatabaseFirst extends Migration
         Schema::dropIfExists('rtmaintenancecurative');
         Schema::dropIfExists('actionmaintenancecurative');
         Schema::dropIfExists('indicateurmaintenance');
+        Schema::dropIfExists('planning');
     }
 }

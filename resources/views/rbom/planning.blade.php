@@ -93,7 +93,8 @@
       <div class="modal-body">
 
         <div id="testmodal2" style="padding: 5px 20px;">
-          <form id="antoform2" class="form-horizontal calender" role="form">
+          <form id="antoform2" class="form-horizontal calender" role="form" action="{{route('save_planning')}}">
+            {{csrf_field()}}
             <div class="form-group">
               <label class="col-sm-3 control-label">Title</label>
               <div class="col-sm-9">
@@ -124,20 +125,9 @@
 @endsection
 
 @section('scripts')
-<!-- jQuery -->
-<script src="../vendors/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap -->
-<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- FastClick -->
-<script src="../vendors/fastclick/lib/fastclick.js"></script>
-<!-- NProgress -->
-<script src="../vendors/nprogress/nprogress.js"></script>
 <!-- FullCalendar -->
 <script src="{{request()->getBaseUrl()}}/vendors/moment/min/moment.min.js"></script>
 <script src="{{request()->getBaseUrl()}}/vendors/fullcalendar/dist/fullcalendar.min.js"></script>
-
-<!-- Custom Theme Scripts -->
-<script src="../../../public/build/js/custom.min.js"></script>
 
 <!-- FullCalendar -->
 <script>
