@@ -260,7 +260,7 @@ class CreateDatabaseFirst extends Migration
 
         Schema::create('planning',function (Blueprint $table){
             $table->integer('equipe_id',false,true);
-            $table->integer('actionmaintenance_id',false,true);
+            $table->integer('actionmaintenance_id',false,true)->unique();
             $table->date('datedepannage');
             //clés
             $table->primary(['equipe_id','actionmaintenance_id'],'pk_planning');

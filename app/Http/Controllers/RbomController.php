@@ -11,6 +11,7 @@ use App\Gamme;
 use App\Http\HelperFunctions;
 use App\MoyenHumain;
 use App\Ouvrage;
+use App\Planning;
 use App\PreparationActionMaintenance;
 use App\SollicitationExterieure;
 use App\TypeGamme;
@@ -230,6 +231,24 @@ class RbomController extends Controller
 
     public function sendResponsePlanning(Request $request)
     {
-        dd($request);
+       $this->validate($request,[
+           "datedepannage"=> 'required|date_format:d/m/Y',
+           "equipe_id"=> 'required|numeric',
+           "actionmaintenance_id"=> 'required|numeric'
+       ]);
+
+        try
+        {
+            $p = new Planning($request->except(["_token","datedepannage"]));
+            $p->datedepannage = Carbon::createFromFormat("d/m/Y",$request->input("datedepannage"))->toDateString();
+            $p->save();
+            return back();
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors(["exception" => "La planification de cette FPAM à déjà été réalisée"]);
+        }catch (\PDOException $e){
+            return back()->withErrors(["exception" => "La planification de cette FPAM à déjà été réalisée"]);
+        }catch (\Exception $e){
+            return back()->withErrors(["exception" => $e->getMessage()]);
+        }
     }
 }

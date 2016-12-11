@@ -47,7 +47,7 @@ Route::group(['prefix' => \App\Autorisation::RBOM],function (){
     Route::get('fpam','RbomController@showListFPAM')->name('liste_fpam');
     Route::get('fpam/json','RbomController@JsonListFPAM')->name('liste_fpam_json');
     Route::get('planning','RbomController@planning')->name('planning');
-    Route::get('planning/edit','RbomController@sendResponsePlanning')->name('save_planning');
+    Route::post('planning/edit','RbomController@sendResponsePlanning')->name('save_planning');
 });
 Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     Route::get('/','adminController@index');

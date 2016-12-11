@@ -40,15 +40,13 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
-
     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <form action="{{route('save_planning')}}" method="post" class="form-label-left form-horizontal">
                 <div class="modal-content">
                     {{csrf_field()}}
                     <div class="modal-header">
-                        <h3 class="modal-title">Test</h3>
+                        <h3 class="modal-title">Plannification | FPAM <span id="fpam"></span></h3>
                     </div>
                     <div class="modal-body row">
                         <div class="form-group">
@@ -63,17 +61,18 @@
                         <div class="form-group">
                             <label class="control-label col-md-4 col-sm-4 col-xs-12">Equipe <span class="required"></span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select class="form-control select2_single" name="equipetravaux_id">
+                                <input type="hidden" name="actionmaintenance_id" id="actionmaintenance_id">
+                                <select class="form-control select2_single" name="equipe_id">
                                     @foreach($equipes as $equipe)
-                                        <option value="{{$equipe->id}}" @if(old('equipetravaux_id')) selected @endif>{{$equipe->nom}} | {{$equipe->chargeEquipe->nom}} {{$equipe->chargeEquipe->prenoms}}</option>
+                                        <option value="{{$equipe->id}}" @if(old('equipe_id')) selected @endif>{{$equipe->nom}} | {{$equipe->chargeEquipe->nom}} {{$equipe->chargeEquipe->prenoms}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
                     </div>
                 </div>
             </form>
@@ -113,7 +112,7 @@
                         {
                             link_ = '<a href="{{route("modifier_bt" ,["initiateur" => "_number_"])}}">Voir <span class="fa fa-eye"> </span></a> | '
                                     +'<a href="{{route("pointopoint" ,["initiateur" => "_number_"])}}">Carte <span class="fa fa-map-marker"> </span></a> |'
-                                    +'<a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">Planning <span class="fa fa-calendar"></span></a>';
+                                    +'<a href="#" data-toggle="modal" onclick="fpam(this)" data-donnee="'+json.data[i].id+'" data-target=".bs-example-modal-lg">Planning <span class="fa fa-calendar"></span></a>';
                             json.data[i].lien_ = link_.replace(regex,json.data[i].numerofpam);
                         }
                         return json.data;
@@ -153,6 +152,17 @@
                     }
                 },
             });
+
+
         });
+
+        //récupération du numéro du FPAM
+        function fpam(noeud)
+        {
+            var td = $(noeud).parent().siblings()[0];
+            $("#fpam").html($(td).text());
+            $("#actionmaintenance_id").val($(noeud).data("donnee"));
+
+        }
     </script>
 @endsection
