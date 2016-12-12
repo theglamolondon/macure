@@ -247,14 +247,29 @@ class RbomController extends Controller
         }
     }
 
-    public function showPlanning()
+    public function showPlanning($jour=null,$mois=null,$annee=null)
     {
         $d = Carbon::now();
-        $lundi = Carbon::now()->addDay(-($d->dayOfWeek-1));
-        $mardi = Carbon::now()->addDay(Carbon::TUESDAY -1);
-        $mercredi = Carbon::now()->addDay(Carbon::WEDNESDAY-1);
-        $jeudi = Carbon::now()->addDay(Carbon::THURSDAY-1);
-        $vendredi = Carbon::now()->addDay(Carbon::FRIDAY-1);
+        $lundi = null;
+        $mardi = null;
+        $mercredi = null;
+        $jeudi = null;
+        $vendredi = null;
+
+        if($jour == null){
+            $lundi = Carbon::now()->addDay(-($d->dayOfWeek-1));
+            $mardi = Carbon::now()->addDay(Carbon::TUESDAY -1);
+            $mercredi = Carbon::now()->addDay(Carbon::WEDNESDAY-1);
+            $jeudi = Carbon::now()->addDay(Carbon::THURSDAY-1);
+            $vendredi = Carbon::now()->addDay(Carbon::FRIDAY-1);
+        }else{
+            $d = Carbon::createFromDate($annee,$mois,$jour);
+            $lundi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1));
+            $mardi = Carbon::createFromDate($annee,$mois,$jour)->addDay(Carbon::TUESDAY -1);
+            $mercredi = Carbon::createFromDate($annee,$mois,$jour)->addDay(Carbon::WEDNESDAY-1);
+            $jeudi = Carbon::createFromDate($annee,$mois,$jour)->addDay(Carbon::THURSDAY-1);
+            $vendredi = Carbon::createFromDate($annee,$mois,$jour)->addDay(Carbon::FRIDAY-1);
+        }
 
         $planning = Planning::with(['equipe','actionmaintenance'])->whereBetween('datedepannage',[$lundi->toDateString(),$vendredi->toDateString()])->get();
         $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->get();
@@ -269,6 +284,7 @@ class RbomController extends Controller
             "jeudi" => $jeudi,
             "vendredi" => $vendredi,
             "equipes" => $equipes,
+            "date" => $d->format('d/m/Y'),
         ]);
     }
 }

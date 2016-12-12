@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1>ADMIN</h1>
-        @if(session('user')->hasRole(\App\Autorisation::RTM))
+        @if(session('user')->hasRole(\App\Autorisation::ADMIN))
             <p>You have a Rigth</p>
         @endif
     </div>

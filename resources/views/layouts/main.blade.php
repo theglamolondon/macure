@@ -69,27 +69,42 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::ADMIN))
-                  <li><a><i class="fa fa-home"></i> Administration <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-home"></i> ADMINISTRATION <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Utilisateur</a>
+                      <li><a href="#">Utilisateurs</a>
                         <ul class="nav child_menu">
-                          <li><a href="#level1_1">Nouveau</a>
-                          <li><a>Level One<span class="fa fa-chevron-down"></span></a>
+                          <li><a href="#">Nouveau</a>
+                          <li><a href="#">Liste</a></li>
+                        </ul>
+                      </li>
+                      <li><a href="#">Equipes</a>
+                        <ul class="nav child_menu">
+                          <li><a href="#">Nouveau</a></li>
+                          <li><a href="#">Liste</a></li>
+                        </ul>
+                      </li>
+                      <li><a href="#">Intervenants</a>
+                        <ul class="nav child_menu">
+                          <li><a href="#">Nouveau</a></li>
+                          <li><a href="#">Liste</a></li>
+                        </ul>
+                      </li>
+                      <li><a href="#">Gamme</a>
+                        <ul class="nav child_menu">
+                          <li><a href="#">Type de gamme</a>
                             <ul class="nav child_menu">
-                              <li class="sub_menu"><a href="../gentelella/level2.html">Level Two</a>
-                              </li>
-                              <li><a href="#level2_1">Level Two</a>
-                              </li>
-                              <li><a href="#level2_2">Level Two</a>
-                              </li>
+                              <li><a href="#">Nouveau</a>
+                              <li><a href="#">Liste</a></li>
                             </ul>
                           </li>
-                          <li><a href="#level1_2">Level One</a>
+                          <li><a href="#">Check-list</a>
+                            <ul class="nav child_menu">
+                              <li><a href="#">Nouveau</a>
+                              <li><a href="#">Liste</a></li>
+                            </ul>
                           </li>
                         </ul>
                       </li>
-                      <li><a href="#">Dashboard2</a></li>
-                      <li><a href="#">Dashboard3</a></li>
                     </ul>
                   </li>
                   @endif

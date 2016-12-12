@@ -1,12 +1,25 @@
 @extends('layouts.main')
-
+<style>
+    .alignment-center{
+        text-align: center;
+    }
+</style>
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Table design <small>Custom design</small></h2>
-                    <div class="clearfix"></div>
+                    <h2 class="col-md-8 col-sm-8 col-xs-12">Planning hebdomadaire des Actions de Maintenance Curative <small>Semaine du {{$lundi->format('d-m-Y')}} au {{$vendredi->format('d-m-Y')}}</small></h2>
+                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Date et heure fin</label>
+
+                        <div class="input-group">
+                            <input id="calendrier" type="text" class="form-control datepicker" value="{{$date}}"/>
+                            <span class="input-group-btn">
+                                <button type="button" id="go" class="btn btn-primary">Go!</button>
+                            </span>
+                        </div>
+
+                    <niv class="clearfix"></div>
                 </div>
 
                 <div class="x_content">
@@ -14,19 +27,24 @@
                         <table class="table table-bordered  bulk_action">
                             <thead>
                             <tr class="headings">
-                                <th valign="center" align="center" width="13%" class="column-title">Maintenance <br/> Curative </th>
-                                <th width="17%" class="column-title"><h4>Lundi</h4><p>{{$lundi->format('d/m/Y')}}</p></th>
-                                <th width="17%" class="column-title"><h4>Mardi</h4><p>{{$mardi->format('d/m/Y')}}</p></th>
-                                <th width="17%" class="column-title"><h4>Mercredi</h4><p>{{$mercredi->format('d/m/Y')}}</p></th>
-                                <th width="17%" class="column-title"><h4>Jeudi</h4><p>{{$jeudi->format('d/m/Y')}}</p></th>
-                                <th width="17%" class="column-title"><h4>Vendredi</h4><p>{{$vendredi->format('d/m/Y')}}</p></th>
+                                <th width="17%" class="alignment-center column-title"><h4>Maintenance </h4> <p>Curative</p> </th>
+                                <th width="17%" class="alignment-center column-title"><h4>Lundi</h4><p>{{$lundi->format('d/m/Y')}}</p></th>
+                                <th width="17%" class="alignment-center column-title"><h4>Mardi</h4><p>{{$mardi->format('d/m/Y')}}</p></th>
+                                <th width="17%" class="alignment-center column-title"><h4>Mercredi</h4><p>{{$mercredi->format('d/m/Y')}}</p></th>
+                                <th width="17%" class="alignment-center column-title"><h4>Jeudi</h4><p>{{$jeudi->format('d/m/Y')}}</p></th>
+                                <th width="17%" class="alignment-center column-title"><h4>Vendredi</h4><p>{{$vendredi->format('d/m/Y')}}</p></th>
                             </tr>
                             </thead>
                             @if(!$planning->isEmpty())
                             <tbody>
                             @foreach($equipes as $equipe)
                                 <tr class="odd pointer">
-                                    @if($loop->index%2 ==0 )<td rowspan="2"><div><p>Chargé des équipes : </p> <strong>{{$equipe->chargeMaintenance->nom}} {{$equipe->chargeMaintenance->prenoms}}</strong></div></td>@endif
+                                    @if($loop->index%2 ==0 )
+                                        <td class="alignment-center" valign="middle" rowspan="2">
+                                            <br><br><br>
+                                            Chargé des équipes : <br/> <strong>{{$equipe->chargeMaintenance->nom}} {{$equipe->chargeMaintenance->prenoms}}</strong>
+                                        </td>
+                                    @endif
                                     <td class=" ">
                                         @foreach($planning->where("datedepannage",$lundi->toDateString())->where("equipe_id",$equipe->id) as $plan)
                                             <div class="tile-stats">
@@ -108,4 +126,14 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section("scripts")
+    <script>
+        $("#go").click(function () {
+            var URL = '{{route("planning")}}';
+            document.location = URL + "/" + $("#calendrier").val();
+        });
+
+    </script>
 @endsection

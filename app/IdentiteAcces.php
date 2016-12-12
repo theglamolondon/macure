@@ -45,7 +45,10 @@ class IdentiteAcces extends Authenticatable
 
     public function hasRole($role)
     {
-        return array_search($role,json_decode($this->autorisation));
+        if(array_search($role,json_decode($this->autorisation)) === false)
+            return false;
+        else
+            return true;
     }
 
     public function getProfileUrl()
