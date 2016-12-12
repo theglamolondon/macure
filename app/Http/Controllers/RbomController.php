@@ -63,7 +63,7 @@ class RbomController extends Controller
             "urgences" => Urgence::all(),
             "causes" => CauseChantier::all(),
             "types" => TypeOperation::all(),
-            "equipes" => EquipeTravaux::with('chargeEquipe')->get(),
+            "equipes" => EquipeTravaux::with('chefEquipe')->get(),
             "gammes" => TypeGamme::all(),
         ]);
     }
@@ -210,11 +210,6 @@ class RbomController extends Controller
         return redirect()->route('liste_bt');
     }
 
-    public function planning()
-    {
-        return view('rbom.planning');
-    }
-
     public function showListFPAM()
     {
         $data = PreparationActionMaintenance::all();
@@ -250,5 +245,30 @@ class RbomController extends Controller
         }catch (\Exception $e){
             return back()->withErrors(["exception" => $e->getMessage()]);
         }
+    }
+
+    public function showPlanning()
+    {
+        $d = Carbon::now();
+        $lundi = Carbon::now()->addDay(-($d->dayOfWeek-1));
+        $mardi = Carbon::now()->addDay(Carbon::TUESDAY -1);
+        $mercredi = Carbon::now()->addDay(Carbon::WEDNESDAY-1);
+        $jeudi = Carbon::now()->addDay(Carbon::THURSDAY-1);
+        $vendredi = Carbon::now()->addDay(Carbon::FRIDAY-1);
+
+        $planning = Planning::with(['equipe','actionmaintenance'])->whereBetween('datedepannage',[$lundi->toDateString(),$vendredi->toDateString()])->get();
+        $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->get();
+       // dd($planning);
+        //dd($planning->where("datedepannage",$lundi->toDateString()));
+
+        return view('rbom.planning',[
+            "planning" => $planning,
+            "lundi" => $lundi,
+            "mardi" => $mardi,
+            "mercredi" => $mercredi,
+            "jeudi" => $jeudi,
+            "vendredi" => $vendredi,
+            "equipes" => $equipes,
+        ]);
     }
 }

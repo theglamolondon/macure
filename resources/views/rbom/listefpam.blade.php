@@ -64,7 +64,7 @@
                                 <input type="hidden" name="actionmaintenance_id" id="actionmaintenance_id">
                                 <select class="form-control select2_single" name="equipe_id">
                                     @foreach($equipes as $equipe)
-                                        <option value="{{$equipe->id}}" @if(old('equipe_id')) selected @endif>{{$equipe->nom}} | {{$equipe->chargeEquipe->nom}} {{$equipe->chargeEquipe->prenoms}}</option>
+                                        <option value="{{$equipe->id}}" @if(old('equipe_id')) selected @endif>{{$equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</option>
                                     @endforeach
                                 </select>
                             </div>

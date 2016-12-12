@@ -14,7 +14,7 @@ class EquipeTravaux extends Model
         return $this->belongsTo('App\IdentiteAcces');
     }
 
-    public function chargeEquipe()
+    public function chefEquipe()
     {
         return $this->belongsTo('App\Intervenant',"chefequipe");
     }

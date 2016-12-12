@@ -101,7 +101,7 @@ class UsersTableSeeder extends Seeder
                 "identiteacces_id" => 5,
                 "nom" => "Equipe 3",
                 "chargemaintenance" => 4,
-                "chefequipe" => 2
+                "chefequipe" => 7
             ],
         ]);
         DB::table('intervenant')->insert([

@@ -23,7 +23,7 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <select class="form-control select2_single" name="equipetravaux_id">
                                     @foreach($equipes as $equipe)
-                                        <option value="{{$equipe->id}}" @if(old('equipetravaux_id')) selected @endif>{{$equipe->nom}} | {{$equipe->chargeEquipe->nom}} {{$equipe->chargeEquipe->prenoms}}</option>
+                                        <option value="{{$equipe->id}}" @if(old('equipetravaux_id')) selected @endif>{{$equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</option>
                                     @endforeach
                                 </select>
                             </div>
