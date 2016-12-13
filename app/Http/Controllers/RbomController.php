@@ -135,7 +135,7 @@ class RbomController extends Controller
             }
             DB::commit();
 
-            $this->withSuccess(["fpam" => "Nouvelle fiche de préparation d\'action de maintenance crée avec succès !"]);
+            $this->withSuccess(["Nouvelle fiche de préparation d\'action de maintenance crée avec succès !"]);
             return redirect()->route('liste_fpam');
 
         }catch (TokenMismatchException $e){
@@ -206,7 +206,7 @@ class RbomController extends Controller
         $bonTravaux->etatbon_id = EtatBon::Bon_enregistre;
         $bonTravaux->save();
 
-        $this->withSuccess('status',Lang::get('rbom.btajout'));
+        $this->withSuccess([Lang::get('rbom.btajout')]);
         return redirect()->route('liste_bt');
     }
 
@@ -226,17 +226,17 @@ class RbomController extends Controller
 
     public function sendResponsePlanning(Request $request)
     {
-       $this->validate($request,[
-           "datedepannage"=> 'required|date_format:d/m/Y',
-           "equipe_id"=> 'required|numeric',
-           "actionmaintenance_id"=> 'required|numeric'
-       ]);
+        $this->validate($request,[
+            "datedepannage"=> 'required|date_format:d/m/Y',
+            "equipe_id"=> 'required|numeric',
+            "actionmaintenance_id"=> 'required|numeric'
+        ]);
 
         try
         {
             $p = new Planning($request->except(["_token","datedepannage"]));
             $p->datedepannage = Carbon::createFromFormat("d/m/Y",$request->input("datedepannage"))->toDateString();
-            $p->save();
+            $p->saveOrFail();
             return back();
         }catch (ModelNotFoundException $e){
             return back()->withErrors(["exception" => "La planification de cette FPAM à déjà été réalisée"]);
@@ -272,9 +272,7 @@ class RbomController extends Controller
         }
 
         $planning = Planning::with(['equipe','actionmaintenance'])->whereBetween('datedepannage',[$lundi->toDateString(),$vendredi->toDateString()])->get();
-        $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->get();
-       // dd($planning);
-        //dd($planning->where("datedepannage",$lundi->toDateString()));
+        $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->orderBy('chargemaintenance','asc')->get();
 
         return view('rbom.planning',[
             "planning" => $planning,

@@ -73,7 +73,7 @@
                     <ul class="nav child_menu">
                       <li><a href="#">Utilisateurs</a>
                         <ul class="nav child_menu">
-                          <li><a href="#">Nouveau</a>
+                          <li><a href="{{route('nouveau_user')}}">Nouveau</a>
                           <li><a href="#">Liste</a></li>
                         </ul>
                       </li>
@@ -350,9 +350,8 @@
         });
         @endforeach
 
-
-        @if(session()->has('success'))
-        @foreach(session('success') as $message)
+        @if(session()->has('status'))
+        @foreach(session('status')->all() as $message)
         new PNotify({
           title: 'Succès',
           text: '{{$message}}',

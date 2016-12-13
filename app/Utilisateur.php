@@ -9,6 +9,7 @@ class Utilisateur extends Model
     protected $table = "utilisateur";
     public $timestamps = false;
     protected $primaryKey = 'identiteacces_id';
+    protected $guarded = ['identiteacces_id'];
 
     public function identite()
     {

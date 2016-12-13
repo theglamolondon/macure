@@ -25,4 +25,12 @@ $(document).ready(function() {
             cancelLabel: 'Annuler'
         }
     });
+
+    <!-- Select2 -->
+    $(".select2_single").select2({
+        allowClear: false,
+        placeholder: "Select a state",
+        minimumResultsForSearch: -1
+    });
+    <!-- /Select2 -->
 });

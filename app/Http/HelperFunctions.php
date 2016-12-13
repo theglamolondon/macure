@@ -14,11 +14,20 @@ use Illuminate\Support\ViewErrorBag;
 
 trait HelperFunctions
 {
-    public function withSuccess(array $data, $key = 'default')
+    public function withSuccess($message)
     {
-        session()->flash(
-            'success', session()->put($key, $data)
-        );
+        //session()->flush();
+        $messageBag = session()->has('status') ? session()->get('status') : new MessageBag() ;
+
+        if(is_array($message)){
+            foreach ($message as $value){
+                $messageBag->add('success',$value);
+            }
+        }elseif(is_string($message)){
+            $messageBag->add('success',$message);
+        }
+        //dd($messageBag);
+        session()->flash('status',$messageBag);
         return $this;
     }
 }

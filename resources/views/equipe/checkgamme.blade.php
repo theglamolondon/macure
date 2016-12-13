@@ -47,7 +47,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="hidden" name="checklist_id[]" value="{{$check->id}}">
-                                <textarea class="form-control" name="observation[]" placeholder="Observations"></textarea>
+                                <textarea class="form-control" name="observation[]" placeholder="Observations" rows="1"></textarea>
                             </div>
                         </td>
                     </tr>
@@ -66,18 +66,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <!-- Select2 -->
-    <script>
-        $(document).ready(function() {
-            $(".select2_single").select2({
-                allowClear: false,
-                placeholder: "Select a state",
-                minimumResultsForSearch: -1
-            });
-        });
-    </script>
-    <!-- /Select2 -->
 @endsection
