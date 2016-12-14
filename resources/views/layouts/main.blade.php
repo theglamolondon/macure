@@ -85,8 +85,8 @@
                       </li>
                       <li><a href="#">Intervenants</a>
                         <ul class="nav child_menu">
-                          <li><a href="#">Nouveau</a></li>
-                          <li><a href="#">Liste</a></li>
+                          <li><a href="{{route('nouveau_intervenant')}}">Nouveau</a></li>
+                          <li><a href="{{route('liste_intervenants')}}">Liste</a></li>
                         </ul>
                       </li>
                       <li><a href="#">Gamme</a>

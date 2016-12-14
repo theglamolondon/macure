@@ -166,4 +166,14 @@ class AdminController extends Controller
             'identites' => $identites,
         ]);
     }
+
+    public function showNewFormIntervenant()
+    {
+        return view('admin.intervenant.editintervenant');
+    }
+
+    public function showListIntervenants()
+    {
+        return view('admin.intervenant.listeintervenant');
+    }
 }
