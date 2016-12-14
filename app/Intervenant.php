@@ -8,6 +8,7 @@ class Intervenant extends Model
 {
     protected $table = "intervenant";
     public $timestamps = false;
+    protected $guarded = ['id'];
 
     public function equipe()
     {

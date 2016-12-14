@@ -169,11 +169,37 @@ class AdminController extends Controller
 
     public function showNewFormIntervenant()
     {
-        return view('admin.intervenant.editintervenant');
+        return view('admin.intervenants.edit',[
+            'equipes' => EquipeTravaux::all(),
+        ]);
+    }
+
+    public function sendResponseNewIntervenant(Request $request)
+    {
+        $this->validate($request,[
+            "nom" => "required|string",
+            "prenoms" => "required|string",
+            "niveau" => "nullable",
+            "equipetravaux_id" => "required|numeric"
+        ],[
+            "nom.required" => 'Le nom de l\'intervenant est requis pour l\'enregistrement',
+            "prenoms.required" => 'Un prénom est requis pour l\'enregistrement',
+        ]);
+
+        try{
+            Intervenant::create([$request->except(['_token'])]);
+            $this->withSuccess(['Nouveau intervenant ajouté avec succès !']);
+            return redirect()->route('liste_intervenants');
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors(['exception' => $e->getMessage()]);
+        }
     }
 
     public function showListIntervenants()
     {
-        return view('admin.intervenant.listeintervenant');
+        $intervenants = Intervenant::with('equipe')->get();
+        return view('admin.intervenants.liste',[
+            'intervenants' => $intervenants,
+        ]);
     }
 }

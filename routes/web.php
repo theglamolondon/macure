@@ -53,6 +53,7 @@ Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     Route::get('/','adminController@index');
     Route::get('home','adminController@index')->name('accueil_'.\App\Autorisation::ADMIN);
     Route::get('profile','adminController@editProfil')->name('profile_'.\App\Autorisation::ADMIN);
+    //Utilisateurs
     Route::get('utilisateur/nouveau','adminController@showNewFormUser')->name('nouveau_user');
     Route::post('utilisateur/nouveau','adminController@sendResponseFormUser');
     Route::get('utilisateur/Identite{id}/modifier','adminController@showUpdateFormUser')->name('modif_utilisateur');
@@ -61,6 +62,7 @@ Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     //Intervenants
     Route::get('intervenants','adminController@showListIntervenants')->name('liste_intervenants');
     Route::get('intervenant/nouveau','adminController@showNewFormIntervenant')->name('nouveau_intervenant');
+    Route::post('intervenant/nouveau','adminController@sendResponseNewIntervenant');
 });
 Route::group(['prefix' => \App\Autorisation::RTM],function (){
     Route::get('/','RtmController@index');
