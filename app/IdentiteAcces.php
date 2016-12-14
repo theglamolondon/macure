@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\DB;
 
 class IdentiteAcces extends Authenticatable
 {
@@ -14,27 +13,26 @@ class IdentiteAcces extends Authenticatable
     public $timestamps = false;
     protected $guarded = [];
 
-    public function typeIdentite()
-    {
-        return $this->belongsTo('App\TypeIdentite');
-    }
-
     public function getComplement()
     {
+        $r = null;
         if($this->typeidentite_id == TypeIdentite::TYPE_IDENTITE_UTILISATEUR){
-            return $this::with('utilisateur')->first();
+            $r = $this::with('utilisateur')->first();
         }elseif($this->typeidentite_id == TypeIdentite::TYPE_IDENTITE_EQUIPE_TRAVAUX){
-            return $this::with('equipeTravaux')->first();
+            $r = $this::with('equipeTravaux')->first();
         }
+        return $r;
     }
 
     public function name()
     {
+        $n = null;
         if($this->typeidentite_id == TypeIdentite::TYPE_IDENTITE_UTILISATEUR){
-            return $this->utilisateur->prenoms;
+            $n = $this->utilisateur->prenoms;
         }elseif($this->typeidentite_id == TypeIdentite::TYPE_IDENTITE_EQUIPE_TRAVAUX){
-            return $this->equipeTravaux->nom;
+            $n = $this->equipeTravaux->nom;
         }
+        return $n;
     }
 
     public function hasRole($role)
@@ -59,5 +57,10 @@ class IdentiteAcces extends Authenticatable
 
     public function equipeTravaux(){
         return $this->hasOne('App\EquipeTravaux','identiteacces_id');
+    }
+
+    public function typeIdentite()
+    {
+        return $this->belongsTo('App\TypeIdentite','typeidentite_id');
     }
 }

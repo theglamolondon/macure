@@ -74,7 +74,7 @@
                       <li><a href="#">Utilisateurs</a>
                         <ul class="nav child_menu">
                           <li><a href="{{route('nouveau_user')}}">Nouveau</a>
-                          <li><a href="#">Liste</a></li>
+                          <li><a href="{{route('liste_users')}}">Liste</a></li>
                         </ul>
                       </li>
                       <li><a href="#">Equipes</a>

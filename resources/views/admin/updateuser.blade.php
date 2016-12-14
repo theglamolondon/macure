@@ -16,21 +16,22 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Login<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" name="login" placeholder="Adresse email ou nom d'équipe" required="required" class="form-control col-md-7 col-xs-12" value="{{old('login') ? old('login') : $identite->login}}" />
+                                <input type="text" name="_login" disabled placeholder="Adresse email ou nom d'équipe" required="required" class="form-control col-md-7 col-xs-12" value="{{old('_login') ? old('_login') : $identite->login}}" />
+                                <input type="hidden" name="login" value="{{$identite->login}}"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Mot de passe<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="password" name="password" placeholder="Saisir un mot de passe fort" required="required" class="form-control col-md-7 col-xs-12" />
+                                <input type="password" name="password" placeholder="Saisir un mot de passe fort" class="form-control col-md-7 col-xs-12" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Confirmation<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="password" name="password_confirmation" placeholder="Confirmer le mot de passe ci-dessus" required="required" class="form-control col-md-7 col-xs-12" />
+                                <input type="password" name="password_confirmation" placeholder="Confirmer le mot de passe ci-dessus" class="form-control col-md-7 col-xs-12" />
                             </div>
                         </div>
                         <div class="form-group">

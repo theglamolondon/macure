@@ -57,6 +57,7 @@ Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     Route::post('utilisateur/nouveau','adminController@sendResponseFormUser');
     Route::get('utilisateur/Identite{id}/modifier','adminController@showUpdateFormUser')->name('modif_utilisateur');
     Route::post('utilisateur/Identite{id}/modifier','adminController@sendResponseUpdateUser');
+    Route::get('utilisateurs','adminController@showListUsers')->name('liste_users');
 });
 Route::group(['prefix' => \App\Autorisation::RTM],function (){
     Route::get('/','RtmController@index');
