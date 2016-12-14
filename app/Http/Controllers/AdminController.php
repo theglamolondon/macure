@@ -49,7 +49,7 @@ class AdminController extends Controller
     {
         $types = TypeIdentite::all();
 
-        return view('admin.edituser',[
+        return view('admin.utilisateurs.edit',[
             "types" => $types,
             "intervenants" => Intervenant::orderBy('nom','asc')->orderBy('prenoms','asc')->get(),
         ]);
@@ -95,7 +95,7 @@ class AdminController extends Controller
         try{
             $identite = IdentiteAcces::with(['utilisateur','equipeTravaux'])->findOrFail(intval($id));
             //dd($identite);
-            return view('admin.updateuser',[
+            return view('admin.utilisateurs.update',[
                 "types" => $types,
                 "identite" => $identite,
                 "intervenants" => Intervenant::orderBy('nom','asc')->orderBy('prenoms','asc')->get(),
@@ -162,7 +162,7 @@ class AdminController extends Controller
     public function showListUsers()
     {
         $identites = IdentiteAcces::with(['utilisateur','equipeTravaux','typeIdentite'])->get();
-        return view('admin.listeusers',[
+        return view('admin.utilisateurs.liste',[
             'identites' => $identites,
         ]);
     }
