@@ -63,6 +63,12 @@ Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     Route::get('intervenants','adminController@showListIntervenants')->name('liste_intervenants');
     Route::get('intervenant/nouveau','adminController@showNewFormIntervenant')->name('nouveau_intervenant');
     Route::post('intervenant/nouveau','adminController@sendResponseNewIntervenant');
+    Route::get('intervenant/inter-{id}/modifier','adminController@showUpdateIntervenantForm')->name('modif_intervenant');
+    Route::post('intervenant/inter-{id}/modifier','adminController@sendResponseUpdateIntervenant');
+    //Type de gamme
+    Route::get('typegamme/nouveau','adminController@showNewTypeGammeForm')->name('nouveau_typegamme');
+    Route::post('typegamme/nouveau','adminController@sendResponseNewTypeGamme');
+    Route::get('typegammes','adminController@showListTypeGamme')->name('liste_typegamme');
 });
 Route::group(['prefix' => \App\Autorisation::RTM],function (){
     Route::get('/','RtmController@index');

@@ -1,6 +1,5 @@
 @extends('layouts.main')
 
-
 @section('content')
     <div class="x_content">
         <h4>Identité d'accès</h4>

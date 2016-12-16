@@ -91,10 +91,10 @@
                       </li>
                       <li><a href="#">Gamme</a>
                         <ul class="nav child_menu">
-                          <li><a href="#">Type de gamme</a>
+                          <li><a href="javascript:void(0);">Type de gamme</a>
                             <ul class="nav child_menu">
-                              <li><a href="#">Nouveau</a>
-                              <li><a href="#">Liste</a></li>
+                              <li><a href="{{route('nouveau_typegamme')}}">Nouveau</a>
+                              <li><a href="{{route('liste_typegamme')}}">Liste</a></li>
                             </ul>
                           </li>
                           <li><a href="#">Check-list</a>

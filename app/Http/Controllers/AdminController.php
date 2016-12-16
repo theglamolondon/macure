@@ -6,6 +6,7 @@ use App\EquipeTravaux;
 use App\Http\HelperFunctions;
 use App\IdentiteAcces;
 use App\Intervenant;
+use App\TypeGamme;
 use App\TypeIdentite;
 use App\Utilisateur;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -174,8 +175,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function sendResponseNewIntervenant(Request $request)
-    {
+
+    private function validateItervenant(Request $request){
         $this->validate($request,[
             "nom" => "required|string",
             "prenoms" => "required|string",
@@ -185,6 +186,10 @@ class AdminController extends Controller
             "nom.required" => 'Le nom de l\'intervenant est requis pour l\'enregistrement',
             "prenoms.required" => 'Un prénom est requis pour l\'enregistrement',
         ]);
+    }
+    public function sendResponseNewIntervenant(Request $request)
+    {
+        $this->validateItervenant($request);
 
         try{
             Intervenant::create([$request->except(['_token'])]);
@@ -195,11 +200,52 @@ class AdminController extends Controller
         }
     }
 
+    public function showUpdateIntervenantForm($id){
+        $id = intval($id);
+        try {
+            $intervenant = Intervenant::findOrFail($id);
+            return view('admin.intervenants.update',[
+                "intervenant" => $intervenant,
+                'equipes' => EquipeTravaux::all(),
+            ]);
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function sendResponseUpdateIntervenant(Request $request, $id){
+        $this->validateItervenant($request);
+        try {
+            $intervenant = Intervenant::findOrFail($id);
+            $intervenant->update($request->except('_token'));
+            $this->withSuccess(['Modification réussie']);
+            return redirect()->route('liste_intervenants');
+        }catch (ModelNotFoundException $e){
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+    }
+
     public function showListIntervenants()
     {
         $intervenants = Intervenant::with('equipe')->get();
         return view('admin.intervenants.liste',[
             'intervenants' => $intervenants,
         ]);
+    }
+
+    public function showNewTypeGammeForm()
+    {
+        return view('admin.typegamme.edit');
+    }
+
+    public function sendResponseNewTypeGamme()
+    {
+        $this->withSuccess(['Nouveau type de gamme ajoutée avec succès']);
+        return redirect()->route('liste_typegamme');
+    }
+
+    public function showListTypeGamme()
+    {
+        return view('admin.typegamme.liste',['typegamme' => TypeGamme::all()]);
     }
 }

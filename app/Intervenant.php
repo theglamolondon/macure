@@ -12,6 +12,6 @@ class Intervenant extends Model
 
     public function equipe()
     {
-        return $this->belongsTo('App\EquipeTravaux');
+        return $this->belongsTo('App\EquipeTravaux','equipetravaux_id');
     }
 }
