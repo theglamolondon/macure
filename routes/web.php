@@ -56,19 +56,23 @@ Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     //Utilisateurs
     Route::get('utilisateur/nouveau','adminController@showNewFormUser')->name('nouveau_user');
     Route::post('utilisateur/nouveau','adminController@sendResponseFormUser');
-    Route::get('utilisateur/Identite{id}/modifier','adminController@showUpdateFormUser')->name('modif_utilisateur');
-    Route::post('utilisateur/Identite{id}/modifier','adminController@sendResponseUpdateUser');
+    Route::get('utilisateur/Identite/{id}/modifier','adminController@showUpdateFormUser')->name('modif_utilisateur');
+    Route::post('utilisateur/Identite/{id}/modifier','adminController@sendResponseUpdateUser');
     Route::get('utilisateurs','adminController@showListUsers')->name('liste_users');
     //Intervenants
     Route::get('intervenants','adminController@showListIntervenants')->name('liste_intervenants');
     Route::get('intervenant/nouveau','adminController@showNewFormIntervenant')->name('nouveau_intervenant');
     Route::post('intervenant/nouveau','adminController@sendResponseNewIntervenant');
-    Route::get('intervenant/inter-{id}/modifier','adminController@showUpdateIntervenantForm')->name('modif_intervenant');
-    Route::post('intervenant/inter-{id}/modifier','adminController@sendResponseUpdateIntervenant');
+    Route::get('intervenant/{id}/modifier','adminController@showUpdateIntervenantForm')->name('modif_intervenant');
+    Route::post('intervenant/{id}/modifier','adminController@sendResponseUpdateIntervenant');
     //Type de gamme
     Route::get('typegamme/nouveau','adminController@showNewTypeGammeForm')->name('nouveau_typegamme');
     Route::post('typegamme/nouveau','adminController@sendResponseNewTypeGamme');
+    Route::get('typegammes/gamme/{id}/modfier','adminController@showUpdateTypeGamme')->name('modif_typegamme');
+    Route::post('typegammes/gamme/{id}/modfier','adminController@sendResponseUpdateTypeGamme');
     Route::get('typegammes','adminController@showListTypeGamme')->name('liste_typegamme');
+    //Check-list
+    Route::get('checklist/nouveau','adminController@')
 });
 Route::group(['prefix' => \App\Autorisation::RTM],function (){
     Route::get('/','RtmController@index');

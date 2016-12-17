@@ -28,8 +28,8 @@
                         <input type="number" name="niveau" placeholder="Niveau" class="form-control"value="{{old('niveau')}}" />
                     </div>
                     <label class="col-md-offset-1 col-sm-offset-1 control-label col-md-1 col-sm-1 col-xs-6" for="temps">Temps</label>
-                    <div class="col-md-1 col-sm-1 col-xs-6">
-                        <input type="number" name="temps" placeholder="Temps" class="form-control"value="{{old('temps')}}" />
+                    <div class="col-md-1 col-sm-1 col-xs-6 ">
+                        <input type="number" name="temps" placeholder="Temps" class="form-control" value="{{old('temps')}}" />
                     </div>
                     <label class="col-md-offset-1 col-sm-offset-1 control-label col-md-1 col-sm-1 col-xs-6" for="nbreagents">Nombre agent</label>
                     <div class="col-md-1 col-sm-1 col-xs-6">

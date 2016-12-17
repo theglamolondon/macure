@@ -1,32 +1,35 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="x_content">
-        <h4>Identité d'accès</h4>
-        <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-            <thead>
-            <tr>
-                <th>Login</th>
-                <th>Type d'accès</th>
-                <th>Nom d'utilisateur</th>
-                <th width="15%">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($identites as $identite)
-            <tr>
-                <td>{{$identite->login}}</td>
-                <td>{{$identite->typeIdentite->libelle}}</td>
-                <td>{{$identite->utilisateur ? $identite->utilisateur->nom.' '.$identite->utilisateur->prenoms : $identite->equipeTravaux->nom}}</td>
-                <td>
-                    <a href="{{route('modif_utilisateur',['id'=>$identite->id])}}"> <i class="fa fa-edit"> </i>Modifier</a>
-                    <a href="#"> <i class="fa fa-trash"> </i>Supprimer</a>
-                </td>
-            </tr>
-            @endforeach
-            </tbody>
-        </table>
-
+    <div class="x_panel">
+        <div class="x_title">
+            <h4>Identité d'accès</h4>
+        </div>
+        <div class="x_content">
+            <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>Login</th>
+                    <th>Type d'accès</th>
+                    <th>Nom d'utilisateur</th>
+                    <th width="15%">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($identites as $identite)
+                <tr>
+                    <td>{{$identite->login}}</td>
+                    <td>{{$identite->typeIdentite->libelle}}</td>
+                    <td>{{$identite->utilisateur ? $identite->utilisateur->nom.' '.$identite->utilisateur->prenoms : $identite->equipeTravaux->nom}}</td>
+                    <td>
+                        <a href="{{route('modif_utilisateur',['id'=>$identite->id])}}"> <i class="fa fa-edit"> </i>Modifier</a>
+                        <a href="#"> <i class="fa fa-trash"> </i>Supprimer</a>
+                    </td>
+                </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 @endsection
 

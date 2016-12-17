@@ -1,34 +1,37 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="x_content">
-        <h4>Liste des intervenants</h4>
-        <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-            <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Prénoms</th>
-                <th>Niveau</th>
-                <th>Equipe</th>
-                <th width="15%">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($intervenants as $intervenant)
+    <div class="x_panel">
+        <div class="x_title">
+            <h4>Liste des intervenants</h4>
+        </div>
+        <div class="x_content">
+            <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <thead>
                 <tr>
-                    <td>{{$intervenant->nom}}</td>
-                    <td>{{$intervenant->prenoms}}</td>
-                    <td>{{$intervenant->niveau}}</td>
-                    <td>{{$intervenant->equipe->nom}}</td>
-                    <td>
-                        <a href="{{route('modif_intervenant',['id'=>$intervenant->id])}}"> <i class="fa fa-edit"> </i>Modifier</a>
-                        <a href="#"> <i class="fa fa-trash"> </i>Supprimer</a>
-                    </td>
+                    <th>Nom</th>
+                    <th>Prénoms</th>
+                    <th>Niveau</th>
+                    <th>Equipe</th>
+                    <th width="15%">Actions</th>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
-
+                </thead>
+                <tbody>
+                @foreach($intervenants as $intervenant)
+                    <tr>
+                        <td>{{$intervenant->nom}}</td>
+                        <td>{{$intervenant->prenoms}}</td>
+                        <td>{{$intervenant->niveau}}</td>
+                        <td>{{$intervenant->equipe->nom}}</td>
+                        <td>
+                            <a href="{{route('modif_intervenant',['id'=>$intervenant->id])}}"> <i class="fa fa-edit"> </i>Modifier</a>
+                            <a href="#"> <i class="fa fa-trash"> </i>Supprimer</a>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 @endsection
 

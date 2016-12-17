@@ -48,22 +48,22 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::RBOM}}" @if(array_search(\App\Autorisation::RBOM,json_decode($identite->autorisation))) checked @endif class="flat"> RBOM
+                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::RBOM}}" @if(array_search(\App\Autorisation::RBOM,json_decode($identite->autorisation)) !== false) checked @endif class="flat" /> RBOM
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::RTM}}" @if(array_search(\App\Autorisation::RTM,json_decode($identite->autorisation))) checked @endif class="flat"> RTM
+                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::RTM}}" @if(array_search(\App\Autorisation::RTM,json_decode($identite->autorisation)) !== false) checked @endif class="flat" /> RTM
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::EQUIPE_TRAVAUX}}" @if(array_search(\App\Autorisation::EQUIPE_TRAVAUX,json_decode($identite->autorisation))) checked @endif class="flat"> Equipe
+                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::EQUIPE_TRAVAUX}}" @if(array_search(\App\Autorisation::EQUIPE_TRAVAUX,json_decode($identite->autorisation)) !== false) checked @endif class="flat" /> Equipe
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::CIE}}" @if(array_search(\App\Autorisation::CIE,json_decode($identite->autorisation))) checked @endif class="flat"> CIE
+                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::CIE}}" @if(array_search(\App\Autorisation::CIE,json_decode($identite->autorisation)) !== false) checked @endif class="flat" /> CIE
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::DIRECTEUR}}" @if(array_search(\App\Autorisation::DIRECTEUR,json_decode($identite->autorisation))) checked @endif class="flat"> Directeur
+                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::DIRECTEUR}}" @if(array_search(\App\Autorisation::DIRECTEUR,json_decode($identite->autorisation)) !== false) checked @endif class="flat" /> Directeur
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::ADMIN}}" @if(array_search(\App\Autorisation::ADMIN,json_decode($identite->autorisation))) checked @endif class="flat" checked="checked"> Administrateur
+                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::ADMIN}}" @if(array_search(\App\Autorisation::ADMIN,json_decode($identite->autorisation)) !== false) checked @endif class="flat" /> Administrateur
                                 </label>
                             </div>
                         </div>

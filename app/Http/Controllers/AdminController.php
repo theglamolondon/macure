@@ -142,7 +142,7 @@ class AdminController extends Controller
                 $identite->utilisateur->update($updater);
             }
 
-            $updater = [];
+            $updater2 = [];
             if($identite->equipeTravaux){
                 $updater['nom'] = $request->input('nom');
                 $updater['chargemaintenance'] = $request->input('chargemaintenance');
@@ -233,19 +233,70 @@ class AdminController extends Controller
         ]);
     }
 
+    private function validateTypeGamme(Request $request){
+        $this->validate($request,[
+            'reference' => 'required',
+            'libelle' => 'required',
+            'indice' => 'required|numeric',
+            'niveau' => 'required|numeric',
+            'temps' => 'required|numeric',
+            'habilitation' => 'required',
+        ]);
+    }
+
     public function showNewTypeGammeForm()
     {
         return view('admin.typegamme.edit');
     }
 
-    public function sendResponseNewTypeGamme()
+    public function sendResponseNewTypeGamme(Request $request)
     {
-        $this->withSuccess(['Nouveau type de gamme ajoutée avec succès']);
-        return redirect()->route('liste_typegamme');
+        $this->validateTypeGamme($request);
+        try {
+            TypeGamme::create($request->except('_token'));
+            $this->withSuccess(['Nouveau type de gamme ajoutée avec succès']);
+            return redirect()->route('liste_typegamme');
+        }catch (ModelNotFoundException $e){
+            return back()->withInput()->withErrors($e->getMessage());
+        }catch (\Exception $e){
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+    }
+
+    public function showUpdateTypeGamme($id)
+    {
+        try{
+            $typeGamme = TypeGamme::findOrFail($id);
+            return view('admin.typegamme.update',['typegamme' => $typeGamme]);
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors($e->getMessage());
+        }catch (\Exception $e){
+            return back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function sendResponseUpdateTypeGamme(Request $request,$id)
+    {
+        $this->validateTypeGamme($request);
+        try{
+            $typeGamme = TypeGamme::findOrFail($id);
+            $typeGamme->update($request->except('_token'));
+            $this->withSuccess(['Modification réussie']);
+            return redirect()->route('liste_typegamme');
+        }catch (ModelNotFoundException $e){
+            return back()->withInput()->withErrors($e->getMessage());
+        }catch (\Exception $e){
+            return back()->withInput()->withErrors($e->getMessage());
+        }
     }
 
     public function showListTypeGamme()
     {
-        return view('admin.typegamme.liste',['typegamme' => TypeGamme::all()]);
+        return view('admin.typegamme.liste',['typegammes' => TypeGamme::all()]);
+    }
+
+    public function showNewChecklist()
+    {
+
     }
 }
