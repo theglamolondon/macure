@@ -8,6 +8,7 @@ class Checklist extends Model
 {
     protected $table ='checklist';
     public $timestamps = false;
+    public $guarded = ['id'];
 
     public function typegamme()
     {

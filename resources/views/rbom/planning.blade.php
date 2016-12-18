@@ -9,7 +9,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2 class="col-md-8 col-sm-8 col-xs-12">Planning hebdomadaire des Actions de Maintenance Curative <small>Semaine du {{$lundi->format('d-m-Y')}} au {{$vendredi->format('d-m-Y')}}</small></h2>
+                    <h2 class="col-md-8 col-sm-8 col-xs-12">Planning hebdomadaire des Actions de Maintenance Curative <small>Semaine du {{$lundi->format('d/m/Y')}} au {{$vendredi->format('d/m/Y')}}</small></h2>
                     <label class="control-label col-md-1 col-sm-1 col-xs-12">Date et heure fin</label>
 
                         <div class="input-group">
@@ -47,6 +47,7 @@
                                     @endif
                                     <td class=" ">
                                         @foreach($planning->where("datedepannage",$lundi->toDateString())->where("equipe_id",$equipe->id) as $plan)
+                                            @if($plan->actionmaintenance)
                                             <div class="tile-stats">
                                                 <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
                                                 <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
@@ -55,10 +56,12 @@
                                                     {{$plan->actionmaintenance->localisation}}</a>
                                                 </p>
                                             </div>
+                                            @endif
                                         @endforeach
                                     </td>
                                     <td class=" ">
                                         @foreach($planning->where("datedepannage",$mardi->toDateString())->where("equipe_id",$equipe->id) as $plan)
+                                            @if($plan->actionmaintenance)
                                             <div class="tile-stats">
                                                 <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
                                                 <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
@@ -67,10 +70,12 @@
                                                     {{$plan->actionmaintenance->localisation}}</a>
                                                 </p>
                                             </div>
+                                            @endif
                                         @endforeach
                                     </td>
                                     <td class=" ">
                                         @foreach($planning->where("datedepannage",$mercredi->toDateString())->where("equipe_id",$equipe->id) as $plan)
+                                            @if($plan->actionmaintenance)
                                             <div class="tile-stats">
                                                 <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
                                                 <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
@@ -79,10 +84,12 @@
                                                     {{$plan->actionmaintenance->localisation}}</a>
                                                 </p>
                                             </div>
+                                            @endif
                                         @endforeach
                                     </td>
                                     <td class=" ">
                                         @foreach($planning->where("datedepannage",$jeudi->toDateString())->where("equipe_id",$equipe->id) as $plan)
+                                            @if($plan->actionmaintenance)
                                             <div class="tile-stats">
                                                 <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
                                                 <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
@@ -91,10 +98,13 @@
                                                     {{$plan->actionmaintenance->localisation}}</a>
                                                 </p>
                                             </div>
+
+                                            @endif
                                         @endforeach
                                     </td>
                                     <td class=" ">
                                         @foreach($planning->where("datedepannage",$vendredi->toDateString())->where("equipe_id",$equipe->id) as $plan)
+                                            @if($plan->actionmaintenance)
                                             <div class="tile-stats">
                                                 <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
                                                 <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
@@ -103,6 +113,7 @@
                                                     {{$plan->actionmaintenance->localisation}}</a>
                                                 </p>
                                             </div>
+                                            @endif
                                         @endforeach
                                     </td>
                                 </tr>

@@ -55,7 +55,6 @@ class RbomController extends Controller
         $bonTravaux = BonTravaux::where('numerobon',$initiateur)->get()->first();
         $prepa = new PreparationActionMaintenance();
         $prepa->bontravaux = $bonTravaux;
-
         return view('rbom.editfpam',[
             "bon" => $bonTravaux,
             "today" => date('d/m/Y'),
@@ -94,8 +93,6 @@ class RbomController extends Controller
                 ]
             );
 
-            DB::beginTransaction();
-
             //création de la fiche FPAM
             $fpam = new PreparationActionMaintenance($request->except(['_token', 'dateprepa', "gamme", "dateheurepanne", "nbrecadre", "nbreagentdemaitrise",'disponibiliteagentcie',
                 "nbreagentemploye", "nbreagentouvrier", "interllocuteur", "datecontact", "solliciationexprimee", "rdv", "conclusion", "document","datecontact"]));
@@ -133,7 +130,6 @@ class RbomController extends Controller
                 $sollicitation->preparationActionMaintenance()->associate($fpam);
                 $sollicitation->saveOrFail();
             }
-            DB::commit();
 
             $this->withSuccess(["Nouvelle fiche de préparation d\'action de maintenance crée avec succès !"]);
             return redirect()->route('liste_fpam');
@@ -147,6 +143,24 @@ class RbomController extends Controller
         }catch (\Exception $e){
             DB::rollback();
             return back()->withInput()->withErrors(['status' => $e->getMessage()]);
+        }
+    }
+
+    public function showUpdateFormFPAM($initiateur)
+    {
+
+    }
+    public function sendResponseDeleteFPAM($initiateur)
+    {
+        try{
+            $bt = PreparationActionMaintenance::where('numerofpam',$initiateur)->firstorFail();
+            $bt->delete();
+            $this->withSuccess(['Suppression réussie']);
+            return back();
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors(['exception' => $e->getMessage()]);
+        }catch (\Exception $e){
+            return back()->withErrors(['exception' => $e->getMessage()]);
         }
     }
 
@@ -219,9 +233,40 @@ class RbomController extends Controller
         ]);
     }
 
-    public function showEditFormBT()
+    public function showEditFormBT($initiateur)
     {
-        return view('rbom.editbt');
+        try{
+            $bt = BonTravaux::where('numerobon',$initiateur)->firstorFail();
+
+            return view('rbom.editbt',[
+                'bt' => $bt,
+                'urgences' => Urgence::all(),
+                'today' => date('d/m/Y H:i')
+            ]);
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors(['exception' => $e->getMessage()]);
+        }catch (\Exception $e){
+            return back()->withErrors(['exception' => $e->getMessage()]);
+        }
+    }
+
+    public function sendResponseDeleteBT($initiateur)
+    {
+        try{
+            $bt = BonTravaux::where('numerobon',$initiateur)->firstorFail();
+            $bt->delete();
+            $this->withSuccess(['Suppression réussie']);
+            return back();
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors(['exception' => $e->getMessage()]);
+        }catch (\Exception $e){
+            return back()->withErrors(['exception' => $e->getMessage()]);
+        }
+    }
+
+    public function sendResponseEditFormBT(Request $request)
+    {
+        dd($request);
     }
 
     public function sendResponsePlanning(Request $request)
@@ -273,6 +318,7 @@ class RbomController extends Controller
 
         $planning = Planning::with(['equipe','actionmaintenance'])->whereBetween('datedepannage',[$lundi->toDateString(),$vendredi->toDateString()])->get();
         $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->orderBy('chargemaintenance','asc')->get();
+        //dd($planning);
 
         return view('rbom.planning',[
             "planning" => $planning,

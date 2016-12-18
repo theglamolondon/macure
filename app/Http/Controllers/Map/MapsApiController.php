@@ -29,7 +29,8 @@ class MapsApiController extends Controller
 
     public function Index(Request $request)
     {
-        return view("rbom.map");
+        $fpamCoord = PreparationActionMaintenance::select(['longitude','lattitude','id','numerofpam'])->get();
+        return view("rbom.map",['fpamCoord' => $fpamCoord]);
     }
 
     public function showItinerairePoinToPoint($bt, $fpam = null)

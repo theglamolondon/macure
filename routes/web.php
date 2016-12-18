@@ -35,17 +35,25 @@ Route::group(['prefix' => \App\Autorisation::RBOM],function (){
     Route::get('/','RtmController@index');
     Route::get('home','RbomController@index')->name('accueil_'.\App\Autorisation::RBOM);
     Route::get('profile','RbomController@editProfil')->name('profile_'.\App\Autorisation::RBOM);
+    //Bon travaux
     Route::get('bontravaux/nouveau','RbomController@showNewFormBT')->name('nouveau_bt');
+    Route::post('bontravaux/nouveau','RbomController@sendResponseNewBT');
     Route::get('bontravaux/{initiateur}/modifier','RbomController@showEditFormBT')->name('modifier_bt');
-    Route::post('bontravaux/nouveau','RbomController@sendResponseNewBT')->name('nouveau_bt');
+    Route::post('bontravaux/{initiateur}/modifier','RbomController@sendResponseEditFormBT');
+    Route::get('bontravaux/{initiateur}/supprimer','RbomController@sendResponseDeleteBT')->name('supprimer_bt');
     Route::get('bontravaux','RbomController@showListBT')->name('liste_bt');
     Route::get('bontravaux/json','RbomController@JsonListBT')->name('liste_bt_json');
+    //Maps
     Route::get('map','Map\MapsApiController@Index')->name('map');
     Route::get('map/pointopoint/BT{bt}FPAM{fpam?}','Map\MapsApiController@showItinerairePoinToPoint')->name('pointopoint');
+    //Fpam
+    Route::post('fpam/{initiateur}/nouveau','RbomController@sendResponseNewFPAM');
     Route::get('fpam/{initiateur}/nouveau','RbomController@showNewFormFPAM')->name('nouveau_fpam');
-    Route::post('fpam/{initiateur}/nouveau','RbomController@sendResponseNewFPAM')->name('nouveau_fpam');
+    Route::get('fpam/{initiateur}/modifier','RbomController@showUpdateFormFPAM')->name('modifier_fpam');
     Route::get('fpam','RbomController@showListFPAM')->name('liste_fpam');
     Route::get('fpam/json','RbomController@JsonListFPAM')->name('liste_fpam_json');
+    Route::get('fpam/{initiateur}/supprimer','RbomController@sendResponseDeleteFPAM')->name('supprimer_fpam');
+    //Planning
     Route::get('planning/{jour?}/{mois?}/{annee?}','RbomController@showPlanning')->name('planning');
     Route::post('planning/edit','RbomController@sendResponsePlanning')->name('save_planning');
 });
@@ -72,8 +80,13 @@ Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     Route::post('typegammes/gamme/{id}/modfier','adminController@sendResponseUpdateTypeGamme');
     Route::get('typegammes','adminController@showListTypeGamme')->name('liste_typegamme');
     //Check-list
-    Route::get('checklist/nouveau','adminController@')
+    Route::get('checklist/nouveau','adminController@showNewChecklist')->name('nouveau_checklist');
+    Route::post('checklist/nouveau','adminController@sendResponseNewChecklist');
+
+    Route::get('checklists','adminController@showListeChecklist')->name('liste_checklist');
+    Route::get('checklists/{id}','adminController@jsonListeChecklist')->name('json_checklist');
 });
+
 Route::group(['prefix' => \App\Autorisation::RTM],function (){
     Route::get('/','RtmController@index');
     Route::get('home','RtmController@index')->name('accueil_'.\App\Autorisation::RTM);

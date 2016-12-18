@@ -19,7 +19,7 @@
                                 <thead>
                                 <tr>
                                     <th>N° Bon</th>
-                                    <th>Urgence</th>
+                                    <th width="7%">Urgence</th>
                                     <th>Nom Abonné</th>
                                     <th>Panne signalée</th>
                                     <th>Date et heure</th>
@@ -53,6 +53,9 @@
     <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
 
     <script>
+        function confirmDelete() {
+            return confirm('Voulez-vous vraiment supprimer ce bon de travaux ? Attention, cette action est irreversible');
+        }
         $(document).ready(function() {
             var regex = new RegExp("(_number_)","g");
 
@@ -71,9 +74,9 @@
                         var link_ = null;
                         for(var i=0; i<json.data.length; i++)
                         {
-                            link_ = '<a href="{{route("modifier_bt" ,["initiateur" => "_number_"])}}">Voir <span class="fa fa-eye"> </span></a> | '
-                                    +'<a href="{{route("pointopoint" ,["bt" => "_number_","fpam" => "_number_"])}}">Carte <span class="fa fa-map-marker"> </span></a> |'
-                                    +'<a href="{{route("nouveau_fpam",["initiateur" => "_number_"])}}">Fpam <span class="fa fa-edit"> </span></a>';
+                            link_ = '<a href="{{route("modifier_bt" ,["initiateur" => "_number_"])}}"> Voir <span class="fa fa-eye"> </span></a> | '
+                                    +'<a onclick="return confirmDelete();" href="{{route("supprimer_bt" ,["bt" => "_number_"])}}"> Supprimer <span class="fa fa-trash"> </span></a> |'
+                                    +'<a href="{{route("nouveau_fpam",["initiateur" => "_number_"])}}"> Fpam <span class="fa fa-edit"> </span></a>';
                             json.data[i].lien_ = link_.replace(regex,json.data[i].numerobon);
                         }
                         return json.data;

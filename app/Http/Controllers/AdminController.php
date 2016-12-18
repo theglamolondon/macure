@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Checklist;
 use App\EquipeTravaux;
 use App\Http\HelperFunctions;
 use App\IdentiteAcces;
@@ -297,6 +298,53 @@ class AdminController extends Controller
 
     public function showNewChecklist()
     {
+        return view('admin.checklist.edit',['typegammes' => TypeGamme::all()]);
+    }
 
+    public function sendResponseNewChecklist(Request $request)
+    {
+        $this->validate($request,[
+            'libelle' => 'required',
+            'typegamme_id' => 'required|numeric'
+        ],[
+            'libelle.required' => 'Le libelle de l\'élement de la check-list ne peut être vide',
+            'typegamme_id.numeric' => 'La gamme sélectionnée n\'est pas disponible',
+            'typegamme_id.required' => 'La gamme sélectionnée est requise',
+        ]);
+
+        try{
+            Checklist::create($request->except('_token'));
+            $this->withSuccess(['Nouvel élément de check-list ajouté']);
+
+            return redirect()->route('liste_checklist');
+        }catch (ModelNotFoundException $e){
+            return back()->withInput()->withErrors($e->getMessage());
+        }catch (\Exception $e){
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+    }
+
+    public function showUpdateChecklist()
+    {
+
+    }
+
+    public function sendResponseUpdateChecklist(Request $request)
+    {
+
+    }
+
+    public function showListeChecklist()
+    {
+        return view('admin.checklist.liste',[
+            'checklists' => Checklist::all(),
+            "typegammes" => TypeGamme::orderBy("libelle","asc")->get(),
+        ]);
+    }
+
+    public function jsonListeChecklist($id)
+    {
+        $data = Checklist::where("typegamme_id",intval($id))->get();
+        return response()->json($data,200,[],JSON_UNESCAPED_UNICODE);
     }
 }

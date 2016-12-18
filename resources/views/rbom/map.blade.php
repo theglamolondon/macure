@@ -15,39 +15,54 @@
     // prompted by your browser. If you see the error "The Geolocation service
     // failed.", it means you probably did not give permission for the browser to
     // locate you.
+    var FPAM_DATA = [@foreach($fpamCoord as $coord){coord :{lat:{{$coord->lattitude}},lng:{{$coord->longitude}} },id:'{{$coord->id}}', numerofpam:'{{$coord->numerofpam}}'  },@endforeach];
 
     function initMap() {
+        var djeraPosition  = new google.maps.LatLng({{\App\Http\Controllers\Map\MapsApiController::DJERA_POSITION_LATTITUDE}},{{\App\Http\Controllers\Map\MapsApiController::DJERA_POSITION_LONGITUDE}});
+
         var map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: -34.397, lng: 150.644},
             zoom: 13
         });
-        var infoWindow = new google.maps.InfoWindow({map: map});
+        var markerDjera = new google.maps.Marker({
+            position: djeraPosition,
+            map:map,
+            title: 'Djera Service',
+        });
+        var infoDjera = new google.maps.InfoWindow({
+            content: '<div><h1>Djera Service</h1><p>Djera est une Kata Tjuta National Park. Uluru is '+
+            'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+            'Aboriginal people of the area. It has many springs, waterholes, '+
+            'rock caves and ancient paintings.</p></div>',
+        });
+        markerDjera.addListener('click',function () {
+           infoDjera.open(map,markerDjera);
+        });
 
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
+        //var infoWindow = new google.maps.InfoWindow({map: map});
 
-                infoWindow.setPosition(pos);
-                infoWindow.setContent('Location found.');
-                map.setCenter(pos);
-            }, function() {
-                handleLocationError(true, infoWindow, map.getCenter());
+        for(var i=0; i < FPAM_DATA.length; i++)
+        {
+            var marker = new google.maps.Marker({
+                position: FPAM_DATA[i].coord,
+                map:map,
+                title: FPAM_DATA[i].numerofpam,
+                icon: '{{request()->getBaseUrl()}}/images/cone_11.png'
             });
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
+            attachSecretMessage(marker, FPAM_DATA[i].id);
         }
-    }
 
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                'Error: The Geolocation service failed.' :
-                'Error: Your browser doesn\'t support geolocation.');
+        function attachSecretMessage(marker, id) {
+            var infowindow = new google.maps.InfoWindow({
+                content: 'AJKLM%LKJHJHKLM%MLKJKLM%MLKJML%%ML'
+            });
+            marker.addListener('click',function () {
+                infowindow.open(map,marker);
+            })
+        }
+
+        map.setCenter(djeraPosition);
+       
     }
 
 </script>

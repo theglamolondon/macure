@@ -24,7 +24,7 @@
                                         <th>Titre opération</th>
                                         <th>Nom abonne</th>
                                         <th>Localisation</th>
-                                        <th>Actions</th>
+                                        <th width="18%">Actions</th>
                                     </tr>
                                     </thead>
 
@@ -92,6 +92,9 @@
     <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
 
     <script>
+        function confirmDelete() {
+            return confirm('Voulez-vous vraiment supprimer cette FPAM ? Attention, cette action est irreversible.');
+        }
         $(document).ready(function() {
             var regex = new RegExp("(_number_)","g");
 
@@ -110,9 +113,10 @@
                         var link_ = null;
                         for(var i=0; i<json.data.length; i++)
                         {
-                            link_ = '<a href="{{route("modifier_bt" ,["initiateur" => "_number_"])}}">Voir <span class="fa fa-eye"> </span></a> | '
-                                    +'<a href="{{route("pointopoint" ,["initiateur" => "_number_"])}}">Carte <span class="fa fa-map-marker"> </span></a> |'
-                                    +'<a href="#" data-toggle="modal" onclick="fpam(this)" data-donnee="'+json.data[i].id+'" data-target=".bs-example-modal-lg">Planning <span class="fa fa-calendar"></span></a>';
+                            link_ = '<a href="{{route("modifier_fpam" ,["initiateur" => "_number_"])}}"> Voir <span class="fa fa-eye"> </span></a> | '
+                                    +'<a href="{{route("pointopoint" ,["initiateur" => "_number_"])}}"> Carte <span class="fa fa-map-marker"> </span></a> |'
+                                    +'<a href="#" data-toggle="modal" onclick="fpam(this)" data-donnee="'+json.data[i].id+'" data-target=".bs-example-modal-lg"> Planning <span class="fa fa-calendar"></span></a> | '
+                                    +'<a onclick="return confirmDelete();" href="{{route("supprimer_fpam" ,["initiateur" => "_number_"])}}"> Supprimer <span class="fa fa-trash"> </span></a>';
                             json.data[i].lien_ = link_.replace(regex,json.data[i].numerofpam);
                         }
                         return json.data;

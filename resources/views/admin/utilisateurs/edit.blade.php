@@ -13,28 +13,28 @@
                     <div class="x_content">
                         <br />
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Login<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Login<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" name="login" placeholder="Adresse email ou nom d'équipe" required="required" class="form-control col-md-7 col-xs-12" value="{{old('login')}}" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Mot de passe<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Mot de passe<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="password" name="password" placeholder="Saisir un mot de passe fort" required="required" class="form-control col-md-7 col-xs-12" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Confirmation<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password_confirmation">Confirmation<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="password" name="password_confirmation" placeholder="Confirmer le mot de passe ci-dessus" required="required" class="form-control col-md-7 col-xs-12" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Type d'identité d'accès</label>
+                            <label for="typeidentite_id" class="control-label col-md-3 col-sm-3 col-xs-12">Type d'identité d'accès</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <select class="select2_single form-control col-md-7 col-xs-12" name="typeidentite_id" tabindex="-1" onchange="Switch(this);">
                                     @foreach($types as $type)

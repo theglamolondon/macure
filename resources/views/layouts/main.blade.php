@@ -99,8 +99,8 @@
                           </li>
                           <li><a href="#">Check-list</a>
                             <ul class="nav child_menu">
-                              <li><a href="#">Nouveau</a>
-                              <li><a href="#">Liste</a></li>
+                              <li><a href="{{route('nouveau_checklist')}}">Nouveau</a>
+                              <li><a href="{{route('liste_checklist')}}">Liste</a></li>
                             </ul>
                           </li>
                         </ul>
