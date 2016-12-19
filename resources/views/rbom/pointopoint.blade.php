@@ -67,7 +67,7 @@
                 {
                     navigator.geolocation.getCurrentPosition(function(position) {
                         myPlace = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-                        console.log(myPlace);
+                        //console.log(myPlace);
                         calcRoute(myPlace);
                     });
                 }else{ alert('Impossible d\'avoir accès à votre position !'); }

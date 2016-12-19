@@ -37,19 +37,26 @@
         var regNum = new RegExp("(_numero_)","g");
         var regLibelle = new RegExp("(_libelle_)","g");
         var regAction = new RegExp("(_action_)","g");
-        var HTML = '';
-        var template = '<tr><td>_numero_</td><td>_libelle_</td><td>_action_</td></tr>';
+        var template = '<tr><td>_numero_</td><td>_libelle_</td><td>'
+                        + '<a href="{{route("modif_ckecklist",['id'=>'_action_'])}}"> <i class="fa fa-edit"> </i>Modifier</a>'
+                        +'<a href="#"> <i class="fa fa-trash"> </i>Supprimer</a></td></tr>';
 
         $(document).ready(function(){
             $("#typegamme_id").change(function(){
                 $.getJSON(URL.replace(reg,$("#typegamme_id").val()),function (data) {
+                    var HTML = '';
                     for(var d in data){
-                        console.log(data[d]);
-                        HTML += template.replace(regNum,(parseInt(d)+1)).replace(regLibelle,data[d].libelle).replace(regAction,'#');
+                        //console.log(data[d]);
+                        HTML += template.replace(regNum,(parseInt(d)+1)).replace(regLibelle,data[d].libelle).replace(regAction,data[d].id);
                     }
+                    $('#datatable tbody tr').remove();
                     $('#datatable tbody').append(HTML);
                 });
             });
         });
+
+        function deleteCkeclistElement(arg) {
+
+        }
     </script>
 @endsection

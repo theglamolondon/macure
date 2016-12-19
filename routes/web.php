@@ -83,7 +83,8 @@ Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     //Check-list
     Route::get('checklist/nouveau','adminController@showNewChecklist')->name('nouveau_checklist');
     Route::post('checklist/nouveau','adminController@sendResponseNewChecklist');
-
+    Route::get('checklist/{id}/modifier','adminController@showUpdateChecklist')->name('modif_ckecklist');
+    Route::post('checklist/{id}/modifier','adminController@sendResponseUpdateChecklist');
     Route::get('checklists','adminController@showListeChecklist')->name('liste_checklist');
     Route::get('checklists/{id}','adminController@jsonListeChecklist')->name('json_checklist');
 });

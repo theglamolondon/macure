@@ -28,12 +28,12 @@
             position: djeraPosition,
             map:map,
             title: 'Djera Service',
+            icon :'{{request()->getBaseUrl()}}/images/djera-office.png'
         });
         var infoDjera = new google.maps.InfoWindow({
-            content: '<div><h1>Djera Service</h1><p>Djera est une Kata Tjuta National Park. Uluru is '+
-            'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
-            'Aboriginal people of the area. It has many springs, waterholes, '+
-            'rock caves and ancient paintings.</p></div>',
+            content: '<div><h3>Djera Services</h3><p>Entreprise spécialisée dans la '+
+            'maintenance currative du réseau basse tension. '+
+            '</p></div>',
         });
         markerDjera.addListener('click',function () {
            infoDjera.open(map,markerDjera);
@@ -46,7 +46,7 @@
             var marker = new google.maps.Marker({
                 position: FPAM_DATA[i].coord,
                 map:map,
-                title: FPAM_DATA[i].numerofpam,
+                title: 'FPAM '+FPAM_DATA[i].numerofpam,
                 icon: '{{request()->getBaseUrl()}}/images/cone_11.png'
             });
             attachSecretMessage(marker, FPAM_DATA[i].id);
@@ -56,6 +56,7 @@
             var infowindow = new google.maps.InfoWindow({
                 content: 'AJKLM%LKJHJHKLM%MLKJKLM%MLKJML%%ML'
             });
+
             marker.addListener('click',function () {
                 infowindow.open(map,marker);
             })

@@ -19,8 +19,8 @@ class MapsApiController extends Controller
 {
     //key=API_KEY
     private $google_api_key = "AIzaSyA7nl4IYZVJCWievWF7yv8xu8-WFind8CM";
-    const DJERA_POSITION_LATTITUDE = 5.3057055;
-    const DJERA_POSITION_LONGITUDE = -3.9910777;
+    const DJERA_POSITION_LATTITUDE = 5.3729066;
+    const DJERA_POSITION_LONGITUDE = -3.9858144;
 
     public function __construct()
     {

@@ -77,12 +77,14 @@
                           <li><a href="{{route('liste_users')}}">Liste</a></li>
                         </ul>
                       </li>
+                      @if(1==2)
                       <li><a href="#">Equipes</a>
                         <ul class="nav child_menu">
                           <li><a href="#">Nouveau</a></li>
                           <li><a href="#">Liste</a></li>
                         </ul>
                       </li>
+                      @endif
                       <li><a href="#">Intervenants</a>
                         <ul class="nav child_menu">
                           <li><a href="{{route('nouveau_intervenant')}}">Nouveau</a></li>
@@ -123,7 +125,7 @@
                           <li><a href="{{route('liste_fpam')}}">Liste</a></li>
                         </ul>
                       </li>
-                      <li><a href="{{route('planning')}}">Planing</a></li>
+                      <li><a href="{{route('planning')}}">Planning</a></li>
                       <li><a href="{{route('map')}}">Cartographie</a></li>
                     </ul>
                   </li>
@@ -284,7 +286,7 @@
         <!-- footer content -->
         <footer>
           <div class="pull-right">
-            Macure - Djera project &copy;2016 <a href="https://colorlib.com">Colorlib</a>
+            Macure - Djera - Services &copy;2016 <a href="http://softnfix.com" target="_blank">SOFTN'FIX Technology</a>
           </div>
           <div class="clearfix"></div>
         </footer>

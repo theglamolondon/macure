@@ -298,20 +298,33 @@ class RbomController extends Controller
 
             //FPAM
             $update = $request->except(['_token', 'dateprepa', "gamme", "dateheurepanne", "nbrecadre", "nbreagentdemaitrise",'disponibiliteagentcie',
-                "nbreagentemploye", "nbreagentouvrier", "interllocuteur", "datecontact", "solliciationexprimee", "rdv", "conclusion", "document","datecontact"]);
+                "nbreagentemploye", "nbreagentouvrier", "interllocuteur", "datecontact", "solliciationexprimee", "rdv", "conclusion", "document","datecontact",'longitude','lattitude']);
             $update['dateprepa'] = Carbon::createFromFormat('d/m/Y', $request->input('dateprepa'))->toDateString();
             $update['dateheuredebutprevi'] = Carbon::createFromFormat('d/m/Y H:i', $request->input('dateheuredebutprevi'))->toDateString();
             $update['dateheurefinprevi'] = Carbon::createFromFormat('d/m/Y H:i', $request->input('dateheurefinprevi'))->toDateString();
             $fpam->update($update);
 
             //Mise à jour du BT
-            $bt = $fpam->bonTravaux();
+            $bt = $fpam->bonTravaux;
             $bt->update(['etatbon_id'=>EtatBon::Etude_faite]);
 
             //Moyens Humains
+            if($fpam->moyensHumains){
+                $mh = $fpam->moyensHumain();
+                $mh->update($request->only(['nbrecadre','nbreagentdemaitrise','nbreagentemploye','nbreagentouvrier']));
+            }elseif(intval($request->input("nbrecadre"))+
+                    intval($request->input("nbreagentdemaitrise"))+
+                    intval($request->input("nbreagentemploye"))+
+                    intval($request->input("nbreagentouvrier")) != 0)
+            {
+                $moyensHumains = new MoyenHumain($request->only('nbrecadre','nbreagentdemaitrise','nbreagentemploye','nbreagentouvrier'));
+                $moyensHumains->disponibiliteagentcie = $request->has('disponibiliteagentcie') ? true : false;
+                $moyensHumains->preparationActionMaintenance()->associate($fpam);
+                $fpam->save();
+            }
 
-
-            return $this->withSuccess(Lang::get('rbom.updatefpam'));
+            $this->withSuccess(Lang::get('rbom.updatefpam'));
+            return redirect()->route('liste_fpam');
         }catch (ModelNotFoundException $e){
             return back()->withErrors('Impossible de modifier cette FPAM. <small>'.$e->getMessage().'</small>');
         }catch (\Exception $e){
@@ -397,10 +410,10 @@ class RbomController extends Controller
         }else{
             $d = Carbon::createFromDate($annee,$mois,$jour);
             $lundi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1));
-            $mardi = Carbon::createFromDate($annee,$mois,$jour)->addDay(Carbon::TUESDAY -1);
-            $mercredi = Carbon::createFromDate($annee,$mois,$jour)->addDay(Carbon::WEDNESDAY-1);
-            $jeudi = Carbon::createFromDate($annee,$mois,$jour)->addDay(Carbon::THURSDAY-1);
-            $vendredi = Carbon::createFromDate($annee,$mois,$jour)->addDay(Carbon::FRIDAY-1);
+            $mardi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1)+ (Carbon::TUESDAY -1));
+            $mercredi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1)+(Carbon::WEDNESDAY-1));
+            $jeudi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1)+(Carbon::THURSDAY-1));
+            $vendredi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1)+(Carbon::FRIDAY-1));
         }
 
         $planning = Planning::with(['equipe','actionmaintenance'])->whereBetween('datedepannage',[$lundi->toDateString(),$vendredi->toDateString()])->get();

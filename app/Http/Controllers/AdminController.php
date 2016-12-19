@@ -301,8 +301,7 @@ class AdminController extends Controller
         return view('admin.checklist.edit',['typegammes' => TypeGamme::all()]);
     }
 
-    public function sendResponseNewChecklist(Request $request)
-    {
+    private function validateChecklist(Request $request){
         $this->validate($request,[
             'libelle' => 'required',
             'typegamme_id' => 'required|numeric'
@@ -311,7 +310,11 @@ class AdminController extends Controller
             'typegamme_id.numeric' => 'La gamme sélectionnée n\'est pas disponible',
             'typegamme_id.required' => 'La gamme sélectionnée est requise',
         ]);
+    }
 
+    public function sendResponseNewChecklist(Request $request)
+    {
+        $this->validateChecklist($request);
         try{
             Checklist::create($request->except('_token'));
             $this->withSuccess(['Nouvel élément de check-list ajouté']);
@@ -324,14 +327,34 @@ class AdminController extends Controller
         }
     }
 
-    public function showUpdateChecklist()
+    public function showUpdateChecklist($id)
     {
-
+        try {
+            return view('admin.checklist.update', [
+                'check' => Checklist::findOrFail(intval($id)),
+                'typegammes' => TypeGamme::all()
+            ]);
+        }catch (ModelNotFoundException $e){
+            return back()->withInput()->withErrors($e->getMessage());
+        }catch (\Exception $e){
+            return back()->withInput()->withErrors($e->getMessage());
+        }
     }
 
-    public function sendResponseUpdateChecklist(Request $request)
+    public function sendResponseUpdateChecklist(Request $request, $id)
     {
+        $this->validateChecklist($request);
+        try {
+            $check = Checklist::findOrFail(intval($id));
+            $check->update($request->except('_token'));
 
+            $this->withSuccess(['Modification de la chekclist réussie']);
+            return redirect()->route('liste_checklist');
+        }catch (ModelNotFoundException $e){
+            return back()->withInput()->withErrors($e->getMessage());
+        }catch (\Exception $e){
+            return back()->withInput()->withErrors($e->getMessage());
+        }
     }
 
     public function showListeChecklist()
