@@ -38,8 +38,8 @@ Route::group(['prefix' => \App\Autorisation::RBOM],function (){
     //Bon travaux
     Route::get('bontravaux/nouveau','RbomController@showNewFormBT')->name('nouveau_bt');
     Route::post('bontravaux/nouveau','RbomController@sendResponseNewBT');
-    Route::get('bontravaux/{initiateur}/modifier','RbomController@showEditFormBT')->name('modifier_bt');
-    Route::post('bontravaux/{initiateur}/modifier','RbomController@sendResponseEditFormBT');
+    Route::get('bontravaux/{initiateur}/modifier','RbomController@showUpadetFormBT')->name('modifier_bt');
+    Route::post('bontravaux/{initiateur}/modifier','RbomController@sendResponseUpdateBT');
     Route::get('bontravaux/{initiateur}/supprimer','RbomController@sendResponseDeleteBT')->name('supprimer_bt');
     Route::get('bontravaux','RbomController@showListBT')->name('liste_bt');
     Route::get('bontravaux/json','RbomController@JsonListBT')->name('liste_bt_json');
@@ -50,6 +50,7 @@ Route::group(['prefix' => \App\Autorisation::RBOM],function (){
     Route::post('fpam/{initiateur}/nouveau','RbomController@sendResponseNewFPAM');
     Route::get('fpam/{initiateur}/nouveau','RbomController@showNewFormFPAM')->name('nouveau_fpam');
     Route::get('fpam/{initiateur}/modifier','RbomController@showUpdateFormFPAM')->name('modifier_fpam');
+    Route::post('fpam/{initiateur}/modifier','RbomController@sendResponseUpdateFPAM');
     Route::get('fpam','RbomController@showListFPAM')->name('liste_fpam');
     Route::get('fpam/json','RbomController@JsonListFPAM')->name('liste_fpam_json');
     Route::get('fpam/{initiateur}/supprimer','RbomController@sendResponseDeleteFPAM')->name('supprimer_fpam');

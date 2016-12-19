@@ -17,7 +17,7 @@ class PreparationActionMaintenance extends Model
 
     public function moyensHumains()
     {
-        return $this->hasOne('App\MoyenHumain');
+        return $this->hasOne('App\MoyenHumain','fpactionmaintenance_id');
     }
 
     public function sollicitationExterieure()
@@ -27,7 +27,7 @@ class PreparationActionMaintenance extends Model
 
     public function gamme()
     {
-        return $this->hasOne('App\Gamme','id');
+        return $this->hasOne('App\Gamme','fpactionmaintenance_id');
     }
 
     public function typeOperation()
