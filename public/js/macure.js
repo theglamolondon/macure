@@ -29,8 +29,14 @@ $(document).ready(function() {
     <!-- Select2 -->
     $(".select2_single").select2({
         allowClear: false,
-        placeholder: "Select a state",
+        placeholder: "Choisir un item",
         minimumResultsForSearch: -1
+    });
+    $(".select2_group").select2({});
+    $(".select2_multiple").select2({
+        //maximumSelectionLength: 4,
+        placeholder: "Vous pouvez sélectionner plusieurs",
+        allowClear: true
     });
     <!-- /Select2 -->
 });

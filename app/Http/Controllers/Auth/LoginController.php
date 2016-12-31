@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Autorisation;
 use App\Http\Controllers\Controller;
+use App\IdentiteAcces;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
@@ -64,6 +65,9 @@ class LoginController extends Controller
         $request->session()->regenerate();
         $this->clearLoginAttempts($request);
 
+        //MAJ des informations de l'identité d'aacès
+        $this->guard()->user();
+
         //routage des utilisateurs
         $request->session()->put("user", $this->guard()->user()->getComplement());
         $authorizations = json_decode($this->guard()->user()->autorisation);
@@ -86,6 +90,9 @@ class LoginController extends Controller
         } //cie
         elseif (array_search(Autorisation::CIE, $authorizations)) {
             $this->redirectTo = "/" . Autorisation::CIE;
+        } //rgs
+        elseif (array_search(Autorisation::RGS, $authorizations)) {
+            $this->redirectTo = "/" . Autorisation::RGS;
         }
 
         return $this->authenticated($request, $this->guard()->user()) ?: redirect()->intended($this->redirectPath());

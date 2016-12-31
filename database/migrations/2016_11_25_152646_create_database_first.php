@@ -25,6 +25,11 @@ class CreateDatabaseFirst extends Migration
             $table->string('remember_token')->nullable();
             $table->string('api_token')->nullable();
             $table->json('autorisation');
+            $table->integer('totaltimeconnect')->default(0);
+            $table->string('policy')->nullable();
+            $table->dateTime('lastlogin')->nullable();
+            $table->dateTime('lastlogout')->nullable();
+            $table->integer('totalattemptconnect')->default(0);
             //cléés étrangères
             $table->foreign('typeidentite_id','fk_identite_typeidentite')->references('id')->on('typeidentity');
         });
@@ -47,7 +52,19 @@ class CreateDatabaseFirst extends Migration
             $table->increments('id');
             $table->string('libelle');
         });
-
+        Schema::create('familleproduit',function (Blueprint $table){
+            $table->increments('id');
+            $table->string('libelle');
+        });
+        Schema::create('produit',function (Blueprint $table){
+            $table->increments('id');
+            $table->string('reference')->unique();
+            $table->string('libelle');
+            $table->integer('quantite')->default(0);
+            $table->integer('famille')->default(0);
+            //clés
+            $table->foreign('famille','fk_produit_famille')->references('id')->on('familleproduit');
+        });
         Schema::create('equipetravaux',function (Blueprint $table){
             $table->increments('id');
             $table->integer('identiteacces_id',false,true);
@@ -59,7 +76,6 @@ class CreateDatabaseFirst extends Migration
             $table->foreign('chargemaintenance','fk_equipe_charge_intervenant')->references('id')->on('intervenant');
             $table->foreign('chefequipe','fk_equipe_chef_intervenant')->references('id')->on('intervenant');
         });
-
         Schema::create('bontravaux',function (Blueprint $table){
             $table->increments('id');
             $table->string('numerobon')->unique();
@@ -86,9 +102,13 @@ class CreateDatabaseFirst extends Migration
             $table->integer('etatbon_id')->unsigned();
             $table->integer('equipetravaux_id')->unsigned()->nullable();
             //clés étrangères
-            $table->foreign('etatbon_id','fk_bontravaux_etatbon')->references('id')->on('etat_bon');
+            $table->foreign('etatbon_id','fk_bontravaux_etatbon')->references('id')->on('etatbon');
             $table->foreign('urgence_id','fk_bontravaux_urgence')->references('id')->on('urgence');
-            $table->foreign('equipetravaux_id','fk_bontravaux_equipe')->references('id')->on('equipe_travaux');
+            $table->foreign('equipetravaux_id','fk_bontravaux_equipe')->references('id')->on('equipetravaux');
+        });
+        Schema::create('habilitation',function (Blueprint $table){
+            $table->increments('id');
+            $table->string('libelle');
         });
         Schema::create('intervenant',function (Blueprint $table){
             $table->increments('id');
@@ -96,20 +116,37 @@ class CreateDatabaseFirst extends Migration
             $table->string('prenoms')->nullable();
             $table->string('niveau')->nullable();
             $table->integer('equipetravaux_id',false,true);
+            $table->boolean('emprunte')->default(false);
             //clés
-            $table->foreign('equipetravaux_id','fk_intervenant_intervenant')->references('id')->on('equipe_travaux');
+            $table->foreign('equipetravaux_id','fk_intervenant_equipetravaux')->references('id')->on('equipetravaux');
         });
-
+        Schema::create('intervenant_habilitation',function (Blueprint $table){
+            $table->integer('intervenant_id');
+            $table->integer('habilitation_id');
+            //clés
+            $table->primary(['intervenant_id','habilitation_id'],'pk_intervenant_habilitation');
+            $table->foreign('intervenant_id','fk_intervenant')->references('id')->on('intervenant');
+            $table->foreign('habilitation_id','fk_habilitation')->references('id')->on('habilitation');
+        });
+        Schema::create('emprunt',function (Blueprint $table){
+            $table->increments('id');
+            $table->date('dateemprunt');
+            $table->integer('intervenant_id');
+            $table->integer('equipe_id');
+            $table->integer('fpam');
+            //clés
+            $table->foreign('intervenant_id','fk_emprunt_intervenant')->references('id')->on('intervenant');
+            $table->foreign('equipe_id','fk_emprunt_equipetravaux')->references('id')->on('equipetravaux');
+            $table->foreign('fpam','fk_emprunt_fpam')->references('id')->on('fpactionmaintenance');
+        });
         Schema::create('causechantier',function (Blueprint $table){
             $table->increments('id');
             $table->string('libelle',50);
         });
-
         Schema::create('typeoperation',function (Blueprint $table){
             $table->increments('id');
             $table->string('libelle',50);
         });
-
         Schema::create('fpactionmaintenance',function (Blueprint $table){
             $table->increments('id');
             $table->date('dateprepa');
@@ -135,14 +172,17 @@ class CreateDatabaseFirst extends Migration
             $table->string('remarqueobs')->default('RAS');
             $table->string('longitude',50);
             $table->string('lattitude',50);
+            $table->integer('habilitation_id')->nullable();
+            $table->integer('statut');
             //clés
-            $table->foreign('causechantier_id','fk_prepa_action_cause')->references('id')->on('cause_chantier');
-            $table->foreign('typeoperation_id','fk_prepa_action_type_ope')->references('id')->on('type_operation');
-            $table->foreign('titreoperation_id','fk_prepa_action_titre_ope')->references('id')->on('type_operation');
+            $table->foreign('causechantier_id','fk_prepa_action_cause')->references('id')->on('causechantier');
+            $table->foreign('typeoperation_id','fk_prepa_action_type_ope')->references('id')->on('typeoperation');
+            $table->foreign('titreoperation_id','fk_prepa_action_titre_ope')->references('id')->on('typeoperation');
             $table->foreign('urgence_id','fk_prepa_action_urgence')->references('id')->on('urgence');
-            $table->foreign('equipetravaux_id','fk_prepa_equipe')->references('id')->on('equipe_travaux');
+            $table->foreign('equipetravaux_id','fk_prepa_equipe')->references('id')->on('equipetravaux');
+            $table->foreign('habilitation_id','fk_prepa_habilitation')->references('id')->on('habilitation');
+            $table->foreign('statut','fk_prepa_etat')->references('id')->on('etatbon');
         });
-
         Schema::create('typegamme',function (Blueprint $table){
             $table->increments('id');
             $table->string('libelle');
@@ -154,15 +194,13 @@ class CreateDatabaseFirst extends Migration
             $table->integer('nbreagents',false,true);
             $table->string('habilitation',20);
         });
-
         Schema::create('checklist',function (Blueprint $table){
             $table->increments('id');
             $table->string('libelle');
             $table->integer('typegamme_id',false,true);
             //clés étrangères
-            $table->foreign('typegamme_id','fk_checklist_type_gamme')->references('id')->on('type_gamme');
+            $table->foreign('typegamme_id','fk_checklist_type_gamme')->references('id')->on('typegamme');
         });
-
         Schema::create('gamme',function (Blueprint $table){
             $table->increments('id');
             $table->integer('fpactionmaintenance_id');
@@ -173,10 +211,9 @@ class CreateDatabaseFirst extends Migration
             $table->boolean('resultat')->default(true);
             $table->string('observation')->nullable();
             //clé étrangères
-            $table->foreign('typegamme_id','fk_gamme_type_gamme')->references('id')->on('type_gamme');
+            $table->foreign('typegamme_id','fk_gamme_type_gamme')->references('id')->on('typegamme');
             $table->foreign('fpactionmaintenance_id','fk_gamme_fpam')->references('id')->on('fpactionmaintenance');
         });
-
         Schema::create('gammecheck',function (Blueprint $table){
             $table->integer('checklist_id');
             $table->integer('gamme_id');
@@ -188,7 +225,6 @@ class CreateDatabaseFirst extends Migration
             $table->foreign('checklist_id','fk_ckeckgamme_checklist')->references('id')->on('checklist');
             $table->foreign('gamme_id','fk_ckeckgamme_gamme')->references('id')->on('gamme');
         });
-
         Schema::create('moyenhumain',function (Blueprint $table){
             $table->integer('fpactionmaintenance_id',false,true);
             $table->integer('nbrecadre')->default(0);
@@ -219,7 +255,15 @@ class CreateDatabaseFirst extends Migration
             //clés
             $table->foreign('fpactionmaintenance_id','fk_document_fpam')->references('id')->on('fpactionmaintenance');
         });
-
+        Schema::create('fpam_produit',function (Blueprint $table){
+            $table->integer('fpam_id');
+            $table->integer('produit_id');
+            $table->integer('quantite');
+            //cles
+            $table->primary(['fpam_id','produit_id'],'pk_fpam_produit');
+            $table->foreign('fpam_id','fk_fpam')->references('id')->on('fpactionmaintenance');
+            $table->foreign('produit_id','fk_produit')->references('id')->on('produit');
+        });
         Schema::create('bonrealisationtravail',function (Blueprint $table){
             $table->increments('id');
         });
@@ -244,7 +288,6 @@ class CreateDatabaseFirst extends Migration
             $table->primary('actionmaintenancecurative_id','pk_action_maintenance');
             $table->foreign('actionmaintenancecurative_id','fk_action_maintenance_rapport_technique')
                 ->references('fpactionmaintenance_id')->on('rtmaintenancecurative');
-
         });
         Schema::create('indicateurmaintenance',function (Blueprint $table){
             $table->integer('actionmaintenancecurative_id',false,true);
@@ -257,7 +300,6 @@ class CreateDatabaseFirst extends Migration
             $table->foreign('actionmaintenancecurative_id','fk_indicateurmaintenance_rtmaintenancecurative')
                 ->references('fpactionmaintenance_id')->on('rtmaintenancecurative');
         });
-
         Schema::create('planning',function (Blueprint $table){
             $table->integer('equipe_id',false,true);
             $table->integer('actionmaintenance_id',false,true)->unique();
@@ -268,18 +310,6 @@ class CreateDatabaseFirst extends Migration
             $table->foreign('actionmaintenance_id','fk_planning_fpam')->references('id')->on('fpactionmaintenance');
         });
         /*
-        Schema::create('',function (Blueprint $table){
-
-        });
-        Schema::create('',function (Blueprint $table){
-
-        });
-        Schema::create('',function (Blueprint $table){
-
-        });
-        Schema::create('',function (Blueprint $table){
-
-        });
         Schema::create('',function (Blueprint $table){
 
         });
@@ -316,5 +346,11 @@ class CreateDatabaseFirst extends Migration
         Schema::dropIfExists('actionmaintenancecurative');
         Schema::dropIfExists('indicateurmaintenance');
         Schema::dropIfExists('planning');
+        Schema::dropIfExists('habilitation');
+        Schema::dropIfExists('emprunt');
+        Schema::dropIfExists('produit');
+        Schema::dropIfExists('familleproduit');
+        Schema::dropIfExists('fpam_produit');
+        Schema::dropIfExists('intervenant_habilitation');
     }
 }

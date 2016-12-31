@@ -31,6 +31,7 @@ Route::group(['prefix' => \App\Autorisation::DIRECTEUR],function (){
     Route::get('/home','DirecteurController@index')->name('accueil_'.\App\Autorisation::DIRECTEUR);
     Route::get('/profile','DirecteurController@editProfil')->name('profile_'.\App\Autorisation::DIRECTEUR);
 });
+
 Route::group(['prefix' => \App\Autorisation::RBOM],function (){
     Route::get('/','RtmController@index');
     Route::get('home','RbomController@index')->name('accueil_'.\App\Autorisation::RBOM);
@@ -58,6 +59,7 @@ Route::group(['prefix' => \App\Autorisation::RBOM],function (){
     Route::get('planning/{jour?}/{mois?}/{annee?}','RbomController@showPlanning')->name('planning');
     Route::post('planning/edit','RbomController@sendResponsePlanning')->name('save_planning');
 });
+
 Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     Route::get('/','adminController@index');
     Route::get('home','adminController@index')->name('accueil_'.\App\Autorisation::ADMIN);
@@ -94,6 +96,15 @@ Route::group(['prefix' => \App\Autorisation::RTM],function (){
     Route::get('home','RtmController@index')->name('accueil_'.\App\Autorisation::RTM);
     Route::get('profile','RtmController@editProfil')->name('profile_'.\App\Autorisation::RTM);
 });
+
+Route::group(['prefix' => \App\Autorisation::RGS],function (){
+    Route::get('/','StockController@index');
+    Route::get('home','StockController@index')->name('accueil_'.\App\Autorisation::RGS);
+    Route::get('profile','StockController@editProfil')->name('profile_'.\App\Autorisation::RGS);
+    Route::get('produit/nouveau','StockController@showNewFormProduit')->name('nouveau_produit');
+    Route::post('produit/nouveau','StockController@sensResponseNewProduit');
+});
+
 Route::group(['prefix' => \App\Autorisation::EQUIPE_TRAVAUX],function (){
     Route::get('/','EquipeController@index');
     Route::get('home','EquipeController@index')->name('accueil_'.\App\Autorisation::EQUIPE_TRAVAUX);
@@ -101,8 +112,8 @@ Route::group(['prefix' => \App\Autorisation::EQUIPE_TRAVAUX],function (){
     Route::post('gamme/checklist/add','EquipeController@sendResponseCheckList')->name('save_checklist');
     Route::get('profile','EquipeController@editProfil')->name('profile_'.\App\Autorisation::EQUIPE_TRAVAUX);
     Route::get('gamme/{fpam}/edit','EquipeController@showNewFormGamme')->name('edit_gamme');
-
 });
+
 Route::group(['prefix' => \App\Autorisation::CIE],function (){
     Route::get('/','CieController@index');
     Route::get('home','CieController@index')->name('accueil_'.\App\Autorisation::CIE);

@@ -17,4 +17,6 @@ class Autorisation
     const DIRECTEUR = 'directeur';
     const EQUIPE_TRAVAUX = 'equipe';
     const RTM = 'rtmdoc';
+    const RGS = 'stock';
+    const RPS = 'rps';
 }

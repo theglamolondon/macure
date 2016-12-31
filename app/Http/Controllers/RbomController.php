@@ -395,25 +395,26 @@ class RbomController extends Controller
     public function showPlanning($jour=null,$mois=null,$annee=null)
     {
         $d = Carbon::now();
-        $lundi = null;
-        $mardi = null;
-        $mercredi = null;
-        $jeudi = null;
-        $vendredi = null;
+        $lundi = null;  $mardi = null;  $mercredi = null;  $jeudi = null;
+        $vendredi = null;  $samedi = null;  $dimanche = null;
 
         if($jour == null){
             $lundi = Carbon::now()->addDay(-($d->dayOfWeek-1));
-            $mardi = Carbon::now()->addDay(Carbon::TUESDAY -1);
-            $mercredi = Carbon::now()->addDay(Carbon::WEDNESDAY-1);
-            $jeudi = Carbon::now()->addDay(Carbon::THURSDAY-1);
-            $vendredi = Carbon::now()->addDay(Carbon::FRIDAY-1);
+            $mardi = Carbon::now()->addDay(-($d->dayOfWeek-1) + Carbon::TUESDAY -1);
+            $mercredi = Carbon::now()->addDay(-($d->dayOfWeek-1) + Carbon::WEDNESDAY-1);
+            $jeudi = Carbon::now()->addDay(-($d->dayOfWeek-1) + Carbon::THURSDAY-1);
+            $vendredi = Carbon::now()->addDay(-($d->dayOfWeek-1) + Carbon::FRIDAY-1);
+            $samedi = Carbon::now()->addDay(-($d->dayOfWeek-1) + Carbon::SATURDAY-1);
+            $dimanche = Carbon::now()->addDay(-($d->dayOfWeek-1) + Carbon::SUNDAY-1);
         }else{
             $d = Carbon::createFromDate($annee,$mois,$jour);
             $lundi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1));
-            $mardi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1)+ (Carbon::TUESDAY -1));
-            $mercredi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1)+(Carbon::WEDNESDAY-1));
-            $jeudi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1)+(Carbon::THURSDAY-1));
-            $vendredi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1)+(Carbon::FRIDAY-1));
+            $mardi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::TUESDAY -1));
+            $mercredi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::WEDNESDAY-1));
+            $jeudi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::THURSDAY-1));
+            $vendredi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::FRIDAY-1));
+            $samedi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SATURDAY-1));
+            $dimanche = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SUNDAY-1));
         }
 
         $planning = Planning::with(['equipe','actionmaintenance'])->whereBetween('datedepannage',[$lundi->toDateString(),$vendredi->toDateString()])->get();
@@ -427,6 +428,8 @@ class RbomController extends Controller
             "mercredi" => $mercredi,
             "jeudi" => $jeudi,
             "vendredi" => $vendredi,
+            "samedi" => $samedi,
+            "dimanche" => $dimanche,
             "equipes" => $equipes,
             "date" => $d->format('d/m/Y'),
         ]);

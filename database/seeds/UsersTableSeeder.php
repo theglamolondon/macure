@@ -21,31 +21,36 @@ class UsersTableSeeder extends Seeder
                 'login' => 'glamolondon@gmail.com',
                 'password' => bcrypt('flavie'),
                 'typeidentite_id'=>1,
-                'autorisation' => json_encode(['admin','cie','rtmdoc','rbom','directeur'])
+                'autorisation' => json_encode(['admin','cie','rtmdoc','rbom','directeur','stock']),
+                'policy' => null
             ],
             [
                 'login' => 'akejeansidoine@yahoo.fr',
                 'password' => bcrypt('leandre'),
                 'typeidentite_id'=>1,
-                'autorisation' => json_encode(['admin','cie','rtmdoc','rbom','directeur'])
+                'autorisation' => json_encode(['admin','cie','rtmdoc','rbom','directeur','stock']),
+                'policy' => '-t 08:00 16:20',
             ],
             [
                 'login' => 'groupe1',
                 'password' => bcrypt('macure'),
                 'typeidentite_id'=>2,
-                'autorisation' => json_encode(['equipe'])
+                'autorisation' => json_encode(['equipe']),
+                'policy' => null
             ],
             [
                 'login' => 'groupe2',
                 'password' => bcrypt('macure'),
                 'typeidentite_id'=>2,
-                'autorisation' => json_encode(['equipe'])
+                'autorisation' => json_encode(['equipe']),
+                'policy' => null
             ],
             [
                 'login' => 'groupe3',
                 'password' => bcrypt('macure'),
                 'typeidentite_id'=>2,
-                'autorisation' => json_encode(['equipe'])
+                'autorisation' => json_encode(['equipe']),
+                'policy' => null
             ],
         ]);
         DB::table('utilisateur')->insert([
@@ -109,7 +114,7 @@ class UsersTableSeeder extends Seeder
                 "nom" => "Kouassi",
                 "prenoms" => "Eugène",
                 "niveau" => "Ingénieur de technique",
-                "equipetravaux_id" => 1
+                "equipetravaux_id" => 1,
             ],[
                 "nom" => "Mael",
                 "prenoms" => "Franck",
@@ -238,6 +243,26 @@ class UsersTableSeeder extends Seeder
             ["typegamme_id" => 1 ,"libelle" => "Remplir le check list au fil de l'eau"],
             ["typegamme_id" => 1 ,"libelle" => "Rédiger et faire signer le compte rendu d'intervention"],
             ["typegamme_id" => 1 ,"libelle" => "Rédiger le compte rendu d'intervention"]
+        ]);
+        DB::table('familleproduit')->insert([
+            ['libelle' => 'Vehicule'],
+            ['libelle' => 'Electrique'],
+            ['libelle' => 'Mecanique'],
+            ['libelle' => 'Materiel'],
+            ['libelle' => 'Pièce de rechange et consommables'],
+        ]);
+        DB::table('produit')->insert([
+            [
+                'reference' => 'V0001',
+                'libelle' => 'Vehicule de maintenance',
+                'quantite' => 5,
+                'famille' => 1
+            ],[
+                'reference' => 'V0002',
+                'libelle' => 'Pince ampermetrique',
+                'quantite' => 40,
+                'famille' => 1
+            ],
         ]);
         /*
          *

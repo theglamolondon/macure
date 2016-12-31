@@ -14,4 +14,9 @@ class Intervenant extends Model
     {
         return $this->belongsTo('App\EquipeTravaux','equipetravaux_id');
     }
+
+    public function habilitation()
+    {
+        return $this->belongsToMany('App\Habilitation','intervenant_habilitation','intervenant_id','habilitation_id');
+    }
 }
