@@ -103,6 +103,10 @@ Route::group(['prefix' => \App\Autorisation::RGS],function (){
     Route::get('profile','StockController@editProfil')->name('profile_'.\App\Autorisation::RGS);
     Route::get('produit/nouveau','StockController@showNewFormProduit')->name('nouveau_produit');
     Route::post('produit/nouveau','StockController@sensResponseNewProduit');
+    Route::get('produit/{reference}/modifier','StockController@showFormUpdateProduit')->name('modifier_produit');
+    Route::post('produit/{reference}/modifier','StockController@sensResponseUpdateProduit');
+    Route::get('produit/{reference}/supprimer','StockController@sendResponseDeleteProduit')->name('supprimer_produit');
+    Route::get('produit','StockController@showListProduit')->name('liste_produit');
 });
 
 Route::group(['prefix' => \App\Autorisation::EQUIPE_TRAVAUX],function (){

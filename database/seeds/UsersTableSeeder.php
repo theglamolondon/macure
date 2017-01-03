@@ -256,12 +256,12 @@ class UsersTableSeeder extends Seeder
                 'reference' => 'V0001',
                 'libelle' => 'Vehicule de maintenance',
                 'quantite' => 5,
-                'famille' => 1
+                'famille_id' => 1
             ],[
                 'reference' => 'V0002',
                 'libelle' => 'Pince ampermetrique',
                 'quantite' => 40,
-                'famille' => 1
+                'famille_id' => 1
             ],
         ]);
         /*
