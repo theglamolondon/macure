@@ -61,9 +61,9 @@ class CreateDatabaseFirst extends Migration
             $table->string('reference')->unique();
             $table->string('libelle');
             $table->integer('quantite')->default(0);
-            $table->integer('famille')->default(0);
+            $table->integer('famille_id')->default(0);
             //clés
-            $table->foreign('famille','fk_produit_famille')->references('id')->on('familleproduit');
+            $table->foreign('famille_id','fk_produit_famille')->references('id')->on('familleproduit');
         });
         Schema::create('equipetravaux',function (Blueprint $table){
             $table->increments('id');

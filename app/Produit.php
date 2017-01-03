@@ -11,6 +11,6 @@ class Produit extends Model
     public $timestamps = false;
 
     public function famille(){
-        return $this->belongsTo('App\Famille','famille_id');
+        return $this->belongsTo('App\FamilleProduit','famille_id');
     }
 }

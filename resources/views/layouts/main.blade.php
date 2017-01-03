@@ -136,7 +136,7 @@
                       <li><a href="javascript:void(0);">Matériel</a>
                         <ul class="nav child_menu">
                           <li><a href="{{route('nouveau_produit')}}">Nouveau</a>
-                          <li><a href="{{route('liste_bt')}}">Liste</a>
+                          <li><a href="{{route('liste_produit')}}">Liste</a>
                           </li>
                         </ul>
                       </li>
