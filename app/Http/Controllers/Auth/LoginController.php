@@ -65,7 +65,7 @@ class LoginController extends Controller
         $request->session()->regenerate();
         $this->clearLoginAttempts($request);
 
-        //MAJ des informations de l'identité d'aacès
+        //MAJ des informations de l'identité d'accès
         $this->guard()->user();
 
         //routage des utilisateurs

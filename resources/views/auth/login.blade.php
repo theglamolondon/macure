@@ -60,6 +60,7 @@
               <div>
                 <input type="submit" class="btn btn-default submit" value="Connexion" />
                 <a class="reset_pass" href="#">Mot de passe oublié ?</a>
+                <input type="hidden" name="remember" value="1"/>
               </div>
 
               <div class="clearfix"></div>

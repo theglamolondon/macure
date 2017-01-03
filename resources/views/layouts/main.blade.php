@@ -475,5 +475,20 @@
       });
     </script>
     <!-- /bootstrap-daterangepicker -->
+
+
+    <!-- SOCKET IO -->
+    <script type="application/javascript" src="{{request()->getBaseUrl()}}/../node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script type="text/javascript">
+      var LISTENER = '{{request()->getBaseUrl()}}:5390';
+      var MY = {
+        id : '{{\Illuminate\Support\Facades\Auth::user()->id}}',
+        fullname: '{{\Illuminate\Support\Facades\Auth::user()->name()}}',
+        isAdmin: {{\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::ADMIN)?'true':'false'}}
+      }
+    </script>
+    <script type="application/javascript" src="{{request()->getBaseUrl()}}/js/liveClient.js"></script>
+    <!-- /SOCKET IO -->
+
   </body>
 </html>

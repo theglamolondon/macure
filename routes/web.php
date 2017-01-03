@@ -119,3 +119,6 @@ Route::group(['prefix' => \App\Autorisation::CIE],function (){
     Route::get('home','CieController@index')->name('accueil_'.\App\Autorisation::CIE);
     Route::get('profile','CieController@editProfil')->name('profile_'.\App\Autorisation::CIE);
 });
+Route::group(['prefix' => 'server'],function (){
+    Route::get('listen/{id}','SocketController@listen')->name('ecoute_serveur');
+});

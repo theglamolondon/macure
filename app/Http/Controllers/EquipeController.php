@@ -17,12 +17,12 @@ class EquipeController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','policy']);
     }
 
     public function Index()
     {
-        return view('admin.home');
+        return view('equipe.home');
     }
 
     public function showNewFormCheckGamme($fpam)

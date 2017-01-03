@@ -44,7 +44,7 @@ class AdminController extends Controller
 
     public function Index()
     {
-        return view('admin.home');
+        return view('admin.home',['utilisateurs' => IdentiteAcces::with('equipeTravaux','utilisateur')->get()]);
     }
 
     public function showNewFormUser()
