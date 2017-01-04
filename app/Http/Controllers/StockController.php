@@ -89,4 +89,18 @@ class StockController extends Controller
         }
     }
 
+    public function sendResponseDeleteProduit($reference)
+    {
+        try{
+            $produits = Produit::where('reference',$reference)->firstorFail();
+            $produits->delete();
+            $this->withSuccess(['Suppression réussie']);
+            return back();
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors(['exception' => $e->getMessage()]);
+        }catch (\Exception $e){
+            return back()->withErrors(['exception' => $e->getMessage()]);
+        }
+    }
+
 }
