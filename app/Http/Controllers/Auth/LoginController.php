@@ -70,7 +70,7 @@ class LoginController extends Controller
         $this->guard()->user();
 
         //routage des utilisateurs
-        $request->session()->put("user", $this->guard()->user()->getComplement());
+        //$request->session()->put("user", $this->guard()->user()->getComplement());
         $authorizations = json_decode($this->guard()->user()->autorisation);
 
         //directeur

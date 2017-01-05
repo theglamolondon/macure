@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Autorisation;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class RoleMiddleware
 {
@@ -15,7 +17,16 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next)
     {
-        //dd('role middleware');
+        //suppression du "/" en début du préfixe
+        $prefix = substr($request->route()->getPrefix(),1);
+
+        if(!Autorisation::isAllowed(Auth::user(),$prefix))
+        {
+            $authoriz = json_decode(Auth::user()->autorisation);
+            return redirect()->route(Autorisation::routing($authoriz))
+                ->withErrors('Vous ne pouvez pas avoir accès à cette ressource. Votre prodil ne vous le permet pas. Veuillez contacter votre administrateur pour plus de détails');
+        }
+
         return $next($request);
     }
 }
