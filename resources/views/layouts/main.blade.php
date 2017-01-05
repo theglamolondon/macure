@@ -118,6 +118,7 @@
                         <ul class="nav child_menu">
                           <li><a href="{{route('nouveau_bt')}}">Nouveau</a>
                           <li><a href="{{route('liste_bt')}}">Liste</a>
+                          <li><a href="{{route('planning_bt')}}">Planning</a>
                           </li>
                         </ul>
                       </li>
