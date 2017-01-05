@@ -25,7 +25,7 @@
                         <td>{{$produit->famille->libelle}}</td>
                         <td>
                             <a href="{{route('modifier_produit',['reference'=>$produit->reference])}}"> <i class="fa fa-edit"> </i>Modifier</a>
-                            <a href="#"> <i class="fa fa-trash"> </i>Supprimer</a>
+                            <a  onclick="return confirmDelete()" href="{{route("supprimer_produit",["reference"=>$produit->reference])}}"> <i class="fa fa-trash"> </i>Supprimer</a>
                         </td>
                     </tr>
                     @endforeach
@@ -44,6 +44,10 @@
     <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
     <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
     <script>
+
+        function confirmDelete() {
+            return confirm('Voulez-vous vraiment supprimer ce produit ? Attention, cette action est irreversible.');
+        }
         $(document).ready(function () {
             $('#datatable').DataTable({
                 processing: true,
