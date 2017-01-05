@@ -75,6 +75,7 @@
                         <ul class="nav child_menu">
                           <li><a href="{{route('nouveau_user')}}">Nouveau</a>
                           <li><a href="{{route('liste_users')}}">Liste</a></li>
+                          <li><a href="{{route('restriction_utilisateur',['id'=>'#'])}}">Restrictions</a></li>
                         </ul>
                       </li>
                       @if(1==2)
@@ -176,19 +177,16 @@
                   @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::CIE))
                   <li><a><i class="fa fa-bar-chart-o"></i> CIE <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="../gentelella/chartjs.html">Chart JS</a></li>
-                      <li><a href="../gentelella/chartjs2.html">Chart JS2</a></li>
-                      <li><a href="../gentelella/morisjs.html">Moris JS</a></li>
-                      <li><a href="../gentelella/echarts.html">ECharts</a></li>
-                      <li><a href="../gentelella/other_charts.html">Other Charts</a></li>
+                      <li><a href="#">Planning</a></li>
+                      <li><a href="#">Bon de travaux</a></li>
                     </ul>
                   </li>
                   @endif
                   @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::DIRECTEUR))
                   <li><a><i class="fa fa-clone"></i> DIRECTEUR <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="../gentelella/fixed_sidebar.html">Fixed Sidebar</a></li>
-                      <li><a href="../gentelella/fixed_footer.html">Fixed Footer</a></li>
+                      <li><a href="#">Tableau de bord</a></li>
+                      <li><a href="#">Statistiques</a></li>
                     </ul>
                   </li>
                   @endif

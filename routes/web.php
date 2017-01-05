@@ -26,13 +26,13 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::group(['prefix' => \App\Autorisation::DIRECTEUR],function (){
+Route::group(['prefix' => \App\Autorisation::DIRECTEUR, 'middleware' => ['auth','policy','role']],function (){
     Route::get('/','DirecteurController@index');
     Route::get('/home','DirecteurController@index')->name('accueil_'.\App\Autorisation::DIRECTEUR);
     Route::get('/profile','DirecteurController@editProfil')->name('profile_'.\App\Autorisation::DIRECTEUR);
 });
 
-Route::group(['prefix' => \App\Autorisation::RBOM],function (){
+Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','policy','role']],function (){
     Route::get('/','RtmController@index');
     Route::get('home','RbomController@index')->name('accueil_'.\App\Autorisation::RBOM);
     Route::get('profile','RbomController@editProfil')->name('profile_'.\App\Autorisation::RBOM);
@@ -60,16 +60,18 @@ Route::group(['prefix' => \App\Autorisation::RBOM],function (){
     Route::post('planning/edit','RbomController@sendResponsePlanning')->name('save_planning');
 });
 
-Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
+Route::group(['prefix' => \App\Autorisation::ADMIN, 'middleware' => ['auth','policy','role']],function (){
     Route::get('/','adminController@index');
     Route::get('home','adminController@index')->name('accueil_'.\App\Autorisation::ADMIN);
     Route::get('profile','adminController@editProfil')->name('profile_'.\App\Autorisation::ADMIN);
     //Utilisateurs
     Route::get('utilisateur/nouveau','adminController@showNewFormUser')->name('nouveau_user');
     Route::post('utilisateur/nouveau','adminController@sendResponseFormUser');
-    Route::get('utilisateur/Identite/{id}/modifier','adminController@showUpdateFormUser')->name('modif_utilisateur');
-    Route::post('utilisateur/Identite/{id}/modifier','adminController@sendResponseUpdateUser');
+    Route::get('utilisateur/identite/{id}/modifier','adminController@showUpdateFormUser')->name('modif_utilisateur');
+    Route::post('utilisateur/identite/{id}/modifier','adminController@sendResponseUpdateUser');
     Route::get('utilisateurs','adminController@showListUsers')->name('liste_users');
+    Route::get('utilisateurs/identite/{id?}/restrictions','adminController@showFormRestriction')->name('restriction_utilisateur');
+    Route::post('utilisateurs/identite/{id?}/restrictions','adminController@sendResponseRestriction');
     //Intervenants
     Route::get('intervenants','adminController@showListIntervenants')->name('liste_intervenants');
     Route::get('intervenant/nouveau','adminController@showNewFormIntervenant')->name('nouveau_intervenant');
@@ -91,13 +93,13 @@ Route::group(['prefix' => \App\Autorisation::ADMIN],function (){
     Route::get('checklists/{id}','adminController@jsonListeChecklist')->name('json_checklist');
 });
 
-Route::group(['prefix' => \App\Autorisation::RTM],function (){
+Route::group(['prefix' => \App\Autorisation::RTM, 'middleware' => ['auth','policy','role']],function (){
     Route::get('/','RtmController@index');
     Route::get('home','RtmController@index')->name('accueil_'.\App\Autorisation::RTM);
     Route::get('profile','RtmController@editProfil')->name('profile_'.\App\Autorisation::RTM);
 });
 
-Route::group(['prefix' => \App\Autorisation::RGS],function (){
+Route::group(['prefix' => \App\Autorisation::RGS, 'middleware' => ['auth','policy','role']],function (){
     Route::get('/','StockController@index');
     Route::get('home','StockController@index')->name('accueil_'.\App\Autorisation::RGS);
     Route::get('profile','StockController@editProfil')->name('profile_'.\App\Autorisation::RGS);
@@ -109,7 +111,7 @@ Route::group(['prefix' => \App\Autorisation::RGS],function (){
     Route::get('produit','StockController@showListProduit')->name('liste_produit');
 });
 
-Route::group(['prefix' => \App\Autorisation::EQUIPE_TRAVAUX],function (){
+Route::group(['prefix' => \App\Autorisation::EQUIPE_TRAVAUX, 'middleware' => ['auth','policy','role']],function (){
     Route::get('/','EquipeController@index');
     Route::get('home','EquipeController@index')->name('accueil_'.\App\Autorisation::EQUIPE_TRAVAUX);
     Route::get('gamme/verification/{fpam}/edit','EquipeController@showNewFormCheckGamme')->name('edit_checkgamme');
@@ -118,7 +120,7 @@ Route::group(['prefix' => \App\Autorisation::EQUIPE_TRAVAUX],function (){
     Route::get('gamme/{fpam}/edit','EquipeController@showNewFormGamme')->name('edit_gamme');
 });
 
-Route::group(['prefix' => \App\Autorisation::CIE],function (){
+Route::group(['prefix' => \App\Autorisation::CIE, 'middleware' => ['auth','policy','role']],function (){
     Route::get('/','CieController@index');
     Route::get('home','CieController@index')->name('accueil_'.\App\Autorisation::CIE);
     Route::get('profile','CieController@editProfil')->name('profile_'.\App\Autorisation::CIE);

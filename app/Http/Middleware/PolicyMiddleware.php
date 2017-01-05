@@ -20,10 +20,8 @@ class PolicyMiddleware
         $policy = new PolicyChecker();
 
         if (!$policy->moment(Auth::user()->policy))
-            redirect(null,401)->route('login')->withErrors('Des restrictions sur votre profil ne vous permettent pas de continuer vos actions');
+            return redirect(null,401)->route('logout')->withErrors(['policy' => 'Des restrictions sur votre profil ne vous permettent pas de continuer votre travail. Veuillez contacter votre administrateur.']);
 
-        echo
-        dd(Auth::user());
         return $next($request);
     }
 }

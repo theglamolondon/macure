@@ -81,7 +81,6 @@ class CreateDatabaseFirst extends Migration
             $table->string('numerobon')->unique();
             $table->string('nomabonne',50)->nullable();
             $table->string('referenceabonne',30)->nullable();
-            $table->integer('urgence_id')->unsigned();
             $table->dateTime('dateheurepanne');
             $table->string('descriptionpanne')->default('RAS');
             $table->string('ouvertpar',50);
@@ -99,6 +98,8 @@ class CreateDatabaseFirst extends Migration
             $table->integer('nbreuo')->default(0);
             $table->string('responsablebt',50);
             $table->date('dateexecution')->nullable();
+            $table->date('dateplannification')->nullable();
+            $table->integer('urgence_id')->unsigned();
             $table->integer('etatbon_id')->unsigned();
             $table->integer('equipetravaux_id')->unsigned()->nullable();
             //clés étrangères
