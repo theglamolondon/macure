@@ -44,6 +44,7 @@ Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','poli
     Route::get('bontravaux/{initiateur}/supprimer','RbomController@sendResponseDeleteBT')->name('supprimer_bt');
     Route::get('bontravaux','RbomController@showListBT')->name('liste_bt');
     Route::get('bontravaux/json','RbomController@JsonListBT')->name('liste_bt_json');
+    Route::get('bontravaux/planning','RbomController@planningBT')->name('planning_bt');
     //Maps
     Route::get('map','Map\MapsApiController@Index')->name('map');
     Route::get('map/pointopoint/BT{bt}FPAM{fpam?}','Map\MapsApiController@showItinerairePoinToPoint')->name('pointopoint');

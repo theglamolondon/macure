@@ -434,4 +434,9 @@ class RbomController extends Controller
             "date" => $d->format('d/m/Y'),
         ]);
     }
+
+    public function planningBT($date = null)
+    {
+        return view('rbom.planning_bt');
+    }
 }
