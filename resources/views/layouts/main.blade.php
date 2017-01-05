@@ -133,6 +133,13 @@
                   @if(\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::RGS))
                   <li><a><i class="fa fa-database"></i> STOCK <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+                      <li><a href="javascript:void(0);">Famille</a>
+                        <ul class="nav child_menu">
+                          <li><a href="{{('nouvelle_famille')}}">Nouvelle</a>
+                          <li><a href="{{('liste_famille')}}">Liste</a>
+                          </li>
+                        </ul>
+                      </li>
                       <li><a href="javascript:void(0);">Matériel</a>
                         <ul class="nav child_menu">
                           <li><a href="{{route('nouveau_produit')}}">Nouveau</a>
