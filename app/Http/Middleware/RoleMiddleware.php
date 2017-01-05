@@ -15,6 +15,7 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next)
     {
+        //dd('role middleware');
         return $next($request);
     }
 }

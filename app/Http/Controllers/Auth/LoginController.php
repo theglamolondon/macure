@@ -44,10 +44,11 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        $error = session('errors') ? session('errors')->first('policy'):null;
         $this->guard()->logout();
         $request->session()->flush();
         $request->session()->regenerate();
-        return redirect('login');
+        return redirect('login')->withErrors(['policy' => $error]);
     }
 
     public function username()
@@ -73,25 +74,25 @@ class LoginController extends Controller
         $authorizations = json_decode($this->guard()->user()->autorisation);
 
         //directeur
-        if (array_search(Autorisation::DIRECTEUR, $authorizations)) {
+        if (array_search(Autorisation::DIRECTEUR, $authorizations) !== false) {
             $this->redirectTo = "/" . Autorisation::DIRECTEUR;
         } //admin
-        elseif (array_search(Autorisation::ADMIN, $authorizations)) {
+        elseif (array_search(Autorisation::ADMIN, $authorizations) !== false) {
             $this->redirectTo = "/" . Autorisation::ADMIN;
         } //rbom
-        elseif (array_search(Autorisation::RBOM, $authorizations)) {
+        elseif (array_search(Autorisation::RBOM, $authorizations) !== false) {
             $this->redirectTo = "/" . Autorisation::RBOM;
         } //rtm
-        elseif (array_search(Autorisation::RTM, $authorizations)) {
+        elseif (array_search(Autorisation::RTM, $authorizations) !== false) {
             $this->redirectTo = "/" . Autorisation::RTM;
         } //equipe
-        elseif (array_search(Autorisation::EQUIPE_TRAVAUX, $authorizations)) {
+        elseif (array_search(Autorisation::EQUIPE_TRAVAUX, $authorizations) !== false) {
             $this->redirectTo = "/" . Autorisation::EQUIPE_TRAVAUX;
         } //cie
-        elseif (array_search(Autorisation::CIE, $authorizations)) {
+        elseif (array_search(Autorisation::CIE, $authorizations) !== false) {
             $this->redirectTo = "/" . Autorisation::CIE;
         } //rgs
-        elseif (array_search(Autorisation::RGS, $authorizations)) {
+        elseif (array_search(Autorisation::RGS, $authorizations) !== false) {
             $this->redirectTo = "/" . Autorisation::RGS;
         }
 

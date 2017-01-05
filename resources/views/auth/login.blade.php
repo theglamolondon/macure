@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -31,6 +31,13 @@
         <div class="animate form login_form">
           <section class="login_content">
             <img src="images/logo-djera.jpg" alt="Djera-Services-logo"/>
+
+            @if($errors->has('policy'))
+              <div class="alert alert-warning alert-dismissible fade in" role="alert">
+                <span>{{$errors->first('policy')}}.</span>
+              </div>
+            @endif
+
             <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
               {{ csrf_field() }}
 
