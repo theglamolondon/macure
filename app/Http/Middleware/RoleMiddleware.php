@@ -24,7 +24,7 @@ class RoleMiddleware
         {
             $authoriz = json_decode(Auth::user()->autorisation);
             return redirect()->route(Autorisation::routing($authoriz))
-                ->withErrors('Vous ne pouvez pas avoir accès à cette ressource. Votre prodil ne vous le permet pas. Veuillez contacter votre administrateur pour plus de détails');
+                ->withErrors('Votre profil ne vous le permet pas d\'avoir accès à cette ressource. Veuillez contacter votre administrateur pour plus de détails');
         }
 
         return $next($request);

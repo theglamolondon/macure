@@ -67,9 +67,11 @@ Route::group(['prefix' => \App\Autorisation::ADMIN, 'middleware' => ['auth','pol
     //Utilisateurs
     Route::get('utilisateur/nouveau','adminController@showNewFormUser')->name('nouveau_user');
     Route::post('utilisateur/nouveau','adminController@sendResponseFormUser');
-    Route::get('utilisateur/Identite/{id}/modifier','adminController@showUpdateFormUser')->name('modif_utilisateur');
-    Route::post('utilisateur/Identite/{id}/modifier','adminController@sendResponseUpdateUser');
+    Route::get('utilisateur/identite/{id}/modifier','adminController@showUpdateFormUser')->name('modif_utilisateur');
+    Route::post('utilisateur/identite/{id}/modifier','adminController@sendResponseUpdateUser');
     Route::get('utilisateurs','adminController@showListUsers')->name('liste_users');
+    Route::get('utilisateurs/identite/{id?}/restrictions','adminController@showFormRestriction')->name('restriction_utilisateur');
+    Route::post('utilisateurs/identite/{id?}/restrictions','adminController@sendResponseRestriction');
     //Intervenants
     Route::get('intervenants','adminController@showListIntervenants')->name('liste_intervenants');
     Route::get('intervenant/nouveau','adminController@showNewFormIntervenant')->name('nouveau_intervenant');

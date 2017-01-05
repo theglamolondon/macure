@@ -176,7 +176,6 @@ class AdminController extends Controller
         ]);
     }
 
-
     private function validateItervenant(Request $request){
         $this->validate($request,[
             "nom" => "required|string",
@@ -232,6 +231,14 @@ class AdminController extends Controller
         return view('admin.intervenants.liste',[
             'intervenants' => $intervenants,
         ]);
+    }
+
+    public function showFormRestriction($id = null){
+        return view('admin.utilisateurs.restriction',['id' => $id]);
+    }
+
+    public function sendResponseRestriction($id = null){
+
     }
 
     private function validateTypeGamme(Request $request){
