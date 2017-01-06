@@ -18,6 +18,7 @@ use App\TypeGamme;
 use App\TypeOperation;
 use App\Urgence;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
@@ -417,7 +418,7 @@ class RbomController extends Controller
             $dimanche = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SUNDAY-1));
         }
 
-        $planning = Planning::with(['equipe','actionmaintenance'])->whereBetween('datedepannage',[$lundi->toDateString(),$vendredi->toDateString()])->get();
+        $planning = Planning::with(['equipe','actionmaintenance'])->whereBetween('datedepannage',[$dimanche->toDateString(),$samedi->toDateString()])->get();
         $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->orderBy('chargemaintenance','asc')->get();
         //dd($planning);
 
@@ -460,11 +461,14 @@ class RbomController extends Controller
             $dimanche = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SUNDAY-1));
         }
 
-        $planningbt = Planning::with(['equipe','actionmaintenance'])->whereBetween('datedepannage',[$lundi->toDateString(),$vendredi->toDateString()])->get();
+        $bonDeLaSemaine = BonTravaux::with(['equipe','urgence','etatbon'])->whereBetween('dateexecution',[$dimanche->toDateString(),$samedi->toDateString()])
+            ->orderBy('dateexecution')->get();
+        $planningbt = Collection::make([]);
         $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->orderBy('chargemaintenance','asc')->get();
 
         return view('rbom.planning_bt',[
             "planningbt" => $planningbt,
+            "bonDeLaSemaine" => $bonDeLaSemaine,
             "lundi" => $lundi,
             "mardi" => $mardi,
             "mercredi" => $mercredi,

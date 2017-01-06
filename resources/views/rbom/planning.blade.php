@@ -11,15 +11,14 @@
                 <div class="x_title">
                     <h2 class="col-md-8 col-sm-8 col-xs-12">Planning hebdomadaire des Actions de Maintenance Curative <small>Semaine du {{$lundi->format('d/m/Y')}} au {{$vendredi->format('d/m/Y')}}</small></h2>
                     <label class="control-label col-md-1 col-sm-1 col-xs-12">Date du planning</label>
+                    <div class="input-group">
+                        <input id="calendrier" type="text" class="form-control datepicker" value="{{$date}}"/>
+                        <span class="input-group-btn">
+                            <button type="button" id="go" class="form-control btn btn-primary">Go!</button>
+                        </span>
+                    </div>
 
-                        <div class="input-group">
-                            <input id="calendrier" type="text" class="form-control datepicker" value="{{$date}}"/>
-                            <span class="input-group-btn">
-                                <button type="button" id="go" class="form-control btn btn-primary">Go!</button>
-                            </span>
-                        </div>
-
-                    <niv class="clearfix"></div>
+                    <div class="clearfix"></div>
                 </div>
 
                 <div class="x_content">

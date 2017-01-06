@@ -216,7 +216,7 @@ class UsersTableSeeder extends Seeder
                 'nbreuo' => 0,
                 'responsablebt' => $abonnees[$rand[3]],
                 'etatbon_id' => \App\EtatBon::Bon_enregistre,
-                'dateexecution' => \Carbon\Carbon::now()->toDateTimeString(),
+                'dateexecution' => \Carbon\Carbon::now()->addDays(rand(0,60))->toDateTimeString(),
             ]);
         }
 
