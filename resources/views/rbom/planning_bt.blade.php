@@ -98,10 +98,10 @@
                         <tbody>
                         <tr ng-repeat="bt in bonsTravaux">
                             <td>@{{bt.numero}}</td>
-                            <td>@{{bt.dateexecution.toString()}}</td>
+                            <td>@{{bt.dateexecution}}</td>
                             <td>@{{bt.details}}</td>
                             <td align="center">
-                                <a href="#" title="Plannifier le bon de travail" ng-click="plannifier(@{{ bt }})" data-toggle="modal" data-target="">
+                                <a href="#" title="Plannifier le bon de travail" ng-click="plannifier(bt)" data-toggle="modal" data-target=".bs-example-modal-lg">
                                     <i class="fa fa-calendar-o"></i>
                                 </a>
                             </td>
@@ -112,8 +112,54 @@
             </div>
         </div>
 
-        <div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12 modal fade bs-example-modal-lg" ng-show="showPlanning" id="planningToShow">
-            <h1>Planning TADA !!! (^_^)</h1>
+
+        <div class="modal fade bs-example-modal-lg row" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="" style="margin: 7% 10%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Programation</h4>
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <input type="text" name="bt" ng-model="btSelected.numero" class="form-control" disabled/>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <input id="btDay" type="text" class="form-control datepicker" value="{{$date}}" ng-model="btDay"/>
+                            </div>
+                            <select class="form-control select2_single col-md-4 col-sm-4 col-xs-12" name="equipetravaux_id">
+                                @foreach($equipes as $equipe)
+                                    <option value="{{$equipe->id}}" @if(old('equipetravaux_id') == $equipe->id) selected @endif>{{$equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Planning du @{{ dateOfWeek }}</h3>
+                        <table class="table table-bordered  bulk_action">
+                            <thead>
+                            <tr class="headings">
+                                <th width="14.28%" class="alignment-center column-title"><h4>Dimanche</h4><p>@{{planning.dimanche}}</p></th>
+                                <th width="14.28%" class="alignment-center column-title"><h4>Lundi</h4><p>@{{planning.lundi}}</p></th>
+                                <th width="14.28%" class="alignment-center column-title"><h4>Mardi</h4><p>@{{planning.mardi}}</p></th>
+                                <th width="14.28%" class="alignment-center column-title"><h4>Mercredi</h4><p>@{{planning.mercredi}}</p></th>
+                                <th width="14.28%" class="alignment-center column-title"><h4>Jeudi</h4><p>@{{planning.jeudi}}</p></th>
+                                <th width="14.28%" class="alignment-center column-title"><h4>Vendredi</h4><p>@{{planning.vendredi}}</p></th>
+                                <th width="14.28%" class="alignment-center column-title"><h4>Samedi</h4><p>@{{planning.samedi}}</p></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
     </section>
@@ -131,29 +177,67 @@
             this.details = details;
         }
 
+        var BTofWeekUrl = '{{route('planning_bt_json',['annee'=>'_y_', 'mois' => '_m_', 'jour' => '_d_'])}}';
+
         //MAJ du prototypage des dates
         Date.prototype.toString = function(){
             return (this.getDay() < 10 ? '0'+this.getDay() : this.getDay())
                     +'/'+(this.getMonth()< 10 ? '0'+this.getMonth() : this.getMonth())
                     +'/'+this.getFullYear();
         }
+        
+        function WeekPlan()
+        {
+            this.dimanche = null;   this.lundi = null;  this.mardi = null;
+            this.mercredi = null;   this.jeudi = null;  this.vendredi = null;
+            this.samedi = null;
 
-        //var ab = new BonTravaux(1,new Date(2017,01,06),new Date(2017,01,06),1);
-        //ab.example(455);
+            this.setDimanche = function(planDay)
+            {
+                if(!planDay instanceof PlanDay){
+                    return null;
+                }
+                this.dimanche = planDay;
+            };
+            this.setLundi = function (planDay) {
+                if(!planDay instanceof PlanDay){
+                    return null;
+                }
+                this.lundi = planDay;
+            };
+        }
+        
+        function PlanDay(BT) {
+            this.AM = null;
+            this.PM = null;
 
+            //10:45 = 10h*100 = 1000 + 45" = 1045 < 1200 (qui est 12h00) donc dans l'après midi
+            if((BT.dateplannification.getHours()*100)+BT.dateplannification.getMinutes() == 45)
+                this.AM = BT;
+            else
+                this.PM = BT;
+
+            this.setBT = function (BT) {
+                //10:45 = 10h*100 = 1000 + 45" = 1045 < 1200 (qui est 12h00) donc dans l'après midi
+                if((BT.dateplannification.getHours()*100)+BT.dateplannification.getMinutes() <= 1200)
+                    this.AM = BT;
+                else //C'est dans l'après-midi
+                    this.PM = BT;
+            }
+        }
+
+        //Tableau des BT de la semaine
         var BTofWeek = [
         @foreach($bonDeLaSemaine as $bt)
             new BonTravaux({{$bt->id}},
                 {{$bt->numerobon}},
-                new Date({{\Carbon\Carbon::parse($bt->dateexecution)->format('Y,m,d')}}),
-                new Date({{\Carbon\Carbon::parse($bt->dateplannification)->format('Y,m,d')}}),
+                {{\Carbon\Carbon::parse($bt->dateexecution)->format('d/m/Y')}},
+                {{\Carbon\Carbon::parse($bt->dateplannification)->format('d/m/Y')}},
                 {{$bt->urgence_id}},
                 '{{$bt->descriptionpanne}}'
             ),
         @endforeach
         ];
-
-        console.log(BTofWeek);
 
     </script>
     <script type="text/javascript" src="{{request()->getBaseUrl()}}/../node_modules/angular/angular.min.js"></script>

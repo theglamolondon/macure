@@ -9,7 +9,7 @@ $(document).ready(function() {
         singleDatePicker: true,
         calender_style: "picker_4"
     }, function(start, end, label) {
-        console.log(start.toISOString(), end.toISOString(), label);
+        //console.log(start.toISOString(), end.toISOString(), label);
     });
 
     $('.datepicker-time').daterangepicker({

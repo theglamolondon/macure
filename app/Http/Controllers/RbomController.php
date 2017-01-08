@@ -480,4 +480,15 @@ class RbomController extends Controller
             "date" => $d->format('d/m/Y'),
         ]);
     }
+
+    public function listeBTofWeek($annee,$mois,$jour){
+        $d = Carbon::createFromDate($annee,$mois,$jour);
+        $samedi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SATURDAY-1));
+        $dimanche = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SUNDAY-1));
+
+        $bonDeLaSemaine = BonTravaux::with(['equipe','urgence','etatbon'])->whereBetween('dateexecution',[$dimanche->toDateString(),$samedi->toDateString()])
+            ->orderBy('dateexecution')->get();
+        //dd($bonDeLaSemaine);
+        return $bonDeLaSemaine->toJson(JSON_UNESCAPED_UNICODE);
+    }
 }
