@@ -50,6 +50,7 @@ class LoginController extends Controller
         Auth::user()->totaltimeconnect += Carbon::now()->diffInMinutes(Carbon::parse(Auth::user()->lastlogin));
         Auth::user()->lastlogout = Carbon::now()->toDateTimeString();
         Auth::user()->save();
+        //dd(Auth::user());
 
         $this->guard()->logout();
         $request->session()->flush();
