@@ -59,6 +59,7 @@ class AdminController extends Controller
 
     public function sendResponseFormUser(Request $request)
     {
+        //dd($request);
         $this->valideRequest($request);
 
         try{
@@ -66,6 +67,16 @@ class AdminController extends Controller
             $identite = new IdentiteAcces($request->only(['login','typeidentite_id']));
             $identite->password = bcrypt($request->input('password')); //Hash du mot de passe
             $identite->autorisation = json_encode($request->input('autorisation'));
+            //Policy
+            $d = null;
+            foreach ($request->input('jours') as $j) {
+                if($d){$d .= ',';}
+                $d .= $j;
+            }
+            $d = '-d '.$d;
+            $h = '-t '.str_replace('-',' ',$request->input('horaires'));
+            $identite->policy = $d.' | '.$h;
+
             $identite->saveOrFail();
 
             //Switch
@@ -132,7 +143,18 @@ class AdminController extends Controller
                 $updater['password'] = bcrypt($request->input('password'));
             }
             $updater['autorisation'] = json_encode($request->input('autorisation'));
+            //Policy
+            $d = null;
+            foreach ($request->input('jours') as $j) {
+                if($d){$d .= ',';}
+                $d .= $j;
+            }
+            $d = '-d '.$d;
+            $h = '-t '.str_replace('-',' ',$request->input('horaires'));
+            $updater['policy'] = $d.' | '.$h;
+
             $identite->update($updater);
+
 
             $updater = [];
             if($identite->utilisateur){
