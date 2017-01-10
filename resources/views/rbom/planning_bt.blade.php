@@ -181,17 +181,20 @@
             //BT est de type BonTravaux
             //10:45 = 10h*100 = 1000 + 45" = 1045 < 1200 (qui est 12h00) donc dans l'après midi
             //if((BT.dateplannification.getHours()*100)+BT.dateplannification.getMinutes() == 45)
-            if(BT.AM == null)
-                this.AM = BT;
+            if(this.AM == null)
+            {this.AM = BT;}
             else
-                this.PM = BT;
+            {this.PM = BT;}
 
             this.setBT = function (BT) {
                 //10:45 = 10h*100 = 1000 + 45" = 1045 < 1200 (qui est 12h00) donc dans l'après midi
-                if(this.AM == null)
-                {this.AM = BT; alert('AM');}
-                else //C'est dans l'après-midi
-                {this.PM = BT; alert('PM');}
+                if(this.AM == null){
+                    this.AM = BT;
+                } else if(this.PM == null) { //C'est dans l'après-midi
+                    this.PM = BT;
+                }else {
+                    alert('Ce jour à déjà deux BT plannifiés ! Veuillez choisir un autre jour SVP');
+                }
             }
         }
 

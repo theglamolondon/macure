@@ -87,13 +87,13 @@ app.controller("planningCtrl", function($scope){
             {
                 $scope.$apply(function () {
                     //reset Plan Day
-                    $scope.planning.dimanche.plan = null;
-                    $scope.planning.lundi.plan = null;
-                    $scope.planning.mardi.plan = null;
-                    $scope.planning.mercredi.plan = null;
-                    $scope.planning.jeudi.plan = null;
-                    $scope.planning.vendredi.plan = null;
-                    $scope.planning.samedi.plan = null;
+                    $scope.planning.dimanche.plan = new PlanDay(null);
+                    $scope.planning.lundi.plan = new PlanDay(null);
+                    $scope.planning.mardi.plan = new PlanDay(null);
+                    $scope.planning.mercredi.plan = new PlanDay(null);
+                    $scope.planning.jeudi.plan = new PlanDay(null);
+                    $scope.planning.vendredi.plan = new PlanDay(null);
+                    $scope.planning.samedi.plan = new PlanDay(null);
                 });
 
                 for(var i in data)
@@ -162,19 +162,26 @@ app.directive("macurePlanning",function () {
                 bt.equipe.nom = $("#equipetravaux_id option:selected").text();
 
                 switch (scope.btDay){
-                    case scope.planning.dimanche.date : scope.planning.dimanche.plan.setBT(bt);
+                    case scope.planning.dimanche.date : scope.planning.dimanche.plan == null ?
+                                                        scope.planning.dimanche.plan = new PlanDay(bt) : scope.planning.dimanche.plan.setBT(bt);
                                                         break;
-                    case scope.planning.lundi.date :    scope.planning.lundi.plan.setBT(bt);
+                    case scope.planning.lundi.date :    scope.planning.lundi.plan == null ?
+                                                        scope.planning.lundi.plan = new PlanDay(bt) : scope.planning.lundi.plan.setBT(bt);
                                                         break;
-                    case scope.planning.mardi.date :    scope.planning.mardi.plan.setBT(bt);
+                    case scope.planning.mardi.date :    scope.planning.mardi.plan == null ?
+                                                        scope.planning.mardi.plan = new PlanDay(bt) : scope.planning.mardi.plan.setBT(bt);
                                                         break;
-                    case scope.planning.mercredi.date : scope.planning.mercredi.plan.setBT(bt);
+                    case scope.planning.mercredi.date : scope.planning.mercredi.plan == null ?
+                                                        scope.planning.mercredi.plan = new PlanDay(bt) : scope.planning.mercredi.plan.setBT(bt);
                                                         break;
-                    case scope.planning.jeudi.date :    scope.planning.jeudi.plan.setBT(bt);
+                    case scope.planning.jeudi.date :    scope.planning.jeudi.plan == null ?
+                                                        scope.planning.jeudi.plan = new PlanDay(bt) : scope.planning.jeudi.plan.setBT(bt);
                                                         break;
-                    case scope.planning.vendredi.date : scope.planning.vendredi.plan.setBT(bt);
+                    case scope.planning.vendredi.date : scope.planning.vendredi.plan == null ?
+                                                        scope.planning.vendredi.plan = new PlanDay(bt) : scope.planning.vendredi.plan.setBT(bt);
                                                         break;
-                    case scope.planning.samedi.date :   scope.planning.samedi.plan.setBT(bt);
+                    case scope.planning.samedi.date :   scope.planning.samedi.plan == null ?
+                                                        scope.planning.samedi.plan = new PlanDay(bt) : scope.planning.samedi.plan.setBT(bt);
                                                         break;
 
                 }

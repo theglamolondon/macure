@@ -11,7 +11,7 @@
                 <input id="btDay" type="text" class="form-control datepicker" value="{{$date}}" ng-model="btDay"/>
             </div>
             <div class="col-md-4 col-sm-4 col-xs-12">
-                <select class="form-control" name="equipetravaux_id" id="equipetravaux_id">
+                <select class="form-control" name="equipetravaux_id" id="equipetravaux_id" ng-model="equipe" ng-init="equipe = 1">
                     @foreach($equipes as $equipe)
                         <option value="{{$equipe->id}}" @if(old('equipetravaux_id') == $equipe->id) selected @endif>{{$equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</option>
                     @endforeach
@@ -24,7 +24,7 @@
     </div>
 
     <div class="modal-body">
-        <h3>Planning de la semaine du @{{ btDay }}</h3>
+        <h3>Planning de la semaine du @{{planning.dimanche.date}} au @{{planning.samedi.date}}</h3>
         <table class="table table-bordered  bulk_action">
             <thead>
             <tr class="headings">
@@ -42,7 +42,7 @@
             <tr>
                 <td>BT : @{{ planning.dimanche.plan ? planning.dimanche.plan.AM.numerobon : '' }} <br/> Equipe : @{{ planning.dimanche.plan ? planning.dimanche.plan.AM.equipe.nom : '' }}</td>
                 <td>BT : @{{ planning.lundi.plan ? planning.lundi.plan.AM.numerobon : '' }} <br/> Equipe : @{{ planning.lundi.plan ? planning.lundi.plan.AM.equipe.nom : '' }}</td>
-                <td>BT : @{{ planning.mardi.plan ? planning.mardi.plan.AM.numerobonbon : '' }} <br/> Equipe : @{{ planning.mardi.plan ? planning.mardi.plan.AM.equipe.nom : '' }}</td>
+                <td>BT : @{{ planning.mardi.plan ? planning.mardi.plan.AM.numerobon : '' }} <br/> Equipe : @{{ planning.mardi.plan ? planning.mardi.plan.AM.equipe.nom : '' }}</td>
                 <td>BT : @{{ planning.mercredi.plan ? planning.mercredi.plan.AM.numerobon : '' }} <br/> Equipe : @{{ planning.mercredi.plan ? planning.mercredi.plan.AM.equipe.nom : '' }}</td>
                 <td>BT : @{{ planning.jeudi.plan ? planning.jeudi.plan.AM.numerobon : '' }} <br/> Equipe : @{{ planning.jeudi.plan ? planning.jeudi.plan.AM.equipe.nom : '' }}</td>
                 <td>BT : @{{ planning.vendredi.plan ? planning.vendredi.plan.AM.numerobon : '' }} <br/> Equipe : @{{ planning.vendredi.plan ? planning.vendredi.plan.AM.equipe.nom : '' }}</td>
@@ -63,7 +63,13 @@
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary">Valider</button>
+        <form method="post" action="{{route('plan_bt')}}">
+            {{csrf_field()}}
+            <input type="hidden" name="numerobon" value="@{{ btSelected.numerobon }}"/>
+            <input type="hidden" name="dateplannification" value="@{{ btDay }}"/>
+            <input type="hidden" name="equipetravaux_id" value="@{{ equipe }}"/>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-primary">Valider</button>
+        </form>
     </div>
 </div>

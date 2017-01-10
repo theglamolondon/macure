@@ -47,6 +47,7 @@ Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','poli
     Route::get('bontravaux/planning/{annee?}/{mois?}/{jour?}','RbomController@planningBT')->name('planning_bt');
     Route::get('bontravaux/planning/week/{annee}/{mois}/{jour}','RbomController@listeBTofWeek')->name('planning_bt_json');
     Route::get('bontravaux/plan/week/{jour?}/{mois?}/{annee?}','RbomController@angularTemplate')->name('template_angular');
+    Route::post('bontravaux/planning','RbomController@sendResponseMakePlanBT')->name('plan_bt');
     //Maps
     Route::get('map','Map\MapsApiController@Index')->name('map');
     Route::get('map/pointopoint/BT{bt}FPAM{fpam?}','Map\MapsApiController@showItinerairePoinToPoint')->name('pointopoint');
@@ -73,8 +74,6 @@ Route::group(['prefix' => \App\Autorisation::ADMIN, 'middleware' => ['auth','pol
     Route::get('utilisateur/identite/{id}/modifier','adminController@showUpdateFormUser')->name('modif_utilisateur');
     Route::post('utilisateur/identite/{id}/modifier','adminController@sendResponseUpdateUser');
     Route::get('utilisateurs','adminController@showListUsers')->name('liste_users');
-    Route::get('utilisateurs/identite/{id?}/restrictions','adminController@showFormRestriction')->name('restriction_utilisateur');
-    Route::post('utilisateurs/identite/{id?}/restrictions','adminController@sendResponseRestriction');
     //Intervenants
     Route::get('intervenants','adminController@showListIntervenants')->name('liste_intervenants');
     Route::get('intervenant/nouveau','adminController@showNewFormIntervenant')->name('nouveau_intervenant');

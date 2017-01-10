@@ -28,17 +28,9 @@ io.sockets.on('connect',function ($socket) {
 
     //Interaction avec le client connecté
     $socket.on("login",function (utilisateur) {
-        console.log(utilisateur);
 
         var Client = new SocketUser($socket,utilisateur);
         AddUserIfNotIn(Client);
-
-        //On informe tous les admin qu'un utilisateur s'est connecté
-        sendToAdmin('userConnect',Client._user);
-
-        //
-        $socket.emit('welcome','Bienvenue '+Client._user);
-
 
         //
         $socket.on('djerabroadcast',function(data){
@@ -52,19 +44,31 @@ server.listen(5390);
 
 //Ajoute un utilisateur si celui-ci n'a pas déjà son ID dans le tableau des connectés
 function AddUserIfNotIn($user) {
-    console.log(ClientsSocket);
     if(ClientsSocket.length == 0){
+        //Si le tableau des utilisateurs est vide, on l'ajoute
         ClientsSocket.push($user);
+
+        //On souhaite la bienvenue à l'utilisateur pour sa première connexion.
+        $user._socket.emit('welcome',$user._user);
+
+        //On informe tous les admins connectés qu'un utilisateur s'est connecté
+        sendToAdmin('userConnect',$user._user);
     }else {
         var connected = ClientsSocket.findIndex(function(connect){
-            console.log(connected);
             return $user._user.id == connect._user.id;
         });
 
         if(connected == -1){
             ClientsSocket.push($user);
+
+            //On souhaite la bienvenue à l'utilisateur pour sa première connexion.
+            $user._socket.emit('welcome',$user._user);
+
+            //On informe tous les admins connectés qu'un utilisateur s'est connecté
+            sendToAdmin('userConnect',$user._user);
         }
     }
+    console.log('Nbre client : ' + ClientsSocket.length);
 }
 
 function sendToAdmin(event,data) {
