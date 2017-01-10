@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Autorisation;
 use App\Http\Controllers\Controller;
 use App\IdentiteAcces;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
@@ -114,6 +115,8 @@ class LoginController extends Controller
             }
 
             if ($this->attemptLogin($request)) {
+                Auth::user()->lastlogin = Carbon::now()->toDateTimeString();
+                Auth::user()->save();
                 return $this->sendLoginResponse($request);
             }
 
