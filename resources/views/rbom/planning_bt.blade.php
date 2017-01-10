@@ -10,7 +10,6 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    @{{planning}}
                     <aside class="col-md-offset-9 col-md-3 col-sm-offset-9 col-sm-3 col-xs-12">
                     <div class="input-group">
                         <input id="calendrier" type="text" class="form-control datepicker" value="{{$date}}" ng-model="dateOfWeek"/>
@@ -36,31 +35,43 @@
                             </thead>
                             @if(!$planningbt->isEmpty())
                                 <tbody>
-                                @foreach($equipes as $equipe)
                                     <tr class="odd pointer">
                                         <td class=" ">
-
+                                            @foreach($planningbt->where('dateplannification',$dimanche->toDateString()) as $bt)
+                                                BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}
+                                            @endforeach
                                         </td>
                                         <td class=" ">
-
+                                            @foreach($planningbt->where('dateplannification',$lundi->toDateString()) as $bt)
+                                                BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}
+                                            @endforeach
                                         </td>
                                         <td class=" ">
-
+                                            @foreach($planningbt->where('dateplannification',$mardi->toDateString()) as $bt)
+                                                BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}
+                                            @endforeach
                                         </td>
                                         <td class=" ">
-
+                                            @foreach($planningbt->where('dateplannification',$mercredi->toDateString()) as $bt)
+                                                BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}
+                                            @endforeach
                                         </td>
                                         <td class=" ">
-
+                                            @foreach($planningbt->where('dateplannification',$jeudi->toDateString()) as $bt)
+                                                BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}
+                                            @endforeach
                                         </td>
                                         <td class=" ">
-
+                                            @foreach($planningbt->where('dateplannification',$vendredi->toDateString()) as $bt)
+                                                BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}
+                                            @endforeach
                                         </td>
                                         <td class=" ">
-
+                                            @foreach($planningbt->where('dateplannification',$samedi->toDateString()) as $bt)
+                                                BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}
+                                            @endforeach
                                         </td>
                                     </tr>
-                                @endforeach
                                 </tbody>
                             @else
                                 <tr>
@@ -97,7 +108,7 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="bt in bonsTravaux">
-                            <td>@{{bt.numero}}</td>
+                            <td>@{{bt.numerobon}}</td>
                             <td>@{{bt.dateexecution}}</td>
                             <td>@{{bt.details}}</td>
                             <td align="center">
@@ -115,48 +126,7 @@
 
         <div class="modal fade bs-example-modal-lg row" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="" style="margin: 7% 10%;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel">Programation</h4>
-                        <div class="form-group">
-                            <div class="col-md-2 col-sm-2 col-xs-12">
-                                <input type="text" name="bt" ng-model="btSelected.numero" class="form-control" disabled/>
-                            </div>
-                            <div class="col-md-2 col-sm-2 col-xs-12">
-                                <input id="btDay" type="text" class="form-control datepicker" value="{{$date}}" ng-model="btDay"/>
-                            </div>
-                            <select class="form-control select2_single col-md-4 col-sm-4 col-xs-12" name="equipetravaux_id">
-                                @foreach($equipes as $equipe)
-                                    <option value="{{$equipe->id}}" @if(old('equipetravaux_id') == $equipe->id) selected @endif>{{$equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <h3>Planning du @{{ dateOfWeek }}</h3>
-                        <table class="table table-bordered  bulk_action">
-                            <thead>
-                            <tr class="headings">
-                                <th width="14.28%" class="alignment-center column-title"><h4>Dimanche</h4><p>@{{planning.dimanche}}</p></th>
-                                <th width="14.28%" class="alignment-center column-title"><h4>Lundi</h4><p>@{{planning.lundi}}</p></th>
-                                <th width="14.28%" class="alignment-center column-title"><h4>Mardi</h4><p>@{{planning.mardi}}</p></th>
-                                <th width="14.28%" class="alignment-center column-title"><h4>Mercredi</h4><p>@{{planning.mercredi}}</p></th>
-                                <th width="14.28%" class="alignment-center column-title"><h4>Jeudi</h4><p>@{{planning.jeudi}}</p></th>
-                                <th width="14.28%" class="alignment-center column-title"><h4>Vendredi</h4><p>@{{planning.vendredi}}</p></th>
-                                <th width="14.28%" class="alignment-center column-title"><h4>Samedi</h4><p>@{{planning.samedi}}</p></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
+                <div macure-planning>
 
                 </div>
             </div>
@@ -168,61 +138,60 @@
 
 @section('scripts')
     <script type="text/javascript">
-        function BonTravaux(id,numero,dateexecution,dateplannification,urgence_id,details){
+        function BonTravaux(id,numero,dateexecution,dateplannification,urgence_id,details,id_equipe,equipe_name){
             this.id = id;
-            this.numero = numero;
+            this.numerobon = numero;
             this.dateexecution = dateexecution;
             this.dateplannification = dateplannification;
             this.urgence_id = urgence_id;
             this.details = details;
+            this.equipe = {
+                id: id_equipe,
+                nom: equipe_name
+            }
         }
 
         var BTofWeekUrl = '{{route('planning_bt_json',['annee'=>'_y_', 'mois' => '_m_', 'jour' => '_d_'])}}';
+        var dd = new Date();
+        var TemplatePlanninng = '{{route('template_angular')}}/'+dd.getDate()+'/'+(dd.getMonth()+1)+'/'+dd.getFullYear();
 
         //MAJ du prototypage des dates
         Date.prototype.toString = function(){
             return (this.getDay() < 10 ? '0'+this.getDay() : this.getDay())
                     +'/'+(this.getMonth()< 10 ? '0'+this.getMonth() : this.getMonth())
                     +'/'+this.getFullYear();
-        }
+        };
         
-        function WeekPlan()
-        {
+        function WeekPlan() {
+            //type Day
             this.dimanche = null;   this.lundi = null;  this.mardi = null;
             this.mercredi = null;   this.jeudi = null;  this.vendredi = null;
             this.samedi = null;
+        }
 
-            this.setDimanche = function(planDay)
-            {
-                if(!planDay instanceof PlanDay){
-                    return null;
-                }
-                this.dimanche = planDay;
-            };
-            this.setLundi = function (planDay) {
-                if(!planDay instanceof PlanDay){
-                    return null;
-                }
-                this.lundi = planDay;
-            };
+        function Day(date, plan) {
+            this.date = date;
+            this.plan = plan;
         }
         
         function PlanDay(BT) {
             this.AM = null;
             this.PM = null;
 
+            //BT est de type BonTravaux
             //10:45 = 10h*100 = 1000 + 45" = 1045 < 1200 (qui est 12h00) donc dans l'après midi
-            if((BT.dateplannification.getHours()*100)+BT.dateplannification.getMinutes() == 45)
+            //if((BT.dateplannification.getHours()*100)+BT.dateplannification.getMinutes() == 45)
+            if(BT.AM == null)
                 this.AM = BT;
             else
                 this.PM = BT;
 
             this.setBT = function (BT) {
                 //10:45 = 10h*100 = 1000 + 45" = 1045 < 1200 (qui est 12h00) donc dans l'après midi
-                if((BT.dateplannification.getHours()*100)+BT.dateplannification.getMinutes() <= 1200)
-                    this.AM = BT;
+                if(this.AM == null)
+                {this.AM = BT; alert('AM');}
                 else //C'est dans l'après-midi
-                    this.PM = BT;
+                {this.PM = BT; alert('PM');}
             }
         }
 
@@ -234,7 +203,9 @@
                 {{\Carbon\Carbon::parse($bt->dateexecution)->format('d/m/Y')}},
                 {{\Carbon\Carbon::parse($bt->dateplannification)->format('d/m/Y')}},
                 {{$bt->urgence_id}},
-                '{{$bt->descriptionpanne}}'
+                '{{$bt->descriptionpanne}}',
+                '{{$bt->equipe ? $bt->equipe->id : null}}',
+                '{{$bt->equipe ? $bt->equipe->nom : null}}'
             ),
         @endforeach
         ];

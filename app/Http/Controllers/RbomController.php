@@ -461,9 +461,15 @@ class RbomController extends Controller
             $dimanche = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SUNDAY-1));
         }
 
-        $bonDeLaSemaine = BonTravaux::with(['equipe','urgence','etatbon'])->whereBetween('dateexecution',[$dimanche->toDateString(),$samedi->toDateString()])
+        $bonDeLaSemaine = BonTravaux::with(['equipe','urgence','etatbon'])
+            ->whereBetween('dateexecution',[$dimanche->toDateString(),$samedi->toDateString()])
             ->orderBy('dateexecution')->get();
-        $planningbt = Collection::make([]);
+
+        $planningbt = BonTravaux::with(['equipe'])
+            ->whereBetween('dateplannification',[$dimanche->toDateString(),$samedi->toDateString()])
+            ->select(['id','numerobon','dateplannification','equipetravaux_id'])
+            ->orderBy('dateexecution')->get();
+
         $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->orderBy('chargemaintenance','asc')->get();
 
         return view('rbom.planning_bt',[
@@ -488,7 +494,13 @@ class RbomController extends Controller
 
         $bonDeLaSemaine = BonTravaux::with(['equipe','urgence','etatbon'])->whereBetween('dateexecution',[$dimanche->toDateString(),$samedi->toDateString()])
             ->orderBy('dateexecution')->get();
-        //dd($bonDeLaSemaine);
         return $bonDeLaSemaine->toJson(JSON_UNESCAPED_UNICODE);
+    }
+
+    public function angularTemplate($jour,$mois,$annee){
+        return view('partials._planningBT',[
+            'equipes' => EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->orderBy('chargemaintenance','asc')->get(),
+            "date" => Carbon::now()->format('d/m/Y'),
+        ]);
     }
 }

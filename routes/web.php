@@ -46,6 +46,7 @@ Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','poli
     Route::get('bontravaux/json','RbomController@JsonListBT')->name('liste_bt_json');
     Route::get('bontravaux/planning/{annee?}/{mois?}/{jour?}','RbomController@planningBT')->name('planning_bt');
     Route::get('bontravaux/planning/week/{annee}/{mois}/{jour}','RbomController@listeBTofWeek')->name('planning_bt_json');
+    Route::get('bontravaux/plan/week/{jour?}/{mois?}/{annee?}','RbomController@angularTemplate')->name('template_angular');
     //Maps
     Route::get('map','Map\MapsApiController@Index')->name('map');
     Route::get('map/pointopoint/BT{bt}FPAM{fpam?}','Map\MapsApiController@showItinerairePoinToPoint')->name('pointopoint');

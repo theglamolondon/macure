@@ -9,7 +9,7 @@ socket.emit('login',MY);
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<         INBOUND        <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 socket.on('welcome',function (data) {
-    console.log(data.fullname);
+    //console.log(data.fullname);
     ShowNotification(data.fullname);
 });
 

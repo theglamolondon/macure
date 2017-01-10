@@ -7,7 +7,11 @@ $(document).ready(function() {
     moment.locale('fr');
     $('.datepicker').daterangepicker({
         singleDatePicker: true,
-        calender_style: "picker_4"
+        calender_style: "picker_4",
+        language:'fr',
+        locale: {
+            format: 'DD/MM/YYYY',
+        }
     }, function(start, end, label) {
         //console.log(start.toISOString(), end.toISOString(), label);
     });

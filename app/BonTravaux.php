@@ -24,7 +24,7 @@ class BonTravaux extends Model
         return $this->belongsTo('App\Urgence');
     }
     function equipe(){
-        return $this->belongsTo('App\EquipeTravaux');
+        return $this->belongsTo('App\EquipeTravaux','equipetravaux_id');
     }
 
     function preparationactiontravaux(){
