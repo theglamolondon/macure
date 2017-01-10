@@ -1,40 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-        <div class="row top_tiles">
-            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
-                    <div class="count">179</div>
-                    <h3>New Sign ups</h3>
-                    <p>Lorem ipsum psdea itgum rixt.</p>
-                </div>
-            </div>
-            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-comments-o"></i></div>
-                    <div class="count">179</div>
-                    <h3>New Sign ups</h3>
-                    <p>Lorem ipsum psdea itgum rixt.</p>
-                </div>
-            </div>
-            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
-                    <div class="count">179</div>
-                    <h3>New Sign ups</h3>
-                    <p>Lorem ipsum psdea itgum rixt.</p>
-                </div>
-            </div>
-            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-check-square-o"></i></div>
-                    <div class="count">179</div>
-                    <h3>New Sign ups</h3>
-                    <p>Lorem ipsum psdea itgum rixt.</p>
-                </div>
-            </div>
-        </div>
 
         <div class="row">
             <div class="col-md-12">
@@ -51,8 +17,14 @@
                             </a>
                             <div class="media-body">
                                 <a class="title" href="#">{{$utilisateur->name()}}</a>
-                                <p> <small></small>
-                                <p> <small></small>
+                                <p> <small>{{\Carbon\Carbon::parse($utilisateur->lastlogin)->format("d/m/Y H:i")}}</small>
+                                <p> <small>
+                                        @if(Carbon\Carbon::parse($utilisateur->lastlogin)->diffInMinutes(Carbon\Carbon::parse($utilisateur->lastlogout),false) < 0 )
+                                            Connecté
+                                        @else
+                                            Déconnecté
+                                        @endif
+                                    </small>
                                 </p>
                             </div>
                         </div>
