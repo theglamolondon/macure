@@ -44,6 +44,41 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Horaires de connexion<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" name="horaires" placeholder="Horaires de connexion" required="required" class="form-control col-md-7 col-xs-12" value="{{old('horaires') ? old('horaires') : '00:00-23:59'}}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Jours de connexion</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="jours[]" value="0" class="flat"> Dimanche
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="jours[]" value="1" class="flat" checked="checked"> Lundi
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="jours[]" value="2" class="flat" checked="checked"> Mardi
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="jours[]" value="3" class="flat" checked="checked"> Mercredi
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="jours[]" value="4"  class="flat" checked="checked"> Jeudi
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="jours[]" value="5" class="flat" checked="checked"> Vendredi
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="jours[]" value="6" class="flat" > Samedi
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Autorisations</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="checkbox">

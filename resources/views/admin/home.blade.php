@@ -51,8 +51,8 @@
                             </a>
                             <div class="media-body">
                                 <a class="title" href="#">{{$utilisateur->name()}}</a>
-                                <p><strong>$23005454. </strong> Agent Avarage Sales </p>
-                                <p> <small>12 Sales Today</small>
+                                <p> <small></small>
+                                <p> <small></small>
                                 </p>
                             </div>
                         </div>
