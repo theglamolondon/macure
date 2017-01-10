@@ -1,5 +1,9 @@
 @extends('layouts.main')
-
+<style type="text/css">
+    .x_content .media:first-child {
+        margin-top: 15px;
+    }
+</style>
 @section('content')
 
         <div class="row">

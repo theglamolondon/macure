@@ -75,7 +75,6 @@
                         <ul class="nav child_menu">
                           <li><a href="{{route('nouveau_user')}}">Nouveau</a>
                           <li><a href="{{route('liste_users')}}">Liste</a></li>
-                          <li><a href="{{route('restriction_utilisateur',['id'=>'#'])}}">Restrictions</a></li>
                         </ul>
                       </li>
                       @if(1==2)

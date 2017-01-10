@@ -9,18 +9,21 @@ socket.emit('login',MY);
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<         INBOUND        <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 socket.on('welcome',function (data) {
-    //console.log(data.fullname);
-    ShowNotification(data.fullname);
+    ShowNotification('Macure - Djera-services vous souhaite la bienvenue '+data.fullname+'. ');
 });
 
 socket.on('userConnect',function (data) {
-    ShowNotification('welcome guest user '+ data);
+    //console.log('User connected to Admin');
+    //console.log(data);
+    ShowNotification('L\'utilisateur '+ data.fullname + ' s\'est connecté');
 
     $target = "#user"+data.id+" a.profile_thumb";
 
-    $($target).addClass('connected')
-    $($target).removeClass('disconnected')
-})
+    if($($target).text() != ""){
+        $($target).addClass('connected');
+        $($target).removeClass('disconnected');
+    }
+});
 
 function ShowNotification(message, type, title){
     new PNotify({

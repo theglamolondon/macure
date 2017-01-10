@@ -503,4 +503,20 @@ class RbomController extends Controller
             "date" => Carbon::now()->format('d/m/Y'),
         ]);
     }
+
+    public function sendResponseMakePlanBT()
+    {
+        try{
+            $bt = BonTravaux::where('numerobon',request('numerobon'))->firstOrFail();
+            $updater = request()->except(['_token']);
+            $updater['dateplannification'] = Carbon::createFromFormat('d/m/Y',request('dateplannification'))->toDateString();
+            $bt->update($updater);
+            $this->withSuccess(['Le BT N° '.$bt->numerobon.' a été plannifier avec succès !']);
+            return back();
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors($e->getMessage());
+        }catch (\Exception $e){
+            return back()->withErrors($e->getMessage());
+        }
+    }
 }

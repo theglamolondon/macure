@@ -98,7 +98,7 @@ class CreateDatabaseFirst extends Migration
             $table->integer('nbreuo')->default(0);
             $table->string('responsablebt',50);
             $table->date('dateexecution')->nullable();
-            $table->dateTime('dateplannification')->nullable();
+            $table->date('dateplannification')->nullable();
             $table->integer('urgence_id')->unsigned();
             $table->integer('etatbon_id')->unsigned();
             $table->integer('equipetravaux_id')->unsigned()->nullable();
