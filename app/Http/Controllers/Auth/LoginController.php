@@ -46,6 +46,11 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $error = session('errors') ? session('errors')->first('policy'):null;
+
+        Auth::user()->totaltimeconnect += Carbon::now()->diffInMinutes(Carbon::parse(Auth::user()->lastlogin));
+        Auth::user()->lastlogout = Carbon::now()->toDateTimeString();
+        Auth::user()->save();
+
         $this->guard()->logout();
         $request->session()->flush();
         $request->session()->regenerate();
@@ -116,6 +121,7 @@ class LoginController extends Controller
 
             if ($this->attemptLogin($request)) {
                 Auth::user()->lastlogin = Carbon::now()->toDateTimeString();
+                Auth::user()->totalattemptconnect += 1;
                 Auth::user()->save();
                 return $this->sendLoginResponse($request);
             }
