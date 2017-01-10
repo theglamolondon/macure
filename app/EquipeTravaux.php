@@ -8,6 +8,7 @@ class EquipeTravaux extends Model
 {
     protected $table = "equipetravaux";
     public $timestamps = false;
+    public $guarded = [];
 
     public function identite()
     {
