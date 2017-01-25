@@ -1,7 +1,7 @@
 var app = angular.module("app", []);
 
 app.controller("planningCtrl", function($scope){
-    $scope.dateOfWeek = null;
+    $scope.dateOfWeek = DateFromPHP;
     $scope.planning = new WeekPlan();
     $scope.btSelected = null;
 

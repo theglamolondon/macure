@@ -48,6 +48,12 @@ Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','poli
     Route::get('bontravaux/planning/week/{annee}/{mois}/{jour}','RbomController@listeBTofWeek')->name('planning_bt_json');
     Route::get('bontravaux/plan/week/{jour?}/{mois?}/{annee?}','RbomController@angularTemplate')->name('template_angular');
     Route::post('bontravaux/planning','RbomController@sendResponseMakePlanBT')->name('plan_bt');
+    //Ouvrage
+    Route::get('ouvrage/nouveau','RbomController@showNewOuvrageForm')->name('nouveau_ouvrage');
+    Route::post('ouvrage/nouveau','RbomController@sendResponseNewOuvrageForm');
+    Route::get('ouvrage/planning/annuel/{annee?}','RbomController@planningOuvrageAnnuel')->name('planning_ouvrage_annuel');
+    Route::get('ouvrage/planning/trimestriel/{trimestre?}/{annee?}','RbomController@planningOuvrageTrimestriel')->name('planning_ouvrage_trimestriel');
+    Route::get('ouvrage/planning/mensuel/{mois?}/{annee?}','RbomController@planningOuvrageMensuel')->name('planning_ouvrage_mensuel');
     //Maps
     Route::get('map','Map\MapsApiController@Index')->name('map');
     Route::get('map/pointopoint/BT{bt}FPAM{fpam?}','Map\MapsApiController@showItinerairePoinToPoint')->name('pointopoint');

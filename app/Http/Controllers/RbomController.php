@@ -14,6 +14,7 @@ use App\Ouvrage;
 use App\Planning;
 use App\PreparationActionMaintenance;
 use App\SollicitationExterieure;
+use App\Tache;
 use App\TypeGamme;
 use App\TypeOperation;
 use App\Urgence;
@@ -462,6 +463,7 @@ class RbomController extends Controller
         }
 
         $bonDeLaSemaine = BonTravaux::with(['equipe','urgence','etatbon'])
+            ->whereNull('dateplannification')
             ->whereBetween('dateexecution',[$dimanche->toDateString(),$samedi->toDateString()])
             ->orderBy('dateexecution')->get();
 
@@ -492,7 +494,9 @@ class RbomController extends Controller
         $samedi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SATURDAY-1));
         $dimanche = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SUNDAY-1));
 
-        $bonDeLaSemaine = BonTravaux::with(['equipe','urgence','etatbon'])->whereBetween('dateexecution',[$dimanche->toDateString(),$samedi->toDateString()])
+        $bonDeLaSemaine = BonTravaux::with(['equipe','urgence','etatbon'])
+            ->whereNull('dateplannification')
+            ->whereBetween('dateexecution',[$dimanche->toDateString(),$samedi->toDateString()])
             ->orderBy('dateexecution')->get();
         return $bonDeLaSemaine->toJson(JSON_UNESCAPED_UNICODE);
     }
@@ -518,5 +522,28 @@ class RbomController extends Controller
         }catch (\Exception $e){
             return back()->withErrors($e->getMessage());
         }
+    }
+
+    public function showNewOuvrageForm()
+    {
+        return view('rbom.newouvrage',[
+            'taches' => Tache::all(),
+        ]);
+    }
+
+    public function sendResponseNewOuvrageForm(Request $request){
+        dd($request);
+    }
+
+    public function planningOuvrageAnnuel(Request $request, $annee = null){
+        return view('rbom.planning_ouvrage_annee');
+    }
+
+    public function planningOuvrageTrimestriel(Request $request, $annee = null, $trimestre = null){
+        return view('rbom.planning_ouvrage_trimestriel');
+    }
+
+    public function planningOuvrageMensuel(Request $request, $annee = null){
+        return view('rbom.planning_ouvrage_mensuel');
     }
 }

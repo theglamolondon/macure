@@ -9,10 +9,15 @@
 namespace App\Http\Controllers;
 
 
+use App\IdentiteAcces;
+use Illuminate\Support\Facades\Auth;
+
 trait UserProfile
 {
     public function editProfil()
     {
-        return view('auth.profile');
+        return view('auth.profile',[
+            'me' => IdentiteAcces::where('id',Auth::user()->id)->with('equipeTravaux','utilisateur')->get()->toJson()
+        ]);
     }
 }

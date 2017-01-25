@@ -180,7 +180,42 @@ class UsersTableSeeder extends Seeder
                 "habilitation" => 'BR'
             ]
         ]);
-
+        DB::table('typeouvrage')->insert([
+            ['libelle' => 'Provisoire'],
+            ['libelle' => 'Poste'],
+            ['libelle' => 'Réseau']
+        ]);
+        DB::table('tache')->insert([
+            ['libelle' => 'Reprise de branchement'],
+            ['libelle' => 'Remplacement: ccp, grille'],
+            ['libelle' => 'Visite, études et collecte des anomalies'],
+            ['libelle' => 'Mesurage des charges'],
+            ['libelle' => 'Equilibrage des charges'],
+            ['libelle' => 'Reprise des phases'],
+            ['libelle' => 'Reprise des sorties de postes EJASE'],
+        ]);
+        DB::table('direction')->insert([
+            ['libelle' => 'DRAS', 'couleur' => '#F9E440'],
+            ['libelle' => 'DRAN', 'couleur' => '#8BBC5A'],
+            ['libelle' => 'DRABO', 'couleur' => '#FFFFFF'],
+            ['libelle' => 'DRYOP', 'couleur' => '#FFAEAD']
+        ]);
+        DB::table('ouvrage')->insert([
+            [
+                'libelle' => 'Ouvrage provisoire',
+                'datedebutetude' => \Carbon\Carbon::now()->toDateString(),
+                'datefinetude' => \Carbon\Carbon::now()->addMonth(rand(0,12))->toDateTimeString(),
+                'typeouvrage_id' => 1,
+                'direction_id' => 2,
+            ],
+            [
+                'libelle' => 'K127',
+                'datedebutetude' => \Carbon\Carbon::now()->toDateString(),
+                'datefinetude' => \Carbon\Carbon::now()->addMonth(rand(0,12))->toDateTimeString(),
+                'typeouvrage_id' => 2,
+                'direction_id' => 1,
+            ],
+        ]);
         //Préchargement des datas de BT
         $abonnees = ["Koffi Wilfried","Koné Mamadou","Traoré Samba", "Sidoine Aké", "Virgile Ekra", "Koblan Jean Philippe","Kouassi Marcelin","Aké Aké Paul",
             "Marc Aurèle Aglégbé","Gbégbé Désiré","Gogbeu Guy-Roland","Allui Jean-Hugues","Léandre Glako","Sienou Adama","Tano Arthur","Arthur Vadi",
@@ -217,6 +252,7 @@ class UsersTableSeeder extends Seeder
                 'responsablebt' => $abonnees[$rand[3]],
                 'etatbon_id' => \App\EtatBon::Bon_enregistre,
                 'dateexecution' => \Carbon\Carbon::now()->addDays(rand(0,60))->toDateTimeString(),
+                'ouvrage_id' => 1,
             ]);
         }
 
