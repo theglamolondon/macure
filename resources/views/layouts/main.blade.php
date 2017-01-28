@@ -6,6 +6,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon.ico" />
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Scripts -->
+    <script>
+      window.Laravel = <?php echo json_encode([
+              'csrfToken' => csrf_token(),
+      ]); ?>
+    </script>
 
     <title>Macure | DJERA Services</title>
 
@@ -44,7 +53,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="{{route(\Illuminate\Support\Facades\Auth::user()->getHomeUrl())}}" class="site_title"><i class="fa fa-paw"></i> <span>Marcure !</span></a>
+              <a href="{{route(\Illuminate\Support\Facades\Auth::user()->getHomeUrl())}}" class="site_title"><i class="fa fa-leaf"></i> <span>Marcure !</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -52,10 +61,10 @@
             <!-- menu profile quick info -->
             <div class="profile">
               <div class="profile_pic">
-                <img src="{{request()->getBaseUrl()}}/images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="{{request()->getBaseUrl()}}/images/profile/{{\Illuminate\Support\Facades\Auth::user()->profileimage}}" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
-                <span>Bonjour,</span>
+                <span>Salut,</span>
                 <h2>{{ \Illuminate\Support\Facades\Auth::user()->name() }}</h2>
               </div>
             </div>
@@ -113,12 +122,24 @@
                   @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::RBOM))
                   <li><a><i class="fa fa-edit"></i> RBOM <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+                      <li><a href="javascript:void(0);">Ouvrage</a>
+                        <ul class="nav child_menu">
+                          <li><a href="{{route('nouveau_ouvrage')}}">Nouveau</a></li>
+                          <li><a href="#">Liste</a></li>
+                          <li><a href="javascript:void(0);">Planning d'ouvrage</a>
+                            <ul class="nav child_menu">
+                              <li><a href="{{route('planning_ouvrage_annuel')}}">Annuel</a></li>
+                              <li><a href="{{route('planning_ouvrage_trimestriel')}}">Trimestriel</a></li>
+                              <li><a href="{{route('planning_ouvrage_mensuel')}}">Mensuel</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
                       <li><a href="javascript:void(0);">Bon de travaux</a>
                         <ul class="nav child_menu">
-                          <li><a href="{{route('nouveau_bt')}}">Nouveau</a>
-                          <li><a href="{{route('liste_bt')}}">Liste</a>
-                          <li><a href="{{route('planning_bt')}}">Planning</a>
-                          </li>
+                          <li><a href="{{route('nouveau_bt')}}">Nouveau</a></li>
+                          <li><a href="{{route('liste_bt')}}">Liste</a></li>
+                          <li><a href="{{route('planning_bt')}}">Planning BT</a></li>
                         </ul>
                       </li>
                       <li><a href="javascript:void(0);">Actions de maintenance</a>
@@ -209,18 +230,11 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{{request()->getBaseUrl()}}/images/img.jpg" alt="">{{ \Illuminate\Support\Facades\Auth::user()->name() }}
+                    <img src="{{request()->getBaseUrl()}}/images/profile/{{\Illuminate\Support\Facades\Auth::user()->profileimage}}" alt="">{{ \Illuminate\Support\Facades\Auth::user()->name() }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="{{route( \Illuminate\Support\Facades\Auth::user()->getProfileUrl())}}"> Profile</a></li>
-                    <li>
-                      <a href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    <li><a href="javascript:;">Help</a></li>
                     <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out pull-right"></i> Déconnexion</a></li>
                   </ul>
                 </li>

@@ -30,6 +30,7 @@ class CreateDatabaseFirst extends Migration
             $table->dateTime('lastlogin')->nullable();
             $table->dateTime('lastlogout')->nullable();
             $table->integer('totalattemptconnect')->default(0);
+            $table->string('profileimage')->default('default.png');
             //cléés étrangères
             $table->foreign('typeidentite_id','fk_identite_typeidentite')->references('id')->on('typeidentity');
         });
@@ -76,6 +77,38 @@ class CreateDatabaseFirst extends Migration
             $table->foreign('chargemaintenance','fk_equipe_charge_intervenant')->references('id')->on('intervenant');
             $table->foreign('chefequipe','fk_equipe_chef_intervenant')->references('id')->on('intervenant');
         });
+        Schema::create('typeouvrage',function (Blueprint $table){
+            $table->increments('id');
+            $table->string('libelle');
+        });
+        Schema::create('direction',function (Blueprint $table){
+            $table->increments('id');
+            $table->string('libelle');
+            $table->string('couleur',10)->nullable();
+        });
+        Schema::create('tache',function (Blueprint $table){
+            $table->increments('id');
+            $table->string('libelle');
+        });
+        Schema::create('ouvrage',function (Blueprint $table){
+            $table->increments('id');
+            $table->string('libelle');
+            $table->date('datedebutetude');
+            $table->date('datefinetude');
+            $table->date('datedebutexecution')->nullable();
+            $table->date('datefinexecution')->nullable();
+            $table->integer('typeouvrage_id');
+            $table->integer('direction_id');
+            $table->foreign('typeouvrage_id','fk_ouvrage_typeouvrage')->references('id')->on('typeouvrage');
+            $table->foreign('direction_id','fk_ouvrage_direction')->references('id')->on('direction');
+        });
+        Schema::create('tacheouvrage',function (Blueprint $table){
+            $table->integer('ouvrage_id');
+            $table->integer('tache_id');
+            $table->primary(['ouvrage_id','tache_id']);
+            $table->foreign('ouvrage_id','fk_to_ouvrage')->references('id')->on('ouvrage');
+            $table->foreign('tache_id','fk_to_tache')->references('id')->on('tache');
+        });
         Schema::create('bontravaux',function (Blueprint $table){
             $table->increments('id');
             $table->string('numerobon')->unique();
@@ -102,10 +135,12 @@ class CreateDatabaseFirst extends Migration
             $table->integer('urgence_id')->unsigned();
             $table->integer('etatbon_id')->unsigned();
             $table->integer('equipetravaux_id')->unsigned()->nullable();
+            $table->integer('ouvrage_id')->unsigned();
             //clés étrangères
             $table->foreign('etatbon_id','fk_bontravaux_etatbon')->references('id')->on('etatbon');
             $table->foreign('urgence_id','fk_bontravaux_urgence')->references('id')->on('urgence');
             $table->foreign('equipetravaux_id','fk_bontravaux_equipe')->references('id')->on('equipetravaux');
+            $table->foreign('ouvrage_id','fk_bontravaux_ouvrage')->references('id')->on('ouvrage');
         });
         Schema::create('habilitation',function (Blueprint $table){
             $table->increments('id');
@@ -128,17 +163,6 @@ class CreateDatabaseFirst extends Migration
             $table->primary(['intervenant_id','habilitation_id'],'pk_intervenant_habilitation');
             $table->foreign('intervenant_id','fk_intervenant')->references('id')->on('intervenant');
             $table->foreign('habilitation_id','fk_habilitation')->references('id')->on('habilitation');
-        });
-        Schema::create('emprunt',function (Blueprint $table){
-            $table->increments('id');
-            $table->date('dateemprunt');
-            $table->integer('intervenant_id');
-            $table->integer('equipe_id');
-            $table->integer('fpam');
-            //clés
-            $table->foreign('intervenant_id','fk_emprunt_intervenant')->references('id')->on('intervenant');
-            $table->foreign('equipe_id','fk_emprunt_equipetravaux')->references('id')->on('equipetravaux');
-            $table->foreign('fpam','fk_emprunt_fpam')->references('id')->on('fpactionmaintenance');
         });
         Schema::create('causechantier',function (Blueprint $table){
             $table->increments('id');
@@ -348,10 +372,15 @@ class CreateDatabaseFirst extends Migration
         Schema::dropIfExists('indicateurmaintenance');
         Schema::dropIfExists('planning');
         Schema::dropIfExists('habilitation');
-        Schema::dropIfExists('emprunt');
         Schema::dropIfExists('produit');
         Schema::dropIfExists('familleproduit');
         Schema::dropIfExists('fpam_produit');
         Schema::dropIfExists('intervenant_habilitation');
+        Schema::dropIfExists('tacheouvrage');
+        Schema::dropIfExists('typeouvrage');
+        Schema::dropIfExists('ouvrage');
+        Schema::dropIfExists('tache');
+        Schema::dropIfExists('direction');
+        Schema::dropIfExists('typeouvrage');
     }
 }

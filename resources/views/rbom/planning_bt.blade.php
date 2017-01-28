@@ -14,8 +14,8 @@
                     <div class="input-group">
                         <input id="calendrier" type="text" class="form-control datepicker" value="{{$date}}" ng-model="dateOfWeek"/>
                         <span class="input-group-btn">
-                                <button type="button" id="go" class="form-control btn btn-primary">Go!</button>
-                            </span>
+                            <button type="button" id="go" class="form-control btn btn-primary">Go!</button>
+                        </span>
                     </div>
                     </aside>
                     <div class="clearfix"></div>
@@ -151,6 +151,7 @@
             }
         }
 
+        var DateFromPHP = '{{$date}}';
         var BTofWeekUrl = '{{route('planning_bt_json',['annee'=>'_y_', 'mois' => '_m_', 'jour' => '_d_'])}}';
         var dd = new Date();
         var TemplatePlanninng = '{{route('template_angular')}}/'+dd.getDate()+'/'+(dd.getMonth()+1)+'/'+dd.getFullYear();
