@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BonTravaux;
 use App\CauseChantier;
 use App\CoordonneeGPS;
+use App\Direction;
 use App\EquipeTravaux;
 use App\EtatBon;
 use App\Gamme;
@@ -17,6 +18,7 @@ use App\SollicitationExterieure;
 use App\Tache;
 use App\TypeGamme;
 use App\TypeOperation;
+use App\TypeOuvrage;
 use App\Urgence;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -528,11 +530,58 @@ class RbomController extends Controller
     {
         return view('rbom.newouvrage',[
             'taches' => Tache::all(),
+            'directions' => Direction::all(),
+            'typeouvrages' => TypeOuvrage::all(),
         ]);
     }
 
     public function sendResponseNewOuvrageForm(Request $request){
-        dd($request);
+        $this->validate($request,[
+            'libelle' => 'required',
+            'typeouvrage_id' => 'required|numeric',
+            'direction_id' => 'required|numeric',
+            'datedebutetude' => 'required|date_format:d/m/Y',
+            'datefinetude' => 'required|date_format:d/m/Y',
+            'taches' => 'array'
+        ],[
+            'libelle.required' => "Le nom de l'ouvrage est requis svp!",
+            'datedebutetude.date_format' => "Veuillez saisir une date au format JJ/MM/AAAA svp!",
+            'datefinetude.date_format' => "Veuillez saisir une date au format JJ/MM/AAAA svp!",
+        ]);
+
+        try{
+            $ouvrage = new Ouvrage($request->except(['_token','taches','datedebutetude','datefinetude','datedebutexecution','datefinexecution']));
+            $ouvrage->datedebutetude = Carbon::createFromFormat('d/m/Y',$request->input('datedebutetude'));
+            $ouvrage->datefinetude = Carbon::createFromFormat('d/m/Y',$request->input('datefinetude'));
+
+            //Détermination de la date d'exécutionn
+            if(
+                $request->input(['datedebutexecution']) != $request->input(['datefinexecution'])
+                && $request->input(['datedebutexecution']) != Carbon::today()->format('d/m/Y')
+            ){
+                $ouvrage->datedebutexecution = Carbon::createFromFormat('d/m/Y',$request->input('datedebutexecution'));
+                $ouvrage->datefinexecution = Carbon::createFromFormat('d/m/Y',$request->input('datefinexecution'));
+            }
+
+            $ouvrage->saveOrFail();
+            $ouvrage->taches()->attach($request->input('taches'));
+
+            $this->withSuccess(['Nouvel ouvrage créé avec succès !']);
+            return redirect()->route('planning_ouvrage_trimestriel');
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors([$e->getMessage()]);
+        }catch (\Exception $e){
+            return back()->withErrors([$e->getMessage()]);
+        }
+    }
+
+    private function getMonth(){
+        return [
+            1 => 'Janvier', 2 => 'Février', 3 => 'Mars',
+            4 => 'Avril', 5 => 'Mai', 6 => 'Juin',
+            7 => 'Juillet', 8 => 'Août', 9 => 'Septembre',
+            10 => 'Octobre', 11 => 'Novembre', 12 => 'Décembre'
+        ];
     }
 
     public function planningOuvrageAnnuel(Request $request, $annee = null){
@@ -540,10 +589,61 @@ class RbomController extends Controller
     }
 
     public function planningOuvrageTrimestriel(Request $request, $annee = null, $trimestre = null){
-        return view('rbom.planning_ouvrage_trimestriel');
+        $trimestre = $trimestre ? intval($trimestre) : ceil(Carbon::now()->month/3);
+        $annee = $annee ? intval($annee) : Carbon::now()->year;
+
+        //Déterminnation des mois du trimestre
+        $m1 = intval(($trimestre*3)-2) ;
+        $m2 = intval(($trimestre*3)-1);
+        $m3 = intval(($trimestre*3)-0);
+
+        //Tous les ouvrages de la période
+        $ouvrages = Ouvrage::join('tacheouvrage','tacheouvrage.ouvrage_id','=','ouvrage.id')
+                ->join('tache','tache.id','=','tacheouvrage.tache_id')
+            ->join('direction','direction.id','=','ouvrage.direction_id')
+            ->whereIn('MONTH(datedebutetude)',range($m1,$m3))
+            /*->whereMonth('datedebutetude','>=',$m1)
+            ->whereMonth('datedebutetude','<=',$m3)
+            ->whereYear('datedebutetude','<=',$annee)
+            //->whereMonth('datefinetude','<=',$m3)
+               // ->month('datedebutetude') */
+            ->select(['direction.libelle AS direction','ouvrage.*','tache.libelle AS tache','tacheouvrage.*'])
+            //->toSql();
+            ->get();
+
+        //dd($ouvrages);
+
+        //Toutes les taches de la période
+        $taches = Tache::join('tacheouvrage','tacheouvrage.tache_id','=','tache.id')
+            ->join('ouvrage','ouvrage.id','=','tacheouvrage.ouvrage_id')
+            ->whereMonth('ouvrage.datedebutetude','>=',$m1)
+            ->whereMonth('ouvrage.datedebutetude','<=',$m3)
+            ->whereYear('datedebutetude','<=',$annee)
+            //->whereMonth('ouvrage.datefinetude','<=',$m3)
+            ->distinct()
+            ->select('tache.id','tache.libelle')
+            ->get();
+
+        //Tests;
+        dd(range(1,5));
+
+        return view('rbom.planning_ouvrage_trimestriel',[
+            'mois' => [
+                'M1' =>  $this->getMonth()[$m1],
+                'M1_' =>  $m1,
+                'M2' =>  $this->getMonth()[$m2],
+                'M2_' =>  $m2,
+                'M3' =>  $this->getMonth()[$m3],
+                'M3_' =>  $m3,
+            ],
+            'ouvrages' => $ouvrages,
+            'taches' => $taches,
+        ]);
     }
 
-    public function planningOuvrageMensuel(Request $request, $annee = null){
+    public function planningOuvrageMensuel(Request $request, $annee = null, $mois = null){
+        $mois = $mois ? intval($mois) : Carbon::now()->month;
+
         return view('rbom.planning_ouvrage_mensuel');
     }
 }
