@@ -25,6 +25,11 @@ class StockController extends Controller
         ]);
     }
 
+    public function showNewFormFamille()
+    {
+        return view('rgs.nouvellefamille');
+    }
+
     public function sensResponseNewProduit(Request $request)
     {
         $this->validate($request,[

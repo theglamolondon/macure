@@ -225,6 +225,7 @@ class RbomController extends Controller
             $fpam->dateprepa = Carbon::createFromFormat('d/m/Y', $request->input('dateprepa'))->toDateString();
             $fpam->dateheuredebutprevi = Carbon::createFromFormat('d/m/Y H:i', $request->input('dateheuredebutprevi'))->toDateString();
             $fpam->dateheurefinprevi = Carbon::createFromFormat('d/m/Y H:i', $request->input('dateheurefinprevi'))->toDateString();
+            $fpam->statut = EtatBon::Bon_enregistre;
             $fpam->saveOrFail();
 
             //Mise à jour du BT
@@ -588,7 +589,7 @@ class RbomController extends Controller
         return view('rbom.planning_ouvrage_annee');
     }
 
-    public function planningOuvrageTrimestriel(Request $request, $annee = null, $trimestre = null){
+    public function planningOuvrageTrimestriel($annee = null, $trimestre = null){
         $trimestre = $trimestre ? intval($trimestre) : ceil(Carbon::now()->month/3);
         $annee = $annee ? intval($annee) : Carbon::now()->year;
 
@@ -601,31 +602,30 @@ class RbomController extends Controller
         $ouvrages = Ouvrage::join('tacheouvrage','tacheouvrage.ouvrage_id','=','ouvrage.id')
                 ->join('tache','tache.id','=','tacheouvrage.tache_id')
             ->join('direction','direction.id','=','ouvrage.direction_id')
-            ->whereIn('MONTH(datedebutetude)',range($m1,$m3))
-            /*->whereMonth('datedebutetude','>=',$m1)
             ->whereMonth('datedebutetude','<=',$m3)
-            ->whereYear('datedebutetude','<=',$annee)
-            //->whereMonth('datefinetude','<=',$m3)
-               // ->month('datedebutetude') */
+            ->whereMonth('datefinetude','>=',$m1)
+            ->whereYear('datefinetude','<=',$annee)
             ->select(['direction.libelle AS direction','ouvrage.*','tache.libelle AS tache','tacheouvrage.*'])
-            //->toSql();
             ->get();
-
-        //dd($ouvrages);
 
         //Toutes les taches de la période
         $taches = Tache::join('tacheouvrage','tacheouvrage.tache_id','=','tache.id')
             ->join('ouvrage','ouvrage.id','=','tacheouvrage.ouvrage_id')
-            ->whereMonth('ouvrage.datedebutetude','>=',$m1)
-            ->whereMonth('ouvrage.datedebutetude','<=',$m3)
-            ->whereYear('datedebutetude','<=',$annee)
-            //->whereMonth('ouvrage.datefinetude','<=',$m3)
+            ->whereMonth('datedebutetude','<=',$m3)
+            ->whereMonth('datefinetude','>=',$m1)
+            ->whereYear('datefinetude','<=',$annee)
+            ->orderBy('id')
             ->distinct()
             ->select('tache.id','tache.libelle')
             ->get();
 
-        //Tests;
-        dd(range(1,5));
+        $ouvragesExecutes = Ouvrage::with('direction','typeOuvrage')
+            ->whereMonth('datedebutexecution','<=',$m3)
+            ->whereMonth('datefinexecution','>=',$m1)
+            ->whereYear('datefinexecution','<=',$annee)
+            ->get();
+
+        //dd($ouvragesExecutes);
 
         return view('rbom.planning_ouvrage_trimestriel',[
             'mois' => [
@@ -637,11 +637,12 @@ class RbomController extends Controller
                 'M3_' =>  $m3,
             ],
             'ouvrages' => $ouvrages,
+            'ouvragesExecutes' => $ouvragesExecutes,
             'taches' => $taches,
         ]);
     }
 
-    public function planningOuvrageMensuel(Request $request, $annee = null, $mois = null){
+    public function planningOuvrageMensuel( $annee = null, $mois = null){
         $mois = $mois ? intval($mois) : Carbon::now()->month;
 
         return view('rbom.planning_ouvrage_mensuel');

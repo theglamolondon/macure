@@ -8,7 +8,6 @@
 | This file is where you may define all of the routes that are handled
 | by your application. Just tell Laravel the URIs it should respond
 | to using a Closure or controller method. Build something great!
-|
 */
 // Authentication Routes...
 Route::get('/','Auth\LoginController@showLoginForm');
@@ -52,7 +51,7 @@ Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','poli
     Route::get('ouvrage/nouveau','RbomController@showNewOuvrageForm')->name('nouveau_ouvrage');
     Route::post('ouvrage/nouveau','RbomController@sendResponseNewOuvrageForm');
     Route::get('ouvrage/planning/annuel/{annee?}','RbomController@planningOuvrageAnnuel')->name('planning_ouvrage_annuel');
-    Route::get('ouvrage/planning/trimestriel/{trimestre?}/{annee?}','RbomController@planningOuvrageTrimestriel')->name('planning_ouvrage_trimestriel');
+    Route::get('ouvrage/planning/trimestriel/{annee?}/{trimestre?}','RbomController@planningOuvrageTrimestriel')->name('planning_ouvrage_trimestriel');
     Route::get('ouvrage/planning/mensuel/{mois?}/{annee?}','RbomController@planningOuvrageMensuel')->name('planning_ouvrage_mensuel');
     //Maps
     Route::get('map','Map\MapsApiController@Index')->name('map');
@@ -112,7 +111,10 @@ Route::group(['prefix' => \App\Autorisation::RGS, 'middleware' => ['auth','polic
     Route::get('home','StockController@index')->name('accueil_'.\App\Autorisation::RGS);
     Route::get('profile','StockController@editProfil')->name('profile_'.\App\Autorisation::RGS);
     Route::get('produit/nouveau','StockController@showNewFormProduit')->name('nouveau_produit');
+    Route::get('famille/nouvelle','StockController@showNewFormFamille')->name('liste_famille');
     Route::post('produit/nouveau','StockController@sensResponseNewProduit');
+    //Route::post('famille/nouvelle','StockController@sensResponseNewFamille');
+
     Route::get('produit/{reference}/modifier','StockController@showFormUpdateProduit')->name('modifier_produit');
     Route::post('produit/{reference}/modifier','StockController@sensResponseUpdateProduit');
     Route::get('produit/{reference}/supprimer','StockController@sendResponseDeleteProduit')->name('supprimer_produit');
@@ -132,7 +134,4 @@ Route::group(['prefix' => \App\Autorisation::CIE, 'middleware' => ['auth','polic
     Route::get('/','CieController@index');
     Route::get('home','CieController@index')->name('accueil_'.\App\Autorisation::CIE);
     Route::get('profile','CieController@editProfil')->name('profile_'.\App\Autorisation::CIE);
-});
-Route::group(['prefix' => 'server'],function (){
-    Route::get('listen/{id}','SocketController@listen')->name('ecoute_serveur');
 });

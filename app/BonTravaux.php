@@ -30,4 +30,11 @@ class BonTravaux extends Model
     function preparationactiontravaux(){
         return $this->hasOne('App\PreparationActionMaintenance','bontravaux_id');
     }
+
+    function bonVoisins(){
+        return $this->hasMany('App\Bontravaux','bonvoisin','id');
+    }
+    function bonVoisin(){
+        return $this->belongsTo('App\Bontravaux','bonvoisin');
+    }
 }
