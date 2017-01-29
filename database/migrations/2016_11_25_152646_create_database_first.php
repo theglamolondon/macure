@@ -25,7 +25,7 @@ class CreateDatabaseFirst extends Migration
             $table->string('remember_token')->nullable();
             $table->string('api_token')->nullable();
             $table->json('autorisation');
-            $table->integer('totaltimeconnect')->default(0);
+            $table->bigInteger('totaltimeconnect')->default(0);
             $table->string('policy')->nullable();
             $table->dateTime('lastlogin')->nullable();
             $table->dateTime('lastlogout')->nullable();

@@ -29,6 +29,8 @@ Route::group(['prefix' => \App\Autorisation::DIRECTEUR, 'middleware' => ['auth',
     Route::get('/','DirecteurController@index');
     Route::get('/home','DirecteurController@index')->name('accueil_'.\App\Autorisation::DIRECTEUR);
     Route::get('/profile','DirecteurController@editProfil')->name('profile_'.\App\Autorisation::DIRECTEUR);
+    Route::get('/tableaubord','AdminController@index')->name('tableau_bord');
+    Route::get('/statistique','DirecteurController@statistiques')->name('statistiques');
 });
 
 Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','policy','role']],function (){
@@ -70,34 +72,34 @@ Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','poli
 });
 
 Route::group(['prefix' => \App\Autorisation::ADMIN, 'middleware' => ['auth','policy','role']],function (){
-    Route::get('/','adminController@index');
-    Route::get('home','adminController@index')->name('accueil_'.\App\Autorisation::ADMIN);
-    Route::get('profile','adminController@editProfil')->name('profile_'.\App\Autorisation::ADMIN);
+    Route::get('/','AdminController@index');
+    Route::get('home','AdminController@index')->name('accueil_'.\App\Autorisation::ADMIN);
+    Route::get('profile','AdminController@editProfil')->name('profile_'.\App\Autorisation::ADMIN);
     //Utilisateurs
-    Route::get('utilisateur/nouveau','adminController@showNewFormUser')->name('nouveau_user');
-    Route::post('utilisateur/nouveau','adminController@sendResponseFormUser');
-    Route::get('utilisateur/identite/{id}/modifier','adminController@showUpdateFormUser')->name('modif_utilisateur');
-    Route::post('utilisateur/identite/{id}/modifier','adminController@sendResponseUpdateUser');
-    Route::get('utilisateurs','adminController@showListUsers')->name('liste_users');
+    Route::get('utilisateur/nouveau','AdminController@showNewFormUser')->name('nouveau_user');
+    Route::post('utilisateur/nouveau','AdminController@sendResponseFormUser');
+    Route::get('utilisateur/identite/{id}/modifier','AdminController@showUpdateFormUser')->name('modif_utilisateur');
+    Route::post('utilisateur/identite/{id}/modifier','AdminController@sendResponseUpdateUser');
+    Route::get('utilisateurs','AdminController@showListUsers')->name('liste_users');
     //Intervenants
-    Route::get('intervenants','adminController@showListIntervenants')->name('liste_intervenants');
-    Route::get('intervenant/nouveau','adminController@showNewFormIntervenant')->name('nouveau_intervenant');
-    Route::post('intervenant/nouveau','adminController@sendResponseNewIntervenant');
-    Route::get('intervenant/{id}/modifier','adminController@showUpdateIntervenantForm')->name('modif_intervenant');
-    Route::post('intervenant/{id}/modifier','adminController@sendResponseUpdateIntervenant');
+    Route::get('intervenants','AdminController@showListIntervenants')->name('liste_intervenants');
+    Route::get('intervenant/nouveau','AdminController@showNewFormIntervenant')->name('nouveau_intervenant');
+    Route::post('intervenant/nouveau','AdminController@sendResponseNewIntervenant');
+    Route::get('intervenant/{id}/modifier','AdminController@showUpdateIntervenantForm')->name('modif_intervenant');
+    Route::post('intervenant/{id}/modifier','AdminController@sendResponseUpdateIntervenant');
     //Type de gamme
-    Route::get('typegamme/nouveau','adminController@showNewTypeGammeForm')->name('nouveau_typegamme');
-    Route::post('typegamme/nouveau','adminController@sendResponseNewTypeGamme');
-    Route::get('typegammes/gamme/{id}/modfier','adminController@showUpdateTypeGamme')->name('modif_typegamme');
-    Route::post('typegammes/gamme/{id}/modfier','adminController@sendResponseUpdateTypeGamme');
-    Route::get('typegammes','adminController@showListTypeGamme')->name('liste_typegamme');
+    Route::get('typegamme/nouveau','AdminController@showNewTypeGammeForm')->name('nouveau_typegamme');
+    Route::post('typegamme/nouveau','AdminController@sendResponseNewTypeGamme');
+    Route::get('typegammes/gamme/{id}/modfier','AdminController@showUpdateTypeGamme')->name('modif_typegamme');
+    Route::post('typegammes/gamme/{id}/modfier','AdminController@sendResponseUpdateTypeGamme');
+    Route::get('typegammes','AdminController@showListTypeGamme')->name('liste_typegamme');
     //Check-list
-    Route::get('checklist/nouveau','adminController@showNewChecklist')->name('nouveau_checklist');
-    Route::post('checklist/nouveau','adminController@sendResponseNewChecklist');
-    Route::get('checklist/{id}/modifier','adminController@showUpdateChecklist')->name('modif_ckecklist');
-    Route::post('checklist/{id}/modifier','adminController@sendResponseUpdateChecklist');
-    Route::get('checklists','adminController@showListeChecklist')->name('liste_checklist');
-    Route::get('checklists/{id}','adminController@jsonListeChecklist')->name('json_checklist');
+    Route::get('checklist/nouveau','AdminController@showNewChecklist')->name('nouveau_checklist');
+    Route::post('checklist/nouveau','AdminController@sendResponseNewChecklist');
+    Route::get('checklist/{id}/modifier','AdminController@showUpdateChecklist')->name('modif_ckecklist');
+    Route::post('checklist/{id}/modifier','AdminController@sendResponseUpdateChecklist');
+    Route::get('checklists','AdminController@showListeChecklist')->name('liste_checklist');
+    Route::get('checklists/{id}','AdminController@jsonListeChecklist')->name('json_checklist');
 });
 
 Route::group(['prefix' => \App\Autorisation::RTM, 'middleware' => ['auth','policy','role']],function (){
