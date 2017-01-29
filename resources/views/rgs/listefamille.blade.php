@@ -14,12 +14,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach($produits as $produit)
+                    @foreach($familles as $famille)
                     <tr>
-                        <td>{{$produit->libelle}}</td>
+                        <td>{{$famille->libelle}}</td>
                         <td>
-                            <a href="{{route('modifier_famille',['reference'=>$produit->reference])}}"> <i class="fa fa-edit"> </i>Modifier</a>
-                            <a  onclick="return confirmDelete()" href="{{route("supprimer_famille",["reference"=>$produit->reference])}}"> <i class="fa fa-trash"> </i>Supprimer</a>
+                            <a href="{{route('modifier_famille',['id'=>$famille->id])}}"> <i class="fa fa-edit"> </i>Modifier</a>
+                            <a  onclick="return confirmDelete()" href="{{route("supprimer_famille",["id"=>$famille->id])}}"> <i class="fa fa-trash"> </i>Supprimer</a>
                         </td>
                     </tr>
                     @endforeach
@@ -40,7 +40,7 @@
     <script>
 
         function confirmDelete() {
-            return confirm('Voulez-vous vraiment supprimer ce produit ? Attention, cette action est irreversible.');
+            return confirm('Voulez-vous vraiment supprimer cette famille ? Attention, cette action est irreversible.');
         }
         $(document).ready(function () {
             $('#datatable').DataTable({

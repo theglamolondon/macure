@@ -20,9 +20,9 @@
                             </a>
                             <div class="media-body">
                                 <a class="title" href="#">{{$utilisateur->name()}}</a>
-                                <p> <small>{{(new \Carbon\Carbon($utilisateur->lastlogin))->format("d/m/Y H:i:s")}}</small>
+                                <p> <small>{{\Carbon\Carbon::parse($utilisateur->lastlogin)->format("d/m/Y H:i")}}</small>
                                 <p> <small>
-                                        @if((new Carbon\Carbon($utilisateur->lastlogout))->timestamp < (new Carbon\Carbon($utilisateur->lastlogin))->timestamp)
+                                        @if(Carbon\Carbon::parse($utilisateur->lastlogin)->diffInMinutes(Carbon\Carbon::parse($utilisateur->lastlogout),false) < 0 )
                                             Connecté
                                         @else
                                             Déconnecté
