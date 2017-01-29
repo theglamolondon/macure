@@ -178,7 +178,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-2 col-sm-2 col-xs-12">N° du bon</label>
                     <div class="col-md-4 col-sm-4 col-xs-12">
-                        <input name="numerobon" required type="text" class="form-control" placeholder="Nom du chargé de consigne" value="{{old('numerobon')}}"/>
+                        <input name="numerobon" required type="text" class="form-control" placeholder="N° du bon" value="{{old('numerobon')}}"/>
                     </div>
 
                     <label class="control-label col-md-2 col-sm-2 col-xs-12">Date d'exécution</label>
@@ -187,6 +187,13 @@
                             <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
                             <input name="dateexecution" class="date-picker datepicker form-control col-md-7 col-xs-12" required type="text" value="{{old('dateexecution')}}" />
                         </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Bon voisin</label>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <input disabled type="text" class="form-control" placeholder="N° du bon voisin" value="{{$reference}}"/>
+                        <input type="hidden" name="bonvoisin" value="{{$reference}}"/>
                     </div>
                 </div>
             </div>

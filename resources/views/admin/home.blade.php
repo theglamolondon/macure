@@ -22,7 +22,7 @@
                                 <a class="title" href="#">{{$utilisateur->name()}}</a>
                                 <p> <small>{{(new \Carbon\Carbon($utilisateur->lastlogin))->format("d/m/Y H:i:s")}}</small>
                                 <p> <small>
-                                        @if((new Carbon\Carbon($utilisateur->lastlogout))->diffInMinutes(new Carbon\Carbon($utilisateur->lastlogin),false) < 0 )
+                                        @if((new Carbon\Carbon($utilisateur->lastlogout))->timestamp < (new Carbon\Carbon($utilisateur->lastlogin))->timestamp)
                                             Connecté
                                         @else
                                             Déconnecté

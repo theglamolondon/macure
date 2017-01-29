@@ -47,8 +47,11 @@ class LoginController extends Controller
     {
         $error = session('errors') ? session('errors')->first('policy'):null;
 
+        //dd(Carbon::now()->diffInMinutes(Carbon::parse(Auth::user()->lastlogin)));
+
         Auth::user()->totaltimeconnect += Carbon::now()->diffInMinutes(Carbon::parse(Auth::user()->lastlogin));
         Auth::user()->lastlogout = Carbon::now()->toDateTimeString();
+        //dd(Auth::user());
         Auth::user()->save();
         //dd(Auth::user());
 

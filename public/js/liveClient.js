@@ -13,12 +13,8 @@ socket.on('welcome',function (data) {
 });
 
 socket.on('userConnect',function (data) {
-    //console.log('User connected to Admin');
-    //console.log(data);
     ShowNotification('L\'utilisateur '+ data.fullname + ' s\'est connecté');
-
     $target = "#user"+data.id+" a.profile_thumb";
-
     if($($target).text() != ""){
         $($target).addClass('connected');
         $($target).removeClass('disconnected');

@@ -44,13 +44,14 @@ class RbomController extends Controller
         return view('rtm.home');
     }
 
-    public function showNewFormBT(BonTravaux $bonTravaux)
+    public function showNewFormBT(BonTravaux $bonTravaux,$reference = null)
     {
         $urgence = Urgence::all();
 
         return view('rbom.editbt',[
             'urgences' => $urgence,
-            'today' => date('d/m/Y H:i')
+            'today' => date('d/m/Y H:i'),
+            'reference' => $reference
         ]);
     }
 
@@ -154,13 +155,14 @@ class RbomController extends Controller
         ]);
 
         try {
-            $bonTravaux = new BonTravaux($request->except(['_token', 'dateheurepanne', 'dateexecution', 'abonnepanne', 'abonneabsent', 'abonnetrouve', 'dateheuredep']));
+            $bonTravaux = new BonTravaux($request->except(['_token', 'dateheurepanne', 'dateexecution', 'abonnepanne', 'abonneabsent', 'abonnetrouve', 'dateheuredep','bonvoisin']));
             $bonTravaux->dateheurepanne = Carbon::createFromFormat('d/m/Y H:i', $request->input('dateheurepanne'))->toDateTimeString();
             $bonTravaux->dateexecution = Carbon::createFromFormat('d/m/Y', $request->input('dateexecution'))->toDateString();
             $bonTravaux->abonnepanne = $request->has('abonnepanne') ? true : false;
             $bonTravaux->abonneabsent = $request->has('abonneabsent') ? true : false;
             $bonTravaux->abonnetrouve = $request->has('abonnetrouve') ? true : false;
             $bonTravaux->etatbon_id = EtatBon::Bon_enregistre;
+            if($request->input('bonvoisin')){ $bonTravaux->bonvoisin = BonTravaux::where('numerobon',$request->input('bonvoisin'))->firstOrFaild()->id; }
             $bonTravaux->saveOrFail();
 
             $this->withSuccess([Lang::get('rbom.btajout')]);
@@ -586,7 +588,55 @@ class RbomController extends Controller
     }
 
     public function planningOuvrageAnnuel(Request $request, $annee = null){
-        return view('rbom.planning_ouvrage_annee');
+        $annee = $annee ? intval($annee) : Carbon::now()->year;
+
+        //Toutes les taches de la période
+        $ouvrages = Ouvrage::join('tacheouvrage','tacheouvrage.ouvrage_id','=','ouvrage.id')
+            ->join('tache','tache.id','=','tacheouvrage.tache_id')
+            ->join('direction','direction.id','=','ouvrage.direction_id')
+            ->whereMonth('datedebutetude','<=',12)
+            ->whereMonth('datefinetude','>=',1)
+            ->whereYear('datefinetude','<=',$annee)
+            ->select(['direction.libelle AS direction','ouvrage.*','tache.libelle AS tache','tacheouvrage.*'])
+            //->toSql();
+            ->get();
+
+        //Toutes les taches de la période
+        $taches = Tache::join('tacheouvrage','tacheouvrage.tache_id','=','tache.id')
+            ->join('ouvrage','ouvrage.id','=','tacheouvrage.ouvrage_id')
+            ->whereMonth('datedebutetude','<=',12)
+            ->whereMonth('datefinetude','>=',1)
+            ->whereYear('datefinetude','<=',$annee)
+            ->orderBy('id')
+            ->distinct()
+            ->select('tache.id','tache.libelle')
+            ->get();
+
+        $ouvragesExecutes = Ouvrage::with('direction','typeOuvrage')
+            ->whereMonth('datedebutexecution','<=',12)
+            ->whereMonth('datefinexecution','>=',1)
+            ->whereYear('datefinexecution','<=',$annee)
+            ->get();
+
+        return view('rbom.planning_ouvrage_annee',[
+            'mois' => [
+                'M1' =>  $this->getMonth()[1], 'M1_' =>  1,
+                'M2' =>  $this->getMonth()[2], 'M2_' =>  2,
+                'M3' =>  $this->getMonth()[3], 'M3_' =>  3,
+                'M4' =>  $this->getMonth()[4], 'M4_' =>  3,
+                'M5' =>  $this->getMonth()[5], 'M5_' =>  3,
+                'M6' =>  $this->getMonth()[6], 'M6_' =>  3,
+                'M7' =>  $this->getMonth()[7], 'M7_' =>  3,
+                'M8' =>  $this->getMonth()[8], 'M8_' =>  3,
+                'M9' =>  $this->getMonth()[9], 'M9_' =>  3,
+                'M10' =>  $this->getMonth()[10], 'M10_' =>  10,
+                'M11' =>  $this->getMonth()[11], 'M11_' =>  11,
+                'M12' =>  $this->getMonth()[12], 'M12_' =>  12,
+            ],
+            'ouvrages' => $ouvrages,
+            'ouvragesExecutes' => $ouvragesExecutes,
+            'taches' => $taches
+        ]);
     }
 
     public function planningOuvrageTrimestriel($annee = null, $trimestre = null){
@@ -600,7 +650,7 @@ class RbomController extends Controller
 
         //Tous les ouvrages de la période
         $ouvrages = Ouvrage::join('tacheouvrage','tacheouvrage.ouvrage_id','=','ouvrage.id')
-                ->join('tache','tache.id','=','tacheouvrage.tache_id')
+            ->join('tache','tache.id','=','tacheouvrage.tache_id')
             ->join('direction','direction.id','=','ouvrage.direction_id')
             ->whereMonth('datedebutetude','<=',$m3)
             ->whereMonth('datefinetude','>=',$m1)

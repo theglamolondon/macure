@@ -31,7 +31,7 @@ io.sockets.on('connect',function ($socket) {
 
         var Client = new SocketUser($socket,utilisateur);
         AddUserIfNotIn(Client);
-
+        console.log('Adduser');
         //
         $socket.on('djerabroadcast',function(data){
             console.log(data);
@@ -51,27 +51,28 @@ function AddUserIfNotIn($user) {
         //On souhaite la bienvenue à l'utilisateur pour sa première connexion.
         $user._socket.emit('welcome',$user._user);
 
-        //On informe tous les admins connectés qu'un utilisateur s'est connecté
-        sendToAdmin('userConnect',$user._user);
     }else {
         var connected = ClientsSocket.findIndex(function(connect){
             return $user._user.id == connect._user.id;
         });
-
+        console.log(connected);
         if(connected == -1){
             ClientsSocket.push($user);
 
             //On souhaite la bienvenue à l'utilisateur pour sa première connexion.
             $user._socket.emit('welcome',$user._user);
-
-            //On informe tous les admins connectés qu'un utilisateur s'est connecté
-            sendToAdmin('userConnect',$user._user);
+        }else{
+            ClientsSocket[connected]._socket = $user._socket;
         }
     }
+
+    //On informe tous les admins connectés qu'un utilisateur s'est connecté
+    sendToAdmin('userConnect',$user._user);
     console.log('Nbre client : ' + ClientsSocket.length);
 }
 
 function sendToAdmin(event,data) {
+
     for(var admin in ClientsSocket)
     {
         if(ClientsSocket[admin]._user.isAdmin == true){

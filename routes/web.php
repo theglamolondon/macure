@@ -36,7 +36,7 @@ Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','poli
     Route::get('home','RbomController@index')->name('accueil_'.\App\Autorisation::RBOM);
     Route::get('profile','RbomController@editProfil')->name('profile_'.\App\Autorisation::RBOM);
     //Bon travaux
-    Route::get('bontravaux/nouveau','RbomController@showNewFormBT')->name('nouveau_bt');
+    Route::get('bontravaux/nouveau/{reference?}','RbomController@showNewFormBT')->name('nouveau_bt');
     Route::post('bontravaux/nouveau','RbomController@sendResponseNewBT');
     Route::get('bontravaux/{initiateur}/modifier','RbomController@showUpadetFormBT')->name('modifier_bt');
     Route::post('bontravaux/{initiateur}/modifier','RbomController@sendResponseUpdateBT');

@@ -27,7 +27,6 @@
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
-
                                 <tbody>
                                     <!-- Dynamisé par Javascript -->
                                 </tbody>
@@ -76,7 +75,8 @@
                         {
                             link_ = '<a href="{{route("modifier_bt" ,["initiateur" => "_number_"])}}"> Voir <span class="fa fa-eye"> </span></a> | '
                                     +'<a onclick="return confirmDelete();" href="{{route("supprimer_bt" ,["bt" => "_number_"])}}"> Supprimer <span class="fa fa-trash"> </span></a> |'
-                                    +'<a href="{{route("nouveau_fpam",["initiateur" => "_number_"])}}"> Fpam <span class="fa fa-edit"> </span></a>';
+                                    +'<a href="{{route("nouveau_fpam",["initiateur" => "_number_"])}}"> Fpam <span class="fa fa-edit"> </span></a> | '
+                                    +'<a href="{{route("nouveau_bt",["reference" => "_number_"])}}"> BT <span class="fa fa-plus"> </span></a>';
                             json.data[i].lien_ = link_.replace(regex,json.data[i].numerobon);
                         }
                         return json.data;
