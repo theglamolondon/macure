@@ -78,7 +78,7 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::ADMIN))
-                  <li><a><i class="fa fa-home"></i> ADMINISTRATION <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-home"></i> ADMIN <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="#">Utilisateurs</a>
                         <ul class="nav child_menu">
@@ -90,7 +90,7 @@
                       <li><a href="#">Equipes</a>
                         <ul class="nav child_menu">
                           <li><a href="#">Nouveau</a></li>
-                          <li><a href="#">Liste</a></li>
+                          <li><a href="#">Liste</a></li>A
                         </ul>
                       </li>
                       @endif

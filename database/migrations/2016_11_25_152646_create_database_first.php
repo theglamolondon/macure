@@ -136,7 +136,9 @@ class CreateDatabaseFirst extends Migration
             $table->integer('etatbon_id')->unsigned();
             $table->integer('equipetravaux_id')->unsigned()->nullable();
             $table->integer('ouvrage_id')->unsigned();
+            $table->integer('bonvoisin')->nullable();
             //clés étrangères
+            $table->foreign('bonvoisin','fk_bt_bt')->references('id')->on('bontravaux');
             $table->foreign('etatbon_id','fk_bontravaux_etatbon')->references('id')->on('etatbon');
             $table->foreign('urgence_id','fk_bontravaux_urgence')->references('id')->on('urgence');
             $table->foreign('equipetravaux_id','fk_bontravaux_equipe')->references('id')->on('equipetravaux');
