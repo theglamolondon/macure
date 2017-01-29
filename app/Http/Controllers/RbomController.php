@@ -601,8 +601,8 @@ class RbomController extends Controller
         $ouvrages = Ouvrage::join('tacheouvrage','tacheouvrage.ouvrage_id','=','ouvrage.id')
                 ->join('tache','tache.id','=','tacheouvrage.tache_id')
             ->join('direction','direction.id','=','ouvrage.direction_id')
-            ->whereIn('MONTH(datedebutetude)',range($m1,$m3))
-            /*->whereMonth('datedebutetude','>=',$m1)
+           // ->whereIn('MONTH(datedebutetude)',range($m1,$m3))
+            ->whereMonth('datedebutetude','>=',$m1)
             ->whereMonth('datedebutetude','<=',$m3)
             ->whereYear('datedebutetude','<=',$annee)
             //->whereMonth('datefinetude','<=',$m3)
@@ -625,7 +625,7 @@ class RbomController extends Controller
             ->get();
 
         //Tests;
-        dd(range(1,5));
+        //dd(range(1,5));
 
         return view('rbom.planning_ouvrage_trimestriel',[
             'mois' => [
