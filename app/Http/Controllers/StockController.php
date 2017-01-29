@@ -30,6 +30,25 @@ class StockController extends Controller
         return view('rgs.nouvellefamille');
     }
 
+    public function sensResponseNewFamille(Request $request)
+    {
+        $this->validate($request,[
+            'libelle' => 'required',
+           ]);
+        try
+        {
+            $famille = new FamilleProduit($request->except('_token'));
+            $famille->saveOrFail();
+            $this->withSuccess(['Nouvelle Famille de Produit enregistrée avec succes']);
+            return back();
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors([$e->getMessage()]);
+        }catch (\Exception $e){
+            return back()->withErrors([$e->getMessage()]);
+        }
+
+    }
+
     public function sensResponseNewProduit(Request $request)
     {
         $this->validate($request,[
@@ -63,11 +82,32 @@ class StockController extends Controller
         }
     }
 
+    public function showFormUpdateFamille($id)
+    {
+        try{
+            $famille = FamilleProduit::where('id',$id)->firstOrFail();
+            return view('rgs.modifierfamille',['famille' => $famille]);
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors($e->getMessage());
+        }catch (\Exception $e){
+
+        }
+    }
+
     public function showListProduit()
     {
         $produits = Produit::with('famille')->get();
         return view('rgs.listeproduit',[
             'produits' => $produits,
+
+        ]);
+    }
+
+    public function showListFamille()
+    {
+        $familles = FamilleProduit::all();
+        return view('rgs.listefamille',[
+            'familles' => $familles,
 
         ]);
     }
@@ -88,11 +128,40 @@ class StockController extends Controller
         }
     }
 
+    public function sensResponseUpdateFamille(Request $request, $id){
+        $this->validate($request,[
+            'libelle' => 'required',
+
+        ]);
+        try {
+            $famille = FamilleProduit::where('id',$id)->firstOrFail();
+            $famille->update($request->except('_token'));
+            $this->withSuccess(['Modification réussie']);
+            return redirect()->route('liste_famille');
+        }catch (ModelNotFoundException $e){
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+    }
+
     public function sendResponseDeleteProduit($reference)
     {
         try{
             $produits = Produit::where('reference',$reference)->firstorFail();
             $produits->delete();
+            $this->withSuccess(['Suppression réussie']);
+            return back();
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors(['exception' => $e->getMessage()]);
+        }catch (\Exception $e){
+            return back()->withErrors(['exception' => $e->getMessage()]);
+        }
+    }
+
+    public function sendResponseDeleteFamille($id)
+    {
+        try{
+            $familles = FamilleProduit::where('id',$id)->firstorFail();
+            $familles->delete();
             $this->withSuccess(['Suppression réussie']);
             return back();
         }catch (ModelNotFoundException $e){

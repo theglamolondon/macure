@@ -157,8 +157,8 @@
                     <ul class="nav child_menu">
                       <li><a href="javascript:void(0);">Famille</a>
                         <ul class="nav child_menu">
-                          <li><a href="{{('nouvelle_famille')}}">Nouvelle</a>
-                          <li><a href="{{('liste_famille')}}">Liste</a>
+                          <li><a href="{{route('nouvelle_famille')}}">Nouvelle</a>
+                          <li><a href="{{route('liste_famille')}}">Liste</a>
                           </li>
                         </ul>
                       </li>

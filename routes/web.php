@@ -111,14 +111,17 @@ Route::group(['prefix' => \App\Autorisation::RGS, 'middleware' => ['auth','polic
     Route::get('home','StockController@index')->name('accueil_'.\App\Autorisation::RGS);
     Route::get('profile','StockController@editProfil')->name('profile_'.\App\Autorisation::RGS);
     Route::get('produit/nouveau','StockController@showNewFormProduit')->name('nouveau_produit');
-    Route::get('famille/nouvelle','StockController@showNewFormFamille')->name('liste_famille');
+    Route::get('famille/nouvelle','StockController@showNewFormFamille')->name('nouvelle_famille');
     Route::post('produit/nouveau','StockController@sensResponseNewProduit');
-    //Route::post('famille/nouvelle','StockController@sensResponseNewFamille');
-
+    Route::post('famille/nouvelle','StockController@sensResponseNewFamille');
     Route::get('produit/{reference}/modifier','StockController@showFormUpdateProduit')->name('modifier_produit');
+    Route::get('famille/{id}/modifier','StockController@showFormUpdateFamille')->name('modifier_famille');
     Route::post('produit/{reference}/modifier','StockController@sensResponseUpdateProduit');
+    Route::post('famille/{id}/modifier','StockController@sensResponseUpdateFamille');
     Route::get('produit/{reference}/supprimer','StockController@sendResponseDeleteProduit')->name('supprimer_produit');
+    Route::get('famille/{id}/supprimer','StockController@sendResponseDeleteFamille')->name('supprimer_famille');
     Route::get('produit','StockController@showListProduit')->name('liste_produit');
+    Route::get('famille','StockController@showListFamille')->name('liste_famille');
 });
 
 Route::group(['prefix' => \App\Autorisation::EQUIPE_TRAVAUX, 'middleware' => ['auth','policy','role']],function (){
