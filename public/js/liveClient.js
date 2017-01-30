@@ -14,7 +14,7 @@ socket.on('welcome',function (data) {
 
 socket.on('userConnect',function (data) {
     ShowNotification('L\'utilisateur '+ data.fullname + ' s\'est connecté');
-    $target = "#user"+data.id+" a.profile_thumb";
+    $target = "#user"+data.id+" div.profile_pic";
     if($($target).text() != ""){
         $($target).addClass('connected');
         $($target).removeClass('disconnected');

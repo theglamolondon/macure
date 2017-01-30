@@ -33,10 +33,10 @@
             <table class="table table-bordered ">
                 <thead>
                     <tr>
-                        <th width="40%">Activité de maintenance</th>
-                        <th width="20%">{{$mois['M1']}}</th>
-                        <th width="20%">{{$mois['M2']}}</th>
-                        <th width="20%">{{$mois['M3']}}</th>
+                        <th width="40%" class="column-title">Activité de maintenance</th>
+                        <th width="20%" class="column-title">{{$mois['M1']}}</th>
+                        <th width="20%" class="column-title">{{$mois['M2']}}</th>
+                        <th width="20%" class="column-title">{{$mois['M3']}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,35 +56,35 @@
                     <tr>
                         <td>{{$loop->index+1}} - {{$tache->libelle}}</td>
                         <!-- 1er mois -->
-                        <td>
+                        <td @if($loop->index == 0)bgcolor="#FFC4C4" @endif @if($loop->index == 1)bgcolor="#99DBFF" @endif >
                             @foreach($ouvrages->where('tache_id',$tache->id)->filter(function ($item,$key){
                                 global $m;
                                 return \Carbon\Carbon::createFromFormat('Y-m-d',$item->datedebutetude)->month <= $m['M1_'] ;
                                 })
                             as $ov)
-                                {{$ov->libelle}} @if(!$loop->last)/@endif
+                                <span class="label label-default" style="background-color: {{$ov->couleur}}">{{$ov->libelle}}</span> @if(!$loop->last)/@endif
                             @endforeach
                         </td>
                         <!-- /1er mois -->
                         <!-- 2eme mois -->
-                        <td>
+                        <td @if($loop->index == 0)bgcolor="#FFC4C4" @endif @if($loop->index == 1)bgcolor="#99DBFF" @endif >
                             @foreach($ouvrages->where('tache_id',$tache->id)->filter(function ($item,$key){
                                 global $m;
                                 return \Carbon\Carbon::createFromFormat('Y-m-d',$item->datefinetude)->month >= $m['M2_'];
                                 })
                             as $ov)
-                                {{$ov->libelle}} @if(!$loop->last)/@endif
+                                <span class="label label-default" style="background-color: {{$ov->couleur}}">{{$ov->libelle}}</span> @if(!$loop->last)/@endif
                             @endforeach
                         </td>
                         <!-- /2eme mois -->
                         <!-- 3eme mois -->
-                        <td>
+                        <td @if($loop->index == 0)bgcolor="#FFC4C4" @endif @if($loop->index == 1)bgcolor="#99DBFF" @endif >
                             @foreach($ouvrages->where('tache_id',$tache->id)->filter(function ($item,$key){
                                 global $m;
                                 return \Carbon\Carbon::createFromFormat('Y-m-d',$item->datefinetude)->month >= $m['M3_'] ;
                                 })
                             as $ov)
-                                {{$ov->libelle}} @if(!$loop->last)/@endif
+                                <span class="label label-default" style="background-color: {{$ov->couleur}}">{{$ov->libelle}}</span> @if(!$loop->last)/@endif
                             @endforeach
                         </td>
                         <!-- /3eme mois -->
@@ -101,17 +101,17 @@
                         <td>{{$ouvrageExec->typeOuvrage->libelle}} : {{$ouvrageExec->libelle}}</td>
                         <td>
                             @if(\Carbon\Carbon::createFromFormat('Y-m-d',$ouvrageExec->datedebutexecution)->month <= $m['M1_'])
-                                {{$ouvrageExec->libelle}}
+                                <span class="label label-default" style="background-color: {{$ouvrageExec->direction->couleur}}">{{$ouvrageExec->libelle}}</span>
                             @endif
                         </td>
                         <td>
                             @if(\Carbon\Carbon::createFromFormat('Y-m-d',$ouvrageExec->datefinexecution)->month >= $m['M2_'])
-                                {{$ouvrageExec->libelle}}
+                                <span class="label label-default" style="background-color: {{$ouvrageExec->direction->couleur}}">{{$ouvrageExec->libelle}}</span>
                             @endif
                         </td>
                         <td>
                             @if(\Carbon\Carbon::createFromFormat('Y-m-d',$ouvrageExec->datefinexecution)->month >= $m['M3_'])
-                                {{$ouvrageExec->libelle}}
+                                <span class="label label-default" style="background-color: {{$ouvrageExec->direction->couleur}}">{{$ouvrageExec->libelle}}</span>
                             @endif
                         </td>
                     </tr>
@@ -128,8 +128,6 @@
         var app = angular.module("app", []);
         var regexA = new RegExp("(_A)","g");
         var regexT = new RegExp("(_T)","g");
-        var $_Annees = [];
-        //for(var i=2017;i <= (new Date()).getFullYear(); i++ ){ $_Annees.push(i);}
 
         app.controller("trimestreCtrl", function($scope){
             $scope.trim = 1;

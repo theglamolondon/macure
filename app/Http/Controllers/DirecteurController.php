@@ -27,8 +27,13 @@ class DirecteurController extends Controller
         ->groupBy('mois')
         ->get();
 
-        dd($bt);
+        $fpam = null;
 
-        return view('directeur.statistiques');
+        //dd($bt);
+
+        return view('directeur.statistiques',[
+            "BT" => $bt,
+            "FPAM" => $fpam
+        ]);
     }
 }

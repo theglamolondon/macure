@@ -597,8 +597,7 @@ class RbomController extends Controller
             ->whereMonth('datedebutetude','<=',12)
             ->whereMonth('datefinetude','>=',1)
             ->whereYear('datefinetude','<=',$annee)
-            ->select(['direction.libelle AS direction','ouvrage.*','tache.libelle AS tache','tacheouvrage.*'])
-            //->toSql();
+            ->select(['direction.libelle AS direction','ouvrage.*','tache.libelle AS tache','tacheouvrage.*','couleur'])
             ->get();
 
         //Toutes les taches de la période
@@ -655,7 +654,7 @@ class RbomController extends Controller
             ->whereMonth('datedebutetude','<=',$m3)
             ->whereMonth('datefinetude','>=',$m1)
             ->whereYear('datefinetude','<=',$annee)
-            ->select(['direction.libelle AS direction','ouvrage.*','tache.libelle AS tache','tacheouvrage.*'])
+            ->select(['direction.libelle AS direction','ouvrage.*','tache.libelle AS tache','tacheouvrage.*','couleur'])
             ->get();
 
         //Toutes les taches de la période
@@ -674,8 +673,6 @@ class RbomController extends Controller
             ->whereMonth('datefinexecution','>=',$m1)
             ->whereYear('datefinexecution','<=',$annee)
             ->get();
-
-        //dd($ouvragesExecutes);
 
         return view('rbom.planning_ouvrage_trimestriel',[
             'mois' => [

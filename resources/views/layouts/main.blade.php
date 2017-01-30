@@ -191,7 +191,7 @@
                   @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::CIE))
                   <li><a><i class="fa fa-bar-chart-o"></i> CIE <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Planning</a></li>
+                      <li><a href="{{route('planning_ouvrage_annuel')}}">Planning</a></li>
                       <li><a href="#">Bon de travaux</a></li>
                     </ul>
                   </li>
