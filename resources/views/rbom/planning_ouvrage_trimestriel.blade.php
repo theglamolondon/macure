@@ -105,12 +105,14 @@
                             @endif
                         </td>
                         <td>
-                            @if(\Carbon\Carbon::createFromFormat('Y-m-d',$ouvrageExec->datefinexecution)->month >= $m['M2_'])
+                            @if(\Carbon\Carbon::createFromFormat('Y-m-d',$ouvrageExec->datefinexecution)->month >= $m['M2_'] &&
+                                \Carbon\Carbon::createFromFormat('Y-m-d',$ouvrageExec->datedebutexecution)->month <= $m['M2_'])
                                 <span class="label label-default" style="background-color: {{$ouvrageExec->direction->couleur}}">{{$ouvrageExec->libelle}}</span>
                             @endif
                         </td>
                         <td>
-                            @if(\Carbon\Carbon::createFromFormat('Y-m-d',$ouvrageExec->datefinexecution)->month >= $m['M3_'])
+                            @if(\Carbon\Carbon::createFromFormat('Y-m-d',$ouvrageExec->datefinexecution)->month >= $m['M3_'] &&
+                                \Carbon\Carbon::createFromFormat('Y-m-d',$ouvrageExec->datedebutexecution)->month <= $m['M3_'])
                                 <span class="label label-default" style="background-color: {{$ouvrageExec->direction->couleur}}">{{$ouvrageExec->libelle}}</span>
                             @endif
                         </td>

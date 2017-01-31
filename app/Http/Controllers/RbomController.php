@@ -594,6 +594,7 @@ class RbomController extends Controller
     }
 
     public function sendResponseUpdateOuvrageForm(Request $request,$id){
+
         $this->validate($request,[
             'libelle' => 'required',
             'typeouvrage_id' => 'required|numeric',

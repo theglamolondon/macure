@@ -15,7 +15,7 @@
                                 <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
-                                        <th rowspan="2">N° Ordre</th>
+                                        <th rowspan="2" class="center">N° Ordre</th>
                                         <th rowspan="2">Nom de l'ouvrage</th>
                                         <th colspan="2">Etude</th>
                                         <th colspan="2">Exécution</th>
@@ -42,7 +42,7 @@
                                         <td>{{$ouvrage->typeOuvrage->libelle}}</td>
                                         <td>{{$ouvrage->direction->libelle}}</td>
                                         <td>
-                                            <a href="{{route("modifier_ouvrage" ,["id" => $ouvrage->id])}}"> Modifier <span class="fa fa-eye"> </span></a> |
+                                            <a href="{{route("modifier_ouvrage" ,["id" => $ouvrage->id])}}"> Modifier <span class="fa fa-edit"> </span></a> |
                                             <a onclick="return confirmDelete();" href="#"> Supprimer <span class="fa fa-trash"> </span></a>
                                         </td>
                                     </tr>
