@@ -20,10 +20,10 @@
                             </div>
                             <div class="media-body">
                                 <a class="title" href="javascript:void(0);">{{$utilisateur->name()}}</a>
-                                <p> <small>{{$utilisateur->lastlogin ? \Carbon\Carbon::parse($utilisateur->lastlogin)->format("d/m/Y H:i") : ''}}</small></p>
-                                <p>
+                                <p> <small>Dernière connexion : {{$utilisateur->lastlogin ? \Carbon\Carbon::parse($utilisateur->lastlogin)->format("d/m/Y H:i") : 'N/D'}}</small></p>
+                                <p> Etat :
                                     <small>
-                                    @if(Carbon\Carbon::parse($utilisateur->lastlogin)->diffInMinutes(Carbon\Carbon::parse($utilisateur->lastlogout),false) < 0 )
+                                    @if(Carbon\Carbon::parse($utilisateur->lastlogin)->diffInSeconds(Carbon\Carbon::parse($utilisateur->lastlogout),false) < 0 )
                                         Connecté
                                     @else
                                         Déconnecté
