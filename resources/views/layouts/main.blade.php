@@ -125,7 +125,7 @@
                       <li><a href="javascript:void(0);">Ouvrage</a>
                         <ul class="nav child_menu">
                           <li><a href="{{route('nouveau_ouvrage')}}">Nouveau</a></li>
-                          <li><a href="#">Liste</a></li>
+                          <li><a href="{{route('liste_ouvrage')}}">Liste</a></li>
                           <li><a href="javascript:void(0);">Planning d'ouvrage</a>
                             <ul class="nav child_menu">
                               <li><a href="{{route('planning_ouvrage_annuel')}}">Annuel</a></li>

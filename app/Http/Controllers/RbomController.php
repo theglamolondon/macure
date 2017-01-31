@@ -578,6 +578,71 @@ class RbomController extends Controller
         }
     }
 
+    public function showUpdateOuvrageForm($id){
+        try{
+            return view('rbom.updateouvrage',[
+                'ouvrage' => Ouvrage::with('taches')->findOrFail(intval($id)),
+                'taches' => Tache::leftjoin('tacheouvrage','tache.id','=','tacheouvrage.tache_id')->where('tacheouvrage.ouvrage_id',$id)->get(),
+                'directions' => Direction::all(),
+                'typeouvrages' => TypeOuvrage::all(),
+            ]);
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors(["L'ouvrage demandé est introuvable"]);
+        }catch ( \Exception $e){
+            return back()->withErrors([$e->getMessage()]);
+        }
+    }
+
+    public function sendResponseUpdateOuvrageForm(Request $request,$id){
+        $this->validate($request,[
+            'libelle' => 'required',
+            'typeouvrage_id' => 'required|numeric',
+            'direction_id' => 'required|numeric',
+            'datedebutetude' => 'required|date_format:d/m/Y',
+            'datefinetude' => 'required|date_format:d/m/Y',
+            'taches' => 'array'
+        ],[
+            'libelle.required' => "Le nom de l'ouvrage est requis svp!",
+            'datedebutetude.date_format' => "Veuillez saisir une date au format JJ/MM/AAAA svp!",
+            'datefinetude.date_format' => "Veuillez saisir une date au format JJ/MM/AAAA svp!",
+        ]);
+
+        try{
+            $ouvrage = Ouvrage::findOrFail(intval($id));
+            $update = $request->except(['_token','taches','datedebutetude','datefinetude','datedebutexecution','datefinexecution']);
+            $update["datedebutetude"] = Carbon::createFromFormat('d/m/Y',$request->input('datedebutetude'));
+            $ouvrage["datefinetude"] = Carbon::createFromFormat('d/m/Y',$request->input('datefinetude'));
+
+            //Détermination de la date d'exécutionn
+            if(
+                $request->input(['datedebutexecution']) != $request->input(['datefinexecution'])
+                && $request->input(['datedebutexecution']) != Carbon::today()->format('d/m/Y')
+            ){
+                $ouvrage["datedebutexecution"] = Carbon::createFromFormat('d/m/Y',$request->input('datedebutexecution'));
+                $ouvrage["datefinexecution"] = Carbon::createFromFormat('d/m/Y',$request->input('datefinexecution'));
+            }
+
+            $ouvrage->update($update);
+            //$ouvrage->taches()->attach($request->input('taches'));
+
+            $this->withSuccess(["Modification de l'ouvrage pris en compte avec succès !"]);
+            return redirect()->route('planning_ouvrage_annuel');
+        }catch (ModelNotFoundException $e){
+            return back()->withErrors([$e->getMessage()]);
+        }catch (\Exception $e){
+            return back()->withErrors([$e->getMessage()]);
+        }
+    }
+
+    public function showListOuvrage()
+    {
+        $ouvrages = Ouvrage::with('direction','typeOuvrage')->orderBy('datedebutetude','desc')->paginate(30);
+
+        return view('rbom.listeouvrage',[
+            "ouvrages" => $ouvrages
+        ]);
+    }
+
     private function getMonth(){
         return [
             1 => 'Janvier', 2 => 'Février', 3 => 'Mars',

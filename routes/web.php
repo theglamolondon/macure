@@ -52,6 +52,9 @@ Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','poli
     //Ouvrage
     Route::get('ouvrage/nouveau','RbomController@showNewOuvrageForm')->name('nouveau_ouvrage');
     Route::post('ouvrage/nouveau','RbomController@sendResponseNewOuvrageForm');
+    Route::get('ouvrage/{id}/modifier','RbomController@showUpdateOuvrageForm')->name('modifier_ouvrage');
+    Route::post('ouvrage/{id}/modifier','RbomController@sendResponseUpdateOuvrageForm');
+    Route::get('ouvrages','RbomController@showListOuvrage')->name('liste_ouvrage');
     Route::get('ouvrage/planning/annuel/{annee?}','RbomController@planningOuvrageAnnuel')->name('planning_ouvrage_annuel');
     Route::get('ouvrage/planning/trimestriel/{annee?}/{trimestre?}','RbomController@planningOuvrageTrimestriel')->name('planning_ouvrage_trimestriel');
     Route::get('ouvrage/planning/mensuel/{mois?}/{annee?}','RbomController@planningOuvrageMensuel')->name('planning_ouvrage_mensuel');
