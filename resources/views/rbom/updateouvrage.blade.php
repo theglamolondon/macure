@@ -68,25 +68,52 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="form-group">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Taches</label>
-                                <div class="col-md-10 col-sm-10 col-xs-12">
-                                    <select class="select2_multiple form-control" multiple name="taches[]">
-                                        @if(old('taches'))
-                                            @foreach($taches->toArray() as $t)
-                                                <option value="{{$t['id']}}" @if(array_search($t['id'],old('taches')) !== false) selected @endif>
-                                                    {{$t['libelle']}}
-                                                </option>
-                                            @endforeach
-                                        @else
-                                            @foreach ($taches->toArray() as $t)
-                                                <option value="{{$t['id']}}" @if(array_search($t['id'],array_column($ouvrage->taches->toArray(),'id')) !== false) selected @endif>
-                                                    {{$t['libelle']}}
-                                                </option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Taches</label>
+                            <div class="col-md-10 col-sm-10 col-xs-12">
+                                <select class="select2_multiple form-control" multiple name="taches[]">
+                                    @if(old('taches'))
+                                        @foreach($taches->toArray() as $t)
+                                            <option value="{{$t['id']}}" @if(array_search($t['id'],old('taches')) !== false) selected @endif>
+                                                {{$t['libelle']}}
+                                            </option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($taches->toArray() as $t)
+                                            <option value="{{$t['id']}}" @if(array_search($t['id'],array_column($ouvrage->taches->toArray(),'id')) !== false) selected @endif>
+                                                {{$t['libelle']}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="ln_solid"></div>
+
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button type="reset" class="btn btn-primary">Annuler</button>
+                                <button type="submit" class="btn btn-success">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Taches</label>
+                            <div class="col-md-10 col-sm-10 col-xs-12">
+                                <select class="select2_multiple form-control" multiple name="taches[]">
+                                    @if(old('taches'))
+                                        @foreach($taches->toArray() as $t)
+                                            <option value="{{$t['id']}}" @if(array_search($t['id'],old('taches')) !== false) selected @endif>
+                                                {{$t['libelle']}}
+                                            </option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($taches->toArray() as $t)
+                                            <option value="{{$t['id']}}" @if(array_search($t['id'],array_column($ouvrage->taches->toArray(),'id')) !== false) selected @endif>
+                                                {{$t['libelle']}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
                             </div>
                         </div>
 

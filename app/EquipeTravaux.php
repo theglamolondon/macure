@@ -25,11 +25,6 @@ class EquipeTravaux extends Model
         return $this->belongsTo('App\Intervenant',"chargemaintenance");
     }
 
-    public function intervenants()
-    {
-        return $this->hasMany('App\Intervenant');
-    }
-
     public function bonRealisations()
     {
         return $this->hasMany('App\BonRealisationTravail');
