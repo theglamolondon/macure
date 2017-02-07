@@ -175,8 +175,7 @@
                   @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::RTM))
                   <li><a><i class="fa fa-desktop"></i>RTM <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Nouvelle équipe</a></li>
-                      <li><a href="#">Liste des équipes</a></li>
+                      <li><a href="{{route('liste_equipe')}}">Liste des équipes</a></li>
                     </ul>
                   </li>
                   @endif

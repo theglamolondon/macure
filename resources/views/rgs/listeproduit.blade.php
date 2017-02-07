@@ -24,8 +24,8 @@
                         <td>{{$produit->quantite}}</td>
                         <td>{{$produit->famille->libelle}}</td>
                         <td>
-                            <a href="{{route('modifier_produit',['reference'=>$produit->reference])}}"> <i class="fa fa-edit"> </i>Modifier</a>
-                            <a  onclick="return confirmDelete()" href="{{route("supprimer_produit",["reference"=>$produit->reference])}}"> <i class="fa fa-trash"> </i>Supprimer</a>
+                            <a href="{{route('modifier_produit',['reference'=>$produit->reference])}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Modifier </a>
+                            <a onclick="return confirmDelete()" href="{{route("supprimer_produit",["reference"=>$produit->reference])}}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Supprimer </a>
                         </td>
                     </tr>
                     @endforeach

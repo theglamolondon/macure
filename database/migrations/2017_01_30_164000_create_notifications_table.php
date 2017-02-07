@@ -20,6 +20,17 @@ class CreateNotificationsTable extends Migration
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('membreequipe',function (Blueprint $table){
+            $table->date('dateparticipation');
+            $table->integer('intervenant_id');
+            $table->integer('equipetravaux_id');
+            $table->integer('fpam')->nullable();
+            $table->primary(['dateparticipation','intervenant_id','equipetravaux_id'],'pk_membreequipe');
+            $table->foreign('intervenant_id')->references('id')->on('intervenant');
+            $table->foreign('equipetravaux_id')->references('id')->on('equipetravaux');
+            $table->foreign('fpam')->references('id')->on('fpactionmaintenance');
+        });
     }
 
     /**
@@ -30,5 +41,6 @@ class CreateNotificationsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('notifications');
+        Schema::dropIfExists('membreequipe');
     }
 }

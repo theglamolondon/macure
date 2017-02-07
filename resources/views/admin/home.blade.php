@@ -14,22 +14,31 @@
                     </div>
                     <div class="x_content">
                         @foreach($utilisateurs as $utilisateur)
-                        <div class="event col-md-2 col-sm-4 col-xs-12 fontmeuser" id="user{{$utilisateur->id}}" style="margin: 0 5px; border: solid 1px #8B8970">
-                            <div class="profil_pic">
-                                <img class="img-circle profile_img" src="{{request()->getBaseUrl()}}/images/profile/{{$utilisateur->profileimage}}"/>
-                            </div>
-                            <div class="media-body">
-                                <a class="title" href="javascript:void(0);">{{$utilisateur->name()}}</a>
-                                <p> <small>Dernière connexion : {{$utilisateur->lastlogin ? \Carbon\Carbon::parse($utilisateur->lastlogin)->format("d/m/Y H:i") : 'N/D'}}</small></p>
-                                <p> Etat :
-                                    <small>
-                                    @if(Carbon\Carbon::parse($utilisateur->lastlogin)->diffInSeconds(Carbon\Carbon::parse($utilisateur->lastlogout),false) < 0 )
-                                        Connecté
-                                    @else
-                                        Déconnecté
-                                    @endif
-                                    </small>
-                                </p>
+                        <div class="col-md-3 col-sm-3 col-xs-12 profile_details" id="user{{$utilisateur->id}}">
+                            <div class="well profile_view">
+                                <div class="col-sm-12">
+                                    <h4 class="brief"><i>{{$utilisateur->typeIdentite->libelle}}</i></h4>
+                                    <div class="left col-xs-7">
+                                        <h2>{{$utilisateur->name()}}</h2>
+                                        <p><strong>About: </strong> Web Designer / UI. </p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="fa fa-building"></i> Address: </li>
+                                            <li><i class="fa fa-phone"></i> Phone : {{$utilisateur->utilisateur->telephone ?? null}}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="right col-xs-5 text-center">
+                                        <img src="{{request()->getBaseUrl()}}/images/profile/{{$utilisateur->profileimage}}" alt="" class="img-circle img-responsive">
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 bottom text-center">
+                                    <div class="col-xs-12 col-sm-6 emphasis">
+                                        <button type="button" class="btn btn-success btn-xs"> <i class="fa fa-user">
+                                            </i> <i class="fa fa-comments-o"></i> </button>
+                                        <a href="{{route('modif_utilisateur',['id'=>$utilisateur->id])}}" class="btn btn-primary btn-xs">
+                                            <i class="fa fa-user"> </i> Modifier le profil
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @endforeach

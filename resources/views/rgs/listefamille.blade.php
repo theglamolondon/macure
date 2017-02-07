@@ -18,8 +18,8 @@
                     <tr>
                         <td>{{$famille->libelle}}</td>
                         <td>
-                            <a href="{{route('modifier_famille',['id'=>$famille->id])}}"> <i class="fa fa-edit"> </i>Modifier</a>
-                            <a  onclick="return confirmDelete()" href="{{route("supprimer_famille",["id"=>$famille->id])}}"> <i class="fa fa-trash"> </i>Supprimer</a>
+                            <a href="{{route('modifier_famille',['id'=>$famille->id])}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Modifier </a>
+                            <a onclick="return confirmDelete()" href="{{route("supprimer_famille",["id"=>$famille->id])}}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Supprimer </a>
                         </td>
                     </tr>
                     @endforeach

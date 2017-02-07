@@ -5,7 +5,7 @@
         <div ng-controller="OuvrageCtrl">
             <div class="x_panel">
                 <div class="x_title">
-                    <h3>Nouvel ouvrage : @{{msg}} </h3>
+                    <h3>Modification ouvrage : @{{msg}} </h3>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -72,9 +72,19 @@
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12">Taches</label>
                                 <div class="col-md-10 col-sm-10 col-xs-12">
                                     <select class="select2_multiple form-control" multiple name="taches[]">
-                                        @foreach($taches as $tache)
-                                            <option value="{{$tache->id}}" @if($tache->tache_id == $tache->id)) selected @endif>{{$tache->libelle}}</option>
-                                        @endforeach
+                                        @if(old('taches'))
+                                            @foreach($taches->toArray() as $t)
+                                                <option value="{{$t['id']}}" @if(array_search($t['id'],old('taches')) !== false) selected @endif>
+                                                    {{$t['libelle']}}
+                                                </option>
+                                            @endforeach
+                                        @else
+                                            @foreach ($taches->toArray() as $t)
+                                                <option value="{{$t['id']}}" @if(array_search($t['id'],array_column($ouvrage->taches->toArray(),'id')) !== false) selected @endif>
+                                                    {{$t['libelle']}}
+                                                </option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </div>
                             </div>

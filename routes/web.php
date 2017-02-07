@@ -109,6 +109,10 @@ Route::group(['prefix' => \App\Autorisation::RTM, 'middleware' => ['auth','polic
     Route::get('/','RtmController@index');
     Route::get('home','RtmController@index')->name('accueil_'.\App\Autorisation::RTM);
     Route::get('profile','RtmController@editProfil')->name('profile_'.\App\Autorisation::RTM);
+    Route::get('equipe/{id}/modifier','RtmController@showUpdateFormEquipe')->name('modifier_equipe');
+    Route::post('equipe/{id}/modifier','RtmController@sendResponseUpdateFormEquipe');
+    Route::get('equipe/{id}/details','RtmController@showDetailsEquipe')->name('details_equipe');
+    Route::get('equipes','RtmController@showListEquipe')->name('liste_equipe');
 });
 
 Route::group(['prefix' => \App\Autorisation::RGS, 'middleware' => ['auth','policy','role']],function (){

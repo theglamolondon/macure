@@ -580,9 +580,22 @@ class RbomController extends Controller
 
     public function showUpdateOuvrageForm($id){
         try{
+            $ouvrage = Ouvrage::with('taches')->findOrFail(intval($id));
+            /*
+            var_dump($ouvrage->taches->toArray());
+            var_dump(Tache::all()->toArray());
+            foreach (Tache::all()->toArray() as $t)
+            {
+                echo "Recherche ".$t['id'].' -  '.$t['libelle'].'<br/>';
+
+                if(array_search($t['id'],array_column($ouvrage->taches->toArray(),'id')) !== false)
+                    echo "############".$t['libelle'].'<br/>';
+            }
+            dd();
+            */
             return view('rbom.updateouvrage',[
-                'ouvrage' => Ouvrage::with('taches')->findOrFail(intval($id)),
-                'taches' => Tache::leftjoin('tacheouvrage','tache.id','=','tacheouvrage.tache_id')->where('tacheouvrage.ouvrage_id',$id)->get(),
+                'ouvrage' => $ouvrage,
+                'taches' => Tache::all(),
                 'directions' => Direction::all(),
                 'typeouvrages' => TypeOuvrage::all(),
             ]);
@@ -601,7 +614,7 @@ class RbomController extends Controller
             'direction_id' => 'required|numeric',
             'datedebutetude' => 'required|date_format:d/m/Y',
             'datefinetude' => 'required|date_format:d/m/Y',
-            'taches' => 'array'
+            'taches' => 'array',
         ],[
             'libelle.required' => "Le nom de l'ouvrage est requis svp!",
             'datedebutetude.date_format' => "Veuillez saisir une date au format JJ/MM/AAAA svp!",

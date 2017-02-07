@@ -66,8 +66,6 @@ return [
             'engine' => null,
         ],
 
-        /*postgres://ayqquvqfzqpkrt:MRC3ooF29uxQmWcFVNgjEY4b08@ec2-54-243-229-49.compute-1.amazonaws.com:5432/d4hss13oql161h*/
-
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'ec2-54-243-229-49.compute-1.amazonaws.com'),
