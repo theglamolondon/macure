@@ -30,46 +30,9 @@
 @endsection
 
 @section('scripts')
-
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
     <script>
-
         function confirmDelete() {
             return confirm('Voulez-vous vraiment supprimer cette famille ? Attention, cette action est irreversible.');
         }
-        $(document).ready(function () {
-            $('#datatable').DataTable({
-                processing: true,
-                language : {
-                    decimal : " ",
-                    emptyTable : "Aucune données disponible à afficher",
-                    info : "Affichage de _START_ à _END_ de _TOTAL_ lignes",
-                    infoEmpty : "0 ligne de 0",
-                    infoFiltered : " (filtre de _MAX_ lignes au total)",
-                    infoPostFix : "",
-                    thousands : "",
-                    lengthMenu : "",
-                    loadingRecords : "Chargement encours ...",
-                    processing : "traitement encours ...",
-                    search : " Recherche :",
-                    zeroRecords : "Aucun enregistrement trouvé",
-                    paginate : {
-                        first : "Premier",
-                        last : "Dernier",
-                        next : "Suivant",
-                        previous : "Précédent",
-                    },
-                    aria : {
-                        sortAscending : "Tri ascendant activé",
-                        sortDescending : "Tri déscédent activé",
-                    }
-                },
-            });
-        });
     </script>
 @endsection

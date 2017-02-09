@@ -33,15 +33,15 @@
                     <div class="col-md-10 col-sm-10 col-xs-12">
                         <select class="select2_multiple form-control" multiple name="intervenants[]">
                             @if(old('intervenants'))
-                                @foreach($intervenants->toArray() as $t)
-                                    <option value="{{$t['id']}}" @if(array_search($t['id'],old('taches')) !== false) selected @endif>
-                                        {{$t['nom']}} {{$t['prenoms']}}
+                                @foreach($intervenants as $intervenant)
+                                    <option value="{{$intervenant->id}}" @if(array_search($intervenant->id,old('intervenants')) !== false) selected @endif>
+                                        {{$intervenant->nom}} {{$intervenant->prenoms}}
                                     </option>
                                 @endforeach
                             @else
-                                @foreach ($intervenants->toArray() as $int)
-                                    <option value="{{$int['id']}}" @if(array_search($int['id'],array_column($membres->toArray(),'intervenant_id')) !== false) selected @endif>
-                                        {{$int['nom']}} {{$int['prenoms']}}
+                                @foreach ($intervenants as $intervenant)
+                                    <option value="{{$intervenant->id}}" @if($intervenant->equipetravaux_id == $equipe->id) selected @endif>
+                                        {{$intervenant->nom}} {{$intervenant->prenoms}}
                                     </option>
                                 @endforeach
                             @endif

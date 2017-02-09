@@ -24,8 +24,8 @@
                         <td>{{$intervenant->niveau}}</td>
                         <td>{{$intervenant->equipe->nom}}</td>
                         <td>
-                            <a href="{{route('modif_intervenant',['id'=>$intervenant->id])}}"> <i class="fa fa-edit"> </i>Modifier</a>
-                            <a href="#"> <i class="fa fa-trash"> </i>Supprimer</a>
+                            <a  href="{{route('modif_intervenant',['id'=>$intervenant->id])}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Modifier </a>
+                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Supprimer </a>
                         </td>
                     </tr>
                 @endforeach

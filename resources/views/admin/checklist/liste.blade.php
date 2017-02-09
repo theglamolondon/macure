@@ -38,8 +38,8 @@
         var regLibelle = new RegExp("(_libelle_)","g");
         var regAction = new RegExp("(_action_)","g");
         var template = '<tr><td>_numero_</td><td>_libelle_</td><td>'
-                        + '<a href="{{route("modif_ckecklist",['id'=>'_action_'])}}"> <i class="fa fa-edit"> </i>Modifier</a>'
-                        +'<a href="#"> <i class="fa fa-trash"> </i>Supprimer</a></td></tr>';
+                        + '<a href="{{route("modif_ckecklist",['id'=>'_action_'])}}" class="btn btn-info btn-xs"> <i class="fa fa-pencil"> </i>Modifier</a>'
+                        +'<a href="#" class="btn btn-danger btn-xs"> <i class="fa fa-trash-o"> </i>Supprimer</a></td></tr>';
 
         $(document).ready(function(){
             $("#typegamme_id").change(function(){

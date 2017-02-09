@@ -29,9 +29,25 @@
                                     </thead>
 
                                     <tbody>
-                                    <!-- Dynamisé par Javascript -->
+                                    @foreach($data as $fpam)
+                                        <tr>
+                                            <td>{{$fpam->numerofpam}}</td>
+                                            <td>{{$fpam->bonTravaux->numerobon}}</td>
+                                            <td>{{$fpam->typeOperation->libelle}}</td>
+                                            <td>{{$fpam->titreOperation->libelle}}</td>
+                                            <td>{{$fpam->nomabonne}}</td>
+                                            <td>{{$fpam->localisation}}</td>
+                                            <td>
+                                                <a href="{{route("modifier_fpam" ,["initiateur" => $fpam->numerofpam])}}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Voir </a>
+                                                <a href="{{route("pointopoint" ,["initiateur" => $fpam->numerofpam])}}" class="btn btn-primary btn-xs"><i class="fa fa-map-marker"></i> Carte </a>
+                                                <a href="#" data-toggle="modal" onclick="fpam(this)" data-donnee="{{$fpam->id}}" data-target=".bs-example-modal-lg" class="btn btn-info btn-xs"><i class="fa fa-calendar-o"></i> Plannifier </a>
+                                                <a onclick="return confirmDelete();" href="{{route("supprimer_fpam" ,["initiateur" => $fpam->numerofpam])}}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Supprimer </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
+                                {{$data->links()}}
                             </div>
                         </div>
                     </div>
@@ -81,84 +97,11 @@
 @endsection
 
 @section('scripts')
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="{{request()->getBaseUrl()}}/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
 
     <script>
         function confirmDelete() {
             return confirm('Voulez-vous vraiment supprimer cette FPAM ? Attention, cette action est irreversible.');
         }
-        $(document).ready(function() {
-            var regex = new RegExp("(_number_)","g");
-
-            $('#datatable-responsive').DataTable({
-                processing : true,
-                serverSide : true,
-                aLengthMenu : [20,50,100],
-                ajax : {
-                    url : "{{route('liste_fpam_json')}}",
-                    type : "get",
-                    error : function () {
-                        alert('Aucune données sur le serveur')
-                    },
-                    pages : 5,
-                    dataSrc : function (json) {
-                        var link_ = null;
-                        for(var i=0; i<json.data.length; i++)
-                        {
-                            link_ = '<a href="{{route("modifier_fpam" ,["initiateur" => "_number_"])}}"> Voir <span class="fa fa-eye"> </span></a> | '
-                                    +'<a href="{{route("pointopoint" ,["initiateur" => "_number_"])}}"> Carte <span class="fa fa-map-marker"> </span></a> |'
-                                    +'<a href="#" data-toggle="modal" onclick="fpam(this)" data-donnee="'+json.data[i].id+'" data-target=".bs-example-modal-lg"> Planning <span class="fa fa-calendar"></span></a> | '
-                                    +'<a onclick="return confirmDelete();" href="{{route("supprimer_fpam" ,["initiateur" => "_number_"])}}"> Supprimer <span class="fa fa-trash"> </span></a>';
-                            json.data[i].lien_ = link_.replace(regex,json.data[i].numerofpam);
-                        }
-                        return json.data;
-                    }
-                },
-                columns : [
-                    {"data" : "numerofpam"},
-                    {"data" : "bontravaux.numerobon"},
-                    {"data" : "typeoperation.libelle"},
-                    {"data" : "titreoperation.libelle"},
-                    {"data" : "bontravaux.nomabonne"},
-                    {"data" : "localisation"},
-                    {"data" : "lien_"},
-                ],
-                language : {
-                    decimal : " ",
-                    emptyTable : "Aucune données disponible à afficher",
-                    info : "Affichage de _START_ à _END_ de _TOTAL_ lignes",
-                    infoEmpty : "0 ligne de 0",
-                    infoFiltered : " (filtre de _MAX_ lignes au total)",
-                    infoPostFix : "",
-                    thousands : "",
-                    lengthMenu : "",
-                    loadingRecords : "Chargement encours ...",
-                    processing : "traitement encours ...",
-                    search : " Recherche :",
-                    zeroRecords : "Aucun enregistrement trouvé",
-                    paginate : {
-                        first : "Premier",
-                        last : "Dernier",
-                        next : "Suivant",
-                        previous : "Précédent",
-                    },
-                    aria : {
-                        sortAscending : "Tri ascendant activé",
-                        sortDescending : "Tri déscédent activé",
-                    }
-                },
-            });
-
-
-        });
 
         //récupération du numéro du FPAM
         function fpam(noeud)

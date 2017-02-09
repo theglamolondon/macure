@@ -42,8 +42,8 @@
                                         <td>{{$ouvrage->typeOuvrage->libelle}}</td>
                                         <td>{{$ouvrage->direction->libelle}}</td>
                                         <td>
-                                            <a href="{{route("modifier_ouvrage" ,["id" => $ouvrage->id])}}"> Modifier <span class="fa fa-edit"> </span></a> |
-                                            <a onclick="return confirmDelete();" href="#"> Supprimer <span class="fa fa-trash"> </span></a>
+                                            <a href="{{route("modifier_ouvrage" ,["id" => $ouvrage->id])}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Modifier </a>
+                                            <a onclick="return confirmDelete();" href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Supprimer </a>
                                         </td>
                                     </tr>
                                     @endforeach

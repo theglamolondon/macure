@@ -98,6 +98,9 @@
                                         <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::DIRECTEUR}}"  class="flat"> Directeur
                                     </label>
                                     <label>
+                                        <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::RGS}}" class="flat" checked="checked"> Gestionnaire de stock
+                                    </label>
+                                    <label>
                                         <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::ADMIN}}" class="flat" checked="checked"> Administrateur
                                     </label>
                                 </div>

@@ -3,22 +3,26 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\DatabaseMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class WorkFlow extends Notification
+class WorkFlow extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    private $message;
+    private $link;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(string $message, string $link)
     {
-        //
+        $this->message = $message;
+        $this->link = $link;
     }
 
     /**
@@ -55,7 +59,16 @@ class WorkFlow extends Notification
     public function toArray($notifiable)
     {
         return [
-            "message"
+            "message" => $this->message,
+            "link" => $this->link
         ];
+    }
+
+    public function toDatabase($notifiable)
+    {
+        return new DatabaseMessage([
+            "message" => $this->message,
+            "link" => $this->link
+        ]);
     }
 }

@@ -10,7 +10,7 @@ class MembreEquipe extends Model
     protected $table = "membreequipe";
     public $timestamps = false;
     protected $guarded = [];
-    protected $primaryKey = ['dateparticipation','equipetravaux_id','intervenant_id'];
+    protected $primaryKey = ['fpam','equipetravaux_id','intervenant_id'];
 
     public function intervenant():BelongsTo{
         return $this->belongsTo('App\Intervenant','intervenant_id');

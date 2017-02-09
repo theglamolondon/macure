@@ -182,7 +182,7 @@
                   @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::EQUIPE_TRAVAUX))
                   <li><a><i class="fa fa-table"></i> EQUIPE TRAVAUX <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Planning du jour</a></li>
+                      <li><a href="{{route('planning_equipe')}}">Planning du jour</a></li>
                       <li><a href="#">Commande de matériel</a></li>
                     </ul>
                   </li>
@@ -200,6 +200,13 @@
                     <ul class="nav child_menu">
                       <li><a href="{{route('tableau_bord')}}">Tableau de bord</a></li>
                       <li><a href="{{route('statistiques')}}">Statistiques</a></li>
+                      <li><a href="javascript:void(0);">Planning</a>
+                        <ul class="nav child_menu">
+                          <li><a href="{{route('plan_ouvrage_directeur')}}">Ouvrage</a></li>
+                          <li><a href="{{route('plan_bt_directeur')}}">Bon travaux</a></li>
+                          <li><a href="{{route('plan_fpam_directeur')}}">FPAM</a></li>
+                        </ul>
+                      </li>
                     </ul>
                   </li>
                   @endif
@@ -230,71 +237,7 @@
                     <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out pull-right"></i> Déconnexion</a></li>
                   </ul>
                 </li>
-
-                <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">6</span>
-                  </a>
-                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                    <li>
-                      <a>
-                        <span class="image"><img src="{{request()->getBaseUrl()}}/images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="{{request()->getBaseUrl()}}/images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="{{request()->getBaseUrl()}}/images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="{{request()->getBaseUrl()}}/images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="text-center">
-                        <a>
-                          <strong>See All Alerts</strong>
-                          <i class="fa fa-angle-right"></i>
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
+                @include('partials._notifications',["user" => \Illuminate\Support\Facades\Auth::user()])
               </ul>
             </nav>
           </div>
@@ -365,7 +308,7 @@
     <script src="{{request()->getBaseUrl()}}/js/macure.js"></script>
 
     <!-- PNotify -->
-    <script>
+    <script type="text/javascript">
       $(document).ready(function() {
         @foreach($errors->all() as $message)
         new PNotify({
@@ -383,6 +326,18 @@
           text: '{{$message}}',
           type: '{{\App\Helper\Message::TYPE_SUCCESS}}', //error | info | alert | success
           styling: 'bootstrap3'
+        });
+        @endforeach
+        @endif
+
+        @if(session()->has('infos'))
+        @foreach(session('infos')->all() as $message)
+        new PNotify({
+          title: 'Notification',
+          text: '{{$message}}',
+          type: '{{\App\Helper\Message::TYPE_INFORMATION}}', //error | info | alert | success
+          styling: 'bootstrap3',
+          hide: false,
         });
         @endforeach
         @endif
@@ -486,7 +441,6 @@
       });
     </script>
     <!-- /bootstrap-daterangepicker -->
-
 
     <!-- SOCKET IO -->
     <script type="application/javascript" src="{{request()->getBaseUrl()}}/../node_modules/socket.io-client/dist/socket.io.js"></script>

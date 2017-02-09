@@ -153,7 +153,8 @@ class CreateDatabaseFirst extends Migration
             $table->string('nom');
             $table->string('prenoms')->nullable();
             $table->string('niveau')->nullable();
-            $table->boolean('emprunte')->default(false);
+            $table->integer('equipetravaux_id');
+            $table->foreign('equipetravaux_id')->references('id')->on('equipetravaux');
         });
         Schema::create('intervenant_habilitation',function (Blueprint $table){
             $table->integer('intervenant_id');

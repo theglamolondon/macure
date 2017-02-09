@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Checklist;
-use App\GammeCheck;
+use App\{Checklist, EquipeTravaux, GammeCheck, Planning, PreparationActionMaintenance, TypeGamme };
 use App\Http\HelperFunctions;
-use App\PreparationActionMaintenance;
-use App\TypeGamme;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class EquipeController extends Controller
 {
@@ -22,7 +20,8 @@ class EquipeController extends Controller
 
     public function Index()
     {
-        return view('equipe.home');
+        return $this->showPlanning();
+        //return view('equipe.home');
     }
 
     public function showNewFormCheckGamme($fpam)
@@ -85,5 +84,49 @@ class EquipeController extends Controller
     public function showNewFormGamme($fpam)
     {
         return view("equipe.gamme");
+    }
+
+    public function showPlanning($jour=null,$mois=null,$annee=null)
+    {
+        $d = Carbon::now();
+        $lundi = null;  $mardi = null;  $mercredi = null;  $jeudi = null;
+        $vendredi = null;  $samedi = null;  $dimanche = null;
+
+        if($jour == null){
+            $lundi = Carbon::now()->addDay(-($d->dayOfWeek-1));
+            $mardi = Carbon::now()->addDay(-($d->dayOfWeek-1) + Carbon::TUESDAY -1);
+            $mercredi = Carbon::now()->addDay(-($d->dayOfWeek-1) + Carbon::WEDNESDAY-1);
+            $jeudi = Carbon::now()->addDay(-($d->dayOfWeek-1) + Carbon::THURSDAY-1);
+            $vendredi = Carbon::now()->addDay(-($d->dayOfWeek-1) + Carbon::FRIDAY-1);
+            $samedi = Carbon::now()->addDay(-($d->dayOfWeek-1) + Carbon::SATURDAY-1);
+            $dimanche = Carbon::now()->addDay(-($d->dayOfWeek-1) + Carbon::SUNDAY-1);
+        }else{
+            $d = Carbon::createFromDate($annee,$mois,$jour);
+            $lundi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1));
+            $mardi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::TUESDAY -1));
+            $mercredi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::WEDNESDAY-1));
+            $jeudi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::THURSDAY-1));
+            $vendredi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::FRIDAY-1));
+            $samedi = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SATURDAY-1));
+            $dimanche = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SUNDAY-1));
+        }
+
+        $planning = Planning::with(['equipe','actionmaintenance'])
+                    ->where('equipe_id',Auth::user()->equipeTravaux->id ?? 0)
+                    ->whereBetween('datedepannage',[$dimanche->toDateString(),$samedi->toDateString()])->get();
+        $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->orderBy('chargemaintenance','asc')->get();
+
+        return view('equipe.planning',[
+            "planning" => $planning,
+            "lundi" => $lundi,
+            "mardi" => $mardi,
+            "mercredi" => $mercredi,
+            "jeudi" => $jeudi,
+            "vendredi" => $vendredi,
+            "samedi" => $samedi,
+            "dimanche" => $dimanche,
+            "equipes" => $equipes,
+            "date" => $d->format('d/m/Y'),
+        ]);
     }
 }

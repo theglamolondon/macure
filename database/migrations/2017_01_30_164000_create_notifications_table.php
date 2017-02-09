@@ -26,7 +26,7 @@ class CreateNotificationsTable extends Migration
             $table->integer('intervenant_id');
             $table->integer('equipetravaux_id');
             $table->integer('fpam')->nullable();
-            $table->primary(['dateparticipation','intervenant_id','equipetravaux_id'],'pk_membreequipe');
+            $table->primary(['fpam','intervenant_id','equipetravaux_id'],'pk_membreequipe');
             $table->foreign('intervenant_id')->references('id')->on('intervenant');
             $table->foreign('equipetravaux_id')->references('id')->on('equipetravaux');
             $table->foreign('fpam')->references('id')->on('fpactionmaintenance');

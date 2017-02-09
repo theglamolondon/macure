@@ -2,32 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\BonTravaux;
-use App\CauseChantier;
-use App\CoordonneeGPS;
-use App\Direction;
-use App\EquipeTravaux;
-use App\EtatBon;
-use App\Gamme;
+use App\{BonTravaux,CauseChantier,Direction,EquipeTravaux,EtatBon,Gamme,MoyenHumain,Ouvrage,Planning,PreparationActionMaintenance,
+        SollicitationExterieure,Tache,TypeGamme,TypeOperation,TypeOuvrage,Urgence};
+
 use App\Http\HelperFunctions;
-use App\MoyenHumain;
-use App\Ouvrage;
-use App\Planning;
-use App\PreparationActionMaintenance;
-use App\SollicitationExterieure;
-use App\Tache;
-use App\TypeGamme;
-use App\TypeOperation;
-use App\TypeOuvrage;
-use App\Urgence;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 
 class RbomController extends Controller
@@ -72,7 +55,7 @@ class RbomController extends Controller
     public function showListBT()
     {
         return view('rbom.listebt',[
-            "bons" => BonTravaux::with(['etatbon','urgence'])->offset(0)->limit(20)->get()
+            "bons" => BonTravaux::with(['etatbon','urgence'])->paginate(30)
         ]);
     }
 
@@ -369,7 +352,7 @@ class RbomController extends Controller
 
     public function showListFPAM()
     {
-        $data = PreparationActionMaintenance::all();
+        $data =PreparationActionMaintenance::with(['titreoperation','typeoperation','bontravaux'])->paginate(30);
         return view('rbom.listefpam',[
             'data' => $data,
             'equipes'  => EquipeTravaux::all()
@@ -657,7 +640,7 @@ class RbomController extends Controller
         ]);
     }
 
-    private function getMonth(){
+    public static function getMonth(){
         return [
             1 => 'Janvier', 2 => 'Février', 3 => 'Mars',
             4 => 'Avril', 5 => 'Mai', 6 => 'Juin',

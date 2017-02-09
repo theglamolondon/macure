@@ -98,6 +98,9 @@
                                     <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::DIRECTEUR}}" @if(array_search(\App\Autorisation::DIRECTEUR,json_decode($identite->autorisation)) !== false) checked @endif class="flat" /> Directeur
                                 </label>
                                 <label>
+                                    <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::RGS}}" @if(array_search(\App\Autorisation::RGS,json_decode($identite->autorisation)) !== false) checked @endif class="flat" /> Gestionnaire de stock
+                                </label>
+                                <label>
                                     <input type="checkbox" name="autorisation[]" value="{{\App\Autorisation::ADMIN}}" @if(array_search(\App\Autorisation::ADMIN,json_decode($identite->autorisation)) !== false) checked @endif class="flat" /> Administrateur
                                 </label>
                             </div>

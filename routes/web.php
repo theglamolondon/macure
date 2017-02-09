@@ -25,12 +25,25 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
+// Notifications routes
+Route::get('notifications/{user}', 'NotificationController@index')->name('mes_notifications');
+Route::get('notification/{notification}','NotificationController@update')->name('lire_notification');
+Route::post('notification/commentaire/nouveau','NotificationController@addNewCommentForUser')->name('nouveau_commentaire');
+
+//PDF
+Route::get('pdf/planning/bontravaux/{annee?}/{mois?}/{jour?}','PdfController@planningBT')->name('pdf_planning_bt');
+Route::get('pdf/planning/ouvrage/{annee?}','PdfController@planningOuvrage')->name('pdf_planning_ouvrage');
+Route::get('pdf/planning/fpam/{annee?}/{mois?}/{jour?}','PdfController@planningFPAM')->name('pdf_planning_fpam');
+
 Route::group(['prefix' => \App\Autorisation::DIRECTEUR, 'middleware' => ['auth','policy','role']],function (){
     Route::get('/','DirecteurController@index');
     Route::get('/home','DirecteurController@index')->name('accueil_'.\App\Autorisation::DIRECTEUR);
     Route::get('/profile','DirecteurController@editProfil')->name('profile_'.\App\Autorisation::DIRECTEUR);
     Route::get('/tableaubord','AdminController@index')->name('tableau_bord');
     Route::get('/statistique','DirecteurController@statistiques')->name('statistiques');
+    Route::get('/planning/ouvrage/{annee?}','DirecteurController@ouvrage')->name('plan_ouvrage_directeur');
+    Route::get('/planning/bontravaux/{annee?}/{mois?}/{jour?}','DirecteurController@bontravaux')->name('plan_bt_directeur');
+    Route::get('/planning/fpam/{jour?}/{mois?}/{annee?}','DirecteurController@fpam')->name('plan_fpam_directeur');
 });
 
 Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','policy','role']],function (){
@@ -140,6 +153,7 @@ Route::group(['prefix' => \App\Autorisation::EQUIPE_TRAVAUX, 'middleware' => ['a
     Route::post('gamme/checklist/add','EquipeController@sendResponseCheckList')->name('save_checklist');
     Route::get('profile','EquipeController@editProfil')->name('profile_'.\App\Autorisation::EQUIPE_TRAVAUX);
     Route::get('gamme/{fpam}/edit','EquipeController@showNewFormGamme')->name('edit_gamme');
+    Route::get('planning/{jour?}/{mois?}/{annee?}','EquipeController@showPlanning')->name('planning_equipe');
 });
 
 Route::group(['prefix' => \App\Autorisation::CIE, 'middleware' => ['auth','policy','role']],function (){

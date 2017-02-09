@@ -114,45 +114,56 @@ class UsersTableSeeder extends Seeder
                 "nom" => "Kouassi",
                 "prenoms" => "Eugène",
                 "niveau" => "Ingénieur de technique",
+                "equipetravaux_id" => 1,
             ],[
                 "nom" => "Mael",
                 "prenoms" => "Franck",
                 "niveau" => "Technicien BT",
+                "equipetravaux_id" => 1,
             ],[
                 "nom" => "Atébi",
                 "prenoms" => "Yaro Francis",
                 "niveau" => "Ingénieur de technique",
+                "equipetravaux_id" => 1,
             ],[
                 "nom" => "Ohoucou",
                 "prenoms" => "Sandrine",
                 "niveau" => "Ingénieur de technique",
+                "equipetravaux_id" => 2,
             ],[
                 "nom" => "Kouassi",
                 "prenoms" => "Eugène",
                 "niveau" => "Technicien",
+                "equipetravaux_id" => 2,
             ],[
                 "nom" => "Traoré",
                 "prenoms" => "Aboubakar",
                 "niveau" => "Technicien",
+                "equipetravaux_id" => 2,
             ],[
                 "nom" => "Adjéhi",
                 "prenoms" => "Lucien",
                 "niveau" => "Ingénieur de technique",
+                "equipetravaux_id" => 3,
             ],[
                 "nom" => "Toungblé",
                 "prenoms" => "Martial",
                 "niveau" => "Ingénieur de technique",
+                "equipetravaux_id" => 3,
             ],[
                 "nom" => "Sylla",
                 "prenoms" => "Fofana",
                 "niveau" => "Ingénieur de technique",
+                "equipetravaux_id" => 3,
             ],
         ]);
+        /*
         DB::table('membreequipe')->insert([
             [
                 "dateparticipation" => \Carbon\Carbon::now()->toDateString(),
                 "intervenant_id" => 3,
-                "equipetravaux_id" => 1
+                "equipetravaux_id" => 1,
+                "fpam" => 1
             ],
             [
                 "dateparticipation" => \Carbon\Carbon::now()->toDateString(),
@@ -165,6 +176,7 @@ class UsersTableSeeder extends Seeder
                 "equipetravaux_id" => 1
             ],
         ]);
+        */
         DB::table("causechantier")->insert([
            ["libelle" => 'Incident' ],
            ["libelle" => 'Avarie' ],

@@ -161,7 +161,7 @@
                             @endif
                         </table>
                         <div class="bottom">
-                            <a href="{{route('pdf_planning_bt')}}/{{$date}}" class="btn btn-info">
+                            <a href="{{route('pdf_planning_fpam')}}/{{$date}}" class="btn btn-info">
                                 <i class="fa fa-file-pdf-o"> </i> Télécharger le PDF
                             </a>
                             @include('partials._comment',['user' => \Illuminate\Support\Facades\Auth::user()])
@@ -176,7 +176,7 @@
 @section("scripts")
     <script>
         $("#go").click(function () {
-            var URL = '{{route("planning")}}';
+            var URL = '{{route("plan_fpam_directeur")}}';
             document.location = URL + "/" + $("#calendrier").val();
         });
 

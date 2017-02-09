@@ -22,8 +22,8 @@
                     <td>{{$identite->typeIdentite->libelle}}</td>
                     <td>{{$identite->utilisateur ? $identite->utilisateur->nom.' '.$identite->utilisateur->prenoms : $identite->equipeTravaux->nom}}</td>
                     <td>
-                        <a href="{{route('modif_utilisateur',['id'=>$identite->id])}}"> <i class="fa fa-edit"> </i>Modifier</a>
-                        <a href="#"> <i class="fa fa-trash"> </i>Supprimer</a>
+                        <a href="{{route('modif_utilisateur',['id'=>$identite->id])}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Modifier </a>
+                        <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Supprimer </a>
                     </td>
                 </tr>
                 @endforeach

@@ -39,7 +39,7 @@ class RtmController extends Controller
         }
     }
 
-    public function sendResponseUpdateFormEquipe(Request $request, int $id): View
+    public function sendResponseUpdateFormEquipe(Request $request, int $id)
     {
         $this->validate($request,[
             "intervenants" => "required|array"
@@ -48,6 +48,12 @@ class RtmController extends Controller
             "intervenants.array" => "La liste des intervants de cette équipe est requise",
         ]);
 
+        $membres = Intervenant::whereIn('id',$request->input('intervenants'))->get();
+        foreach ($membres as $membre){
+            $membre->update(["equipetravaux_id" => $id]);
+        }
+
+        /*
         //recherche des membres actuels
         $membresActuels = MembreEquipe::whereNull('fpam')->where('equipetravaux_id',$id)->get()->toArray();
 
@@ -71,11 +77,12 @@ class RtmController extends Controller
             }
         }
         //dd();
+        */
         $this->withSuccess('la liste des membre de l\'équipe a été mise à jour avec succès !');
         return redirect()->route('liste_equipe');
     }
 
-    public function showListEquipe():View
+    public function showListEquipe()
     {
         return view('rtm.listequipe',[
             "equipes" => EquipeTravaux::with('chefEquipe','chargeMaintenance')->get()

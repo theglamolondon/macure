@@ -30,4 +30,21 @@ trait HelperFunctions
         session()->flash('status',$messageBag);
         return $this;
     }
+
+    public function withNotification($message)
+    {
+        //session()->flush();
+        $messageBag = session()->has('infos') ? session()->get('infos') : new MessageBag() ;
+
+        if(is_array($message)){
+            foreach ($message as $value){
+                $messageBag->add('infos',$value);
+            }
+        }elseif(is_string($message)){
+            $messageBag->add('infos',$message);
+        }
+        //dd($messageBag);
+        session()->flash('infos',$messageBag);
+        return $this;
+    }
 }

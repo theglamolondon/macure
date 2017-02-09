@@ -25,6 +25,13 @@
                                             <li><i class="fa fa-building"></i> Address: </li>
                                             <li><i class="fa fa-phone"></i> Phone : {{$utilisateur->utilisateur->telephone ?? null}}</li>
                                         </ul>
+                                        <div class="">
+                                            <label>
+                                                Déconnecté
+                                                <input type="checkbox" class="js-switch" @if(Carbon\Carbon::parse($utilisateur->lastlogin)->diffInSeconds(Carbon\Carbon::parse($utilisateur->lastlogout),false) < 0 )
+                                                checked @endif /> Connecté
+                                            </label>
+                                        </div>
                                     </div>
                                     <div class="right col-xs-5 text-center">
                                         <img src="{{request()->getBaseUrl()}}/images/profile/{{$utilisateur->profileimage}}" alt="" class="img-circle img-responsive">
