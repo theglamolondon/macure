@@ -1,3 +1,7 @@
+<!-- Bootstrap -->
+<link href="{{request()->getBaseUrl()}}/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- Font Awesome -->
+<link href="{{request()->getBaseUrl()}}/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
     .alignment-center {
         text-align: center;

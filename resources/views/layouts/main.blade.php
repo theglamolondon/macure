@@ -116,6 +116,34 @@
                           </li>
                         </ul>
                       </li>
+                      <li><a href="javascript:void(0);">Général</a>
+                        <ul class="nav child_menu">
+                          <li><a href="#" >Directions</a>
+                            <ul class="nav child_menu">
+                              <li><a href="#">Nouveau</a>
+                              <li><a href="#">Liste</a></li>
+                            </ul>
+                          </li>
+                          <li><a href="#" >Habilitations</a>
+                            <ul class="nav child_menu">
+                              <li><a href="#">Nouveau</a>
+                              <li><a href="#">Liste</a></li>
+                            </ul>
+                          </li>
+                          <li><a href="#" >Tâches</a>
+                            <ul class="nav child_menu">
+                              <li><a href="#">Nouveau</a>
+                              <li><a href="#">Liste</a></li>
+                            </ul>
+                          </li>
+                          <li><a href="#" >Type d'ouvrage</a>
+                            <ul class="nav child_menu">
+                              <li><a href="#">Nouveau</a>
+                              <li><a href="#">Liste</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
                     </ul>
                   </li>
                   @endif

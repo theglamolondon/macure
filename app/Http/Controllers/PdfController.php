@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BonTravaux;
 use App\EquipeTravaux;
 use App\IdentiteAcces;
 use App\Notifications\WorkFlow;
@@ -41,12 +42,19 @@ class PdfController extends Controller
             $dimanche = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SUNDAY-1));
         }
 
-        $planning = Planning::with(['equipe','actionmaintenance'])
-            ->whereBetween('datedepannage',[$dimanche->toDateString(),$samedi->toDateString()])->get();
-        $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->orderBy('chargemaintenance','asc')->get();
-        $date = $d->format('d/m/Y');
+        $bonDeLaSemaine = BonTravaux::with(['equipe','urgence','etatbon'])
+            ->whereNull('dateplannification')
+            ->whereBetween('dateexecution',[$dimanche->toDateString(),$samedi->toDateString()])
+            ->orderBy('dateexecution')->get();
 
-        $pdf = PDF::loadView('pdf.planningbt', compact('planning','lundi',"mardi","mercredi","jeudi","vendredi","samedi","dimanche","equipes","date"))
+        $planningbt = BonTravaux::with(['equipe'])
+            ->whereBetween('dateplannification',[$dimanche->toDateString(),$samedi->toDateString()])
+            ->select(['id','numerobon','dateplannification','equipetravaux_id'])
+            ->orderBy('dateexecution')->get();
+
+        $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->orderBy('chargemaintenance','asc')->get();
+
+        $pdf = PDF::loadView('pdf.planningbt', compact("bonDeLaSemaine",'planningbt','lundi',"mardi","mercredi","jeudi","vendredi","samedi","dimanche","equipes","date"))
                             ->setPaper('a4', 'landscape');
         return $pdf->download('planningbt.pdf');
     }
@@ -97,7 +105,7 @@ class PdfController extends Controller
                 'M12' =>  RbomController::getMonth()[12], 'M12_' =>  12,
             ];
 
-        $pdf = PDF::loadView('pdf.planningouvrage', compact("mois","ouvrages","ouvragesExecutes","taches"))
+        $pdf = PDF::loadView('pdf.planningouvrage', compact("mois","ouvrages","ouvragesExecutes","taches","annee"))
             ->setPaper('a4', 'landscape');
         return $pdf->download('planningouvrage.pdf');
     }

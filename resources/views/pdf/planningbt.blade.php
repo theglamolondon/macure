@@ -1,132 +1,75 @@
 @include('pdf._style')
+<style type="text/css" rel="stylesheet">
+    th{
+        width: 130px;
+    }
+    .titre{
+        text-align: center;
+        font-size: 1.4em;
+        border: 1px solid #2a88bd;
+        padding: 3px 7px;
+    }
+</style>
+<div>
+    <img src="images/logo-djera.jpg" alt="Djera-Services-logo" style="position: center ; height: 100px"/>
+</div>
+<h3 class="titre">Planning des Bon travaux du {{$dimanche->format('d/m/Y')}} au {{$samedi->format('d/m/Y')}} </h3>
 <div class="table-responsive">
     <table class="table table-bordered  bulk_action">
         <thead>
         <tr class="headings">
-            <th width="12.5%" class="alignment-center column-title"><h4>Maintenance </h4> <p>Curative</p> </th>
-            <th width="12.5%" class="alignment-center column-title"><h4>Dimanche</h4><p>{{$dimanche->format('d/m/Y')}}</p></th>
-            <th width="12.5%" class="alignment-center column-title"><h4>Lundi</h4><p>{{$lundi->format('d/m/Y')}}</p></th>
-            <th width="12.5%" class="alignment-center column-title"><h4>Mardi</h4><p>{{$mardi->format('d/m/Y')}}</p></th>
-            <th width="12.5%" class="alignment-center column-title"><h4>Mercredi</h4><p>{{$mercredi->format('d/m/Y')}}</p></th>
-            <th width="12.5%" class="alignment-center column-title"><h4>Jeudi</h4><p>{{$jeudi->format('d/m/Y')}}</p></th>
-            <th width="12.5%" class="alignment-center column-title"><h4>Vendredi</h4><p>{{$vendredi->format('d/m/Y')}}</p></th>
-            <th width="12.5%" class="alignment-center column-title"><h4>Samedi</h4><p>{{$samedi->format('d/m/Y')}}</p></th>
+            <th class="alignment-center column-title"><strong>Dimanche</strong><p>{{$dimanche->format('d/m/Y')}}</p></th>
+            <th class="alignment-center column-title"><strong>Lundi</strong><p>{{$lundi->format('d/m/Y')}}</p></th>
+            <th class="alignment-center column-title"><strong>Mardi</strong><p>{{$mardi->format('d/m/Y')}}</p></th>
+            <th class="alignment-center column-title"><strong>Mercredi</strong><p>{{$mercredi->format('d/m/Y')}}</p></th>
+            <th class="alignment-center column-title"><strong>Jeudi</strong><p>{{$jeudi->format('d/m/Y')}}</p></th>
+            <th class="alignment-center column-title"><strong>Vendredi</strong><p>{{$vendredi->format('d/m/Y')}}</p></th>
+            <th class="alignment-center column-title"><strong>Samedi</strong><p>{{$samedi->format('d/m/Y')}}</p></th>
         </tr>
         </thead>
-        @if(!$planning->isEmpty())
+        @if(!$planningbt->isEmpty())
             <tbody>
-            @foreach($equipes as $equipe)
-                <tr class="odd pointer">
-                    @if($loop->index%2 ==0 )
-                    <td class="alignment-center" valign="middle" rowspan="2">
-                        <br><br><br>
-                        Chargé des équipes : <br/> <strong>{{$equipe->chargeMaintenance->nom}} {{$equipe->chargeMaintenance->prenoms}}</strong>
-                    </td>
-                    @endif
-                    <td class=" ">
-                        @foreach($planning->where("datedepannage",$dimanche->toDateString())->where("equipe_id",$equipe->id) as $plan)
-                            @if($plan->actionmaintenance)
-                                <div class="tile-stats">
-                                    <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
-                                    <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
-                                    <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                    <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                            {{$plan->actionmaintenance->localisation}}</a>
-                                    </p>
-                                </div>
-                            @endif
-                        @endforeach
-                    </td>
-                    <td class=" ">
-                        @foreach($planning->where("datedepannage",$lundi->toDateString())->where("equipe_id",$equipe->id) as $plan)
-                            @if($plan->actionmaintenance)
-                                <div class="tile-stats">
-                                    <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
-                                    <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
-                                    <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                    <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                            {{$plan->actionmaintenance->localisation}}</a>
-                                    </p>
-                                </div>
-                            @endif
-                        @endforeach
-                    </td>
-                    <td class=" ">
-                        @foreach($planning->where("datedepannage",$mardi->toDateString())->where("equipe_id",$equipe->id) as $plan)
-                            @if($plan->actionmaintenance)
-                                <div class="tile-stats">
-                                    <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
-                                    <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
-                                    <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                    <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                            {{$plan->actionmaintenance->localisation}}</a>
-                                    </p>
-                                </div>
-                            @endif
-                        @endforeach
-                    </td>
-                    <td class=" ">
-                        @foreach($planning->where("datedepannage",$mercredi->toDateString())->where("equipe_id",$equipe->id) as $plan)
-                            @if($plan->actionmaintenance)
-                                <div class="tile-stats">
-                                    <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
-                                    <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
-                                    <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                    <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                            {{$plan->actionmaintenance->localisation}}</a>
-                                    </p>
-                                </div>
-                            @endif
-                        @endforeach
-                    </td>
-                    <td class=" ">
-                        @foreach($planning->where("datedepannage",$jeudi->toDateString())->where("equipe_id",$equipe->id) as $plan)
-                            @if($plan->actionmaintenance)
-                                <div class="tile-stats">
-                                    <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
-                                    <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
-                                    <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                    <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                            {{$plan->actionmaintenance->localisation}}</a>
-                                    </p>
-                                </div>
-                            @endif
-                        @endforeach
-                    </td>
-                    <td class=" ">
-                        @foreach($planning->where("datedepannage",$vendredi->toDateString())->where("equipe_id",$equipe->id) as $plan)
-                            @if($plan->actionmaintenance)
-                                <div class="tile-stats">
-                                    <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
-                                    <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
-                                    <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                    <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                            {{$plan->actionmaintenance->localisation}}</a>
-                                    </p>
-                                </div>
-                            @endif
-                        @endforeach
-                    </td>
-                    <td class=" ">
-                        @foreach($planning->where("datedepannage",$samedi->toDateString())->where("equipe_id",$equipe->id) as $plan)
-                            @if($plan->actionmaintenance)
-                                <div class="tile-stats">
-                                    <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
-                                    <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
-                                    <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                    <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                            {{$plan->actionmaintenance->localisation}}</a>
-                                    </p>
-                                </div>
-                            @endif
-                        @endforeach
-                    </td>
-                </tr>
-            @endforeach
+            <tr class="odd pointer">
+                <td class=" ">
+                    @foreach($planningbt->where('dateplannification',$dimanche->toDateString()) as $bt)
+                        <p>BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}</p>
+                    @endforeach
+                </td>
+                <td class=" ">
+                    @foreach($planningbt->where('dateplannification',$lundi->toDateString()) as $bt)
+                        <p>BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}</p>
+                    @endforeach
+                </td>
+                <td class=" ">
+                    @foreach($planningbt->where('dateplannification',$mardi->toDateString()) as $bt)
+                        <p>BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}</p>
+                    @endforeach
+                </td>
+                <td class=" ">
+                    @foreach($planningbt->where('dateplannification',$mercredi->toDateString()) as $bt)
+                        <p>BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}</p>
+                    @endforeach
+                </td>
+                <td class=" ">
+                    @foreach($planningbt->where('dateplannification',$jeudi->toDateString()) as $bt)
+                        <p>BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}</p>
+                    @endforeach
+                </td>
+                <td class=" ">
+                    @foreach($planningbt->where('dateplannification',$vendredi->toDateString()) as $bt)
+                        <p>BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}</p>
+                    @endforeach
+                </td>
+                <td class=" ">
+                    @foreach($planningbt->where('dateplannification',$samedi->toDateString()) as $bt)
+                        <p>BT : {{$bt->numerobon}} <br/> Equipe : {{$bt->equipe->nom}}</p>
+                    @endforeach
+                </td>
+            </tr>
             </tbody>
         @else
             <tr>
-                <td colspan="8">
+                <td colspan="7">
                     <div class="bs-example" data-example-id="simple-jumbotron">
                         <div class="jumbotron">
                             <h1 style="text-align: center">Djera Services - MACURE</h1>

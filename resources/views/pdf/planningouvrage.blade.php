@@ -1,20 +1,41 @@
 @include('pdf._style')
+<style type="text/css" rel="stylesheet">
+    th{
+        width: 50px;
+    }
+    .titre{
+        text-align: center;
+        font-size: 1.4em;
+        border: 1px solid #2a88bd;
+        padding: 3px 7px;
+    }
+    td{
+        font-size: 0.85em;
+    }
+</style>
+
+<div>
+    <img src="images/logo-djera.jpg" alt="Djera-Services-logo" style="position: center ; height: 100px"/>
+</div>
+
+<h3 class="titre">Planning Annuel des Ouvrages de {{$annee}} </h3>
+
 <table class="table table-bordered ">
     <thead>
     <tr>
-        <th width="16%">Activité de maintenance</th>
-        <th width="7%">{{$mois['M1']}}</th>
-        <th width="7%">{{$mois['M2']}}</th>
-        <th width="7%">{{$mois['M3']}}</th>
-        <th width="7%">{{$mois['M4']}}</th>
-        <th width="7%">{{$mois['M5']}}</th>
-        <th width="7%">{{$mois['M6']}}</th>
-        <th width="7%">{{$mois['M7']}}</th>
-        <th width="7%">{{$mois['M8']}}</th>
-        <th width="7%">{{$mois['M9']}}</th>
-        <th width="7%">{{$mois['M10']}}</th>
-        <th width="7%">{{$mois['M11']}}</th>
-        <th width="7%">{{$mois['M12']}}</th>
+        <th style="width: 120px">Activité de maintenance</th>
+        <th >{{$mois['M1']}}</th>
+        <th >{{$mois['M2']}}</th>
+        <th >{{$mois['M3']}}</th>
+        <th >{{$mois['M4']}}</th>
+        <th >{{$mois['M5']}}</th>
+        <th >{{$mois['M6']}}</th>
+        <th >{{$mois['M7']}}</th>
+        <th >{{$mois['M8']}}</th>
+        <th >{{$mois['M9']}}</th>
+        <th >{{$mois['M10']}}</th>
+        <th >{{$mois['M11']}}</th>
+        <th >{{$mois['M12']}}</th>
     </tr>
     </thead>
     <tbody>

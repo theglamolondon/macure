@@ -1,15 +1,32 @@
 @include('pdf._style')
+<style type="text/css" rel="stylesheet">
+    th{
+        width: 112px;
+    }
+    .titre{
+        text-align: center;
+        font-size: 1.4em;
+        border: 1px solid #2a88bd;
+        padding: 3px 7px;
+    }
+</style>
+
+<div>
+    <img src="images/logo-djera.jpg" alt="Djera-Services-logo" style="position: center ; height: 100px"/>
+</div>
+
+<h3 class="titre">Planning des Actions de Maintenance Curative du {{$dimanche->format('d/m/Y')}} au {{$samedi->format('d/m/Y')}} </h3>
 <table class="table table-bordered  bulk_action">
     <thead>
     <tr class="headings">
-        <th width="12.5%" class="alignment-center column-title"><h4>Maintenance </h4> <p>Curative</p> </th>
-        <th width="12.5%" class="alignment-center column-title"><h4>Dimanche</h4><p>{{$dimanche->format('d/m/Y')}}</p></th>
-        <th width="12.5%" class="alignment-center column-title"><h4>Lundi</h4><p>{{$lundi->format('d/m/Y')}}</p></th>
-        <th width="12.5%" class="alignment-center column-title"><h4>Mardi</h4><p>{{$mardi->format('d/m/Y')}}</p></th>
-        <th width="12.5%" class="alignment-center column-title"><h4>Mercredi</h4><p>{{$mercredi->format('d/m/Y')}}</p></th>
-        <th width="12.5%" class="alignment-center column-title"><h4>Jeudi</h4><p>{{$jeudi->format('d/m/Y')}}</p></th>
-        <th width="12.5%" class="alignment-center column-title"><h4>Vendredi</h4><p>{{$vendredi->format('d/m/Y')}}</p></th>
-        <th width="12.5%" class="alignment-center column-title"><h4>Samedi</h4><p>{{$samedi->format('d/m/Y')}}</p></th>
+        <th ><strong>Maintenance <br/> Curative</strong> </th>
+        <th ><strong>Dimanche</strong><p>{{$dimanche->format('d/m/Y')}}</p></th>
+        <th ><strong>Lundi</strong><p>{{$lundi->format('d/m/Y')}}</p></th>
+        <th ><strong>Mardi</strong><p>{{$mardi->format('d/m/Y')}}</p></th>
+        <th ><strong>Mercredi</strong><p>{{$mercredi->format('d/m/Y')}}</p></th>
+        <th ><strong>Jeudi</strong><p>{{$jeudi->format('d/m/Y')}}</p></th>
+        <th ><strong>Vendredi</strong><p>{{$vendredi->format('d/m/Y')}}</p></th>
+        <th ><strong>Samedi</strong><p>{{$samedi->format('d/m/Y')}}</p></th>
     </tr>
     </thead>
     @if(!$planning->isEmpty())
@@ -29,8 +46,9 @@
                                 <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
                                 <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
                                 <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                        {{$plan->actionmaintenance->localisation}}</a>
+                                <p>
+                                    <span class="fa fa-map-marker"></span>
+                                    <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">{{$plan->actionmaintenance->localisation}}</a>
                                 </p>
                             </div>
                         @endif
@@ -43,8 +61,9 @@
                                 <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
                                 <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
                                 <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                        {{$plan->actionmaintenance->localisation}}</a>
+                                <p>
+                                    <span class="fa fa-map-marker"></span>
+                                    <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">{{$plan->actionmaintenance->localisation}}</a>
                                 </p>
                             </div>
                         @endif
@@ -57,8 +76,9 @@
                                 <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
                                 <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
                                 <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                        {{$plan->actionmaintenance->localisation}}</a>
+                                <p>
+                                    <span class="fa fa-map-marker"></span>
+                                    <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">{{$plan->actionmaintenance->localisation}}</a>
                                 </p>
                             </div>
                         @endif
@@ -71,8 +91,9 @@
                                 <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
                                 <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
                                 <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                        {{$plan->actionmaintenance->localisation}}</a>
+                                <p>
+                                    <span class="fa fa-map-marker"></span>
+                                    <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">{{$plan->actionmaintenance->localisation}}</a>
                                 </p>
                             </div>
                         @endif
@@ -85,8 +106,9 @@
                                 <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
                                 <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
                                 <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                        {{$plan->actionmaintenance->localisation}}</a>
+                                <p>
+                                    <span class="fa fa-map-marker"></span>
+                                    <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">{{$plan->actionmaintenance->localisation}}</a>
                                 </p>
                             </div>
                         @endif
@@ -99,8 +121,9 @@
                                 <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
                                 <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
                                 <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                        {{$plan->actionmaintenance->localisation}}</a>
+                                <p>
+                                    <span class="fa fa-map-marker"></span>
+                                    <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">{{$plan->actionmaintenance->localisation}}</a>
                                 </p>
                             </div>
                         @endif
@@ -113,8 +136,9 @@
                                 <p><span class="fa fa-users"></span> {{$plan->equipe->nom}} | {{$equipe->chefEquipe->nom}} {{$equipe->chefEquipe->prenoms}}</p>
                                 <p><span class="fa fa-wrench"></span> {{$plan->actionmaintenance->naturetravaux}}</p>
                                 <p><span class="fa fa-user"></span> {{$plan->actionmaintenance->bonTravaux->nomabonne}}</p>
-                                <p><span class="fa fa-map-marker"></span> <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">
-                                        {{$plan->actionmaintenance->localisation}}</a>
+                                <p>
+                                    <span class="fa fa-map-marker"></span>
+                                    <a href="{{route("pointopoint",["bt"=>$plan->actionmaintenance->bonTravaux->numerobon])}}">{{$plan->actionmaintenance->localisation}}</a>
                                 </p>
                             </div>
                         @endif
@@ -122,6 +146,15 @@
                 </td>
             </tr>
         @endforeach
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
         </tbody>
     @else
         <tr>
