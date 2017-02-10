@@ -29,8 +29,8 @@ class MapsApiController extends Controller
 
     public function Index(Request $request)
     {
-        $fpamCoord = PreparationActionMaintenance::select(['longitude','lattitude','id','numerofpam'])->get();
-        return view("rbom.map",['fpamCoord' => $fpamCoord]);
+        $fpamCoord = PreparationActionMaintenance::select(['longitude','lattitude','id','numerofpam','naturetravaux'])->get();
+        return view("cartographie.map",['fpamCoord' => $fpamCoord]);
     }
 
     public function showItinerairePoinToPoint($bt, $fpam = null)
@@ -49,7 +49,7 @@ class MapsApiController extends Controller
                 $FpreparationAM = $bt->preparationactiontravaux;
             }
 
-            return view('rbom.pointopoint',["fpam" => $FpreparationAM]);
+            return view('cartographie.pointopoint',["fpam" => $FpreparationAM]);
 
         }catch (ModelNotFoundException $e)
         {

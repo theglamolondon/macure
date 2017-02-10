@@ -7,6 +7,7 @@ use Illuminate\Notifications\Messages\DatabaseMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Auth;
 
 class WorkFlow extends Notification implements ShouldQueue
 {
@@ -68,7 +69,8 @@ class WorkFlow extends Notification implements ShouldQueue
     {
         return new DatabaseMessage([
             "message" => $this->message,
-            "link" => $this->link
+            "link" => $this->link,
+            "from" => Auth::user()->id
         ]);
     }
 }

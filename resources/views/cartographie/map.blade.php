@@ -15,7 +15,7 @@
     // prompted by your browser. If you see the error "The Geolocation service
     // failed.", it means you probably did not give permission for the browser to
     // locate you.
-    var FPAM_DATA = [@foreach($fpamCoord as $coord){coord :{lat:{{$coord->lattitude}},lng:{{$coord->longitude}} },id:'{{$coord->id}}', numerofpam:'{{$coord->numerofpam}}'  },@endforeach];
+    var FPAM_DATA = [@foreach($fpamCoord as $coord){coord :{lat:{{$coord->lattitude}},lng:{{$coord->longitude}} },id:'{{$coord->id}}', numerofpam:'{{$coord->numerofpam}}', naturetravaux : '{{$coord->naturetravaux}}'  },@endforeach];
 
     function initMap() {
         var djeraPosition  = new google.maps.LatLng({{\App\Http\Controllers\Map\MapsApiController::DJERA_POSITION_LATTITUDE}},{{\App\Http\Controllers\Map\MapsApiController::DJERA_POSITION_LONGITUDE}});
@@ -49,17 +49,17 @@
                 title: 'FPAM '+FPAM_DATA[i].numerofpam,
                 icon: '{{request()->getBaseUrl()}}/images/cone_11.png'
             });
-            attachSecretMessage(marker, FPAM_DATA[i].id);
+            attachSecretMessage(marker, i);
         }
 
-        function attachSecretMessage(marker, id) {
+        function attachSecretMessage(marker, index) {
             var infowindow = new google.maps.InfoWindow({
-                content: 'AJKLM%LKJHJHKLM%MLKJKLM%MLKJML%%ML'
+                content: '<strong>FPAM N° </strong>'+FPAM_DATA[index].numerofpam+'<br/>'+'<strong>Travaux :</strong>'+FPAM_DATA[index].naturetravaux
             });
 
             marker.addListener('click',function () {
                 infowindow.open(map,marker);
-            })
+            });
         }
 
         map.setCenter(djeraPosition);

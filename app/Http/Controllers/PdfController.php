@@ -8,6 +8,7 @@ use App\IdentiteAcces;
 use App\Notifications\WorkFlow;
 use App\Ouvrage;
 use App\Planning;
+use App\PreparationActionMaintenance;
 use App\Tache;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
@@ -135,7 +136,7 @@ class PdfController extends Controller
             $dimanche = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SUNDAY-1));
         }
 
-        $planning = Planning::with(['equipe','actionmaintenance'])->whereBetween('datedepannage',[$dimanche->toDateString(),$samedi->toDateString()])->get();
+        $planning = PreparationActionMaintenance::with(['equipe'])->whereBetween('datedepannage',[$dimanche->toDateString(),$samedi->toDateString()])->get();
         $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->orderBy('chargemaintenance','asc')->get();
 
         $date = $d->format('d/m/Y');

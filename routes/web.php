@@ -26,7 +26,7 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 // Notifications routes
-Route::get('notifications/{user}', 'NotificationController@index')->name('mes_notifications');
+Route::get('notifications', 'NotificationController@index')->name('mes_notifications');
 Route::get('notification/{notification}','NotificationController@update')->name('lire_notification');
 Route::post('notification/commentaire/nouveau','NotificationController@addNewCommentForUser')->name('nouveau_commentaire');
 
@@ -42,8 +42,10 @@ Route::group(['prefix' => \App\Autorisation::DIRECTEUR, 'middleware' => ['auth',
     Route::get('/tableaubord','AdminController@index')->name('tableau_bord');
     Route::get('/statistique','DirecteurController@statistiques')->name('statistiques');
     Route::get('/planning/ouvrage/{annee?}','DirecteurController@ouvrage')->name('plan_ouvrage_directeur');
-    Route::get('/planning/bontravaux/{annee?}/{mois?}/{jour?}','DirecteurController@bontravaux')->name('plan_bt_directeur');
+    Route::get('/planning/bontravaux/{jour?}/{mois?}/{annee?}','DirecteurController@bontravaux')->name('plan_bt_directeur');
     Route::get('/planning/fpam/{jour?}/{mois?}/{annee?}','DirecteurController@fpam')->name('plan_fpam_directeur');
+    //Map
+    Route::get('map','Map\MapsApiController@Index')->name('map_directeur');
 });
 
 Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','policy','role']],function (){

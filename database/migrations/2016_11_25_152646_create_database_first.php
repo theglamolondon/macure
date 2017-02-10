@@ -199,6 +199,8 @@ class CreateDatabaseFirst extends Migration
             $table->string('lattitude',50);
             $table->integer('habilitation_id')->nullable();
             $table->integer('statut');
+            $table->integer('equipe_id',false,true)->nullable();
+            $table->date('datedepannage')->nullable();
             //clés
             $table->foreign('causechantier_id','fk_prepa_action_cause')->references('id')->on('causechantier');
             $table->foreign('typeoperation_id','fk_prepa_action_type_ope')->references('id')->on('typeoperation');
@@ -207,6 +209,7 @@ class CreateDatabaseFirst extends Migration
             $table->foreign('equipetravaux_id','fk_prepa_equipe')->references('id')->on('equipetravaux');
             $table->foreign('habilitation_id','fk_prepa_habilitation')->references('id')->on('habilitation');
             $table->foreign('statut','fk_prepa_etat')->references('id')->on('etatbon');
+            $table->foreign('equipe_id','fk_planning_equipetravaux')->references('id')->on('equipetravaux');
         });
         Schema::create('typegamme',function (Blueprint $table){
             $table->increments('id');
@@ -325,15 +328,6 @@ class CreateDatabaseFirst extends Migration
             $table->foreign('actionmaintenancecurative_id','fk_indicateurmaintenance_rtmaintenancecurative')
                 ->references('fpactionmaintenance_id')->on('rtmaintenancecurative');
         });
-        Schema::create('planning',function (Blueprint $table){
-            $table->integer('equipe_id',false,true);
-            $table->integer('actionmaintenance_id',false,true)->unique();
-            $table->date('datedepannage');
-            //clés
-            $table->primary(['equipe_id','actionmaintenance_id'],'pk_planning');
-            $table->foreign('equipe_id','fk_planning_equipetravaux')->references('id')->on('equipetravaux');
-            $table->foreign('actionmaintenance_id','fk_planning_fpam')->references('id')->on('fpactionmaintenance');
-        });
         /*
         Schema::create('',function (Blueprint $table){
 
@@ -370,7 +364,6 @@ class CreateDatabaseFirst extends Migration
         Schema::dropIfExists('rtmaintenancecurative');
         Schema::dropIfExists('actionmaintenancecurative');
         Schema::dropIfExists('indicateurmaintenance');
-        Schema::dropIfExists('planning');
         Schema::dropIfExists('habilitation');
         Schema::dropIfExists('produit');
         Schema::dropIfExists('familleproduit');

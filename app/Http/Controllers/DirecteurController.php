@@ -6,6 +6,7 @@ use App\BonTravaux;
 use App\EquipeTravaux;
 use App\Ouvrage;
 use App\Planning;
+use App\PreparationActionMaintenance;
 use App\Tache;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -31,9 +32,9 @@ class DirecteurController extends Controller
         ->groupBy('mois')
         ->get();
 
-        $fpam = null;
-
-        //dd($bt);
+        $fpam =PreparationActionMaintenance::select(DB::raw('count(id) AS total, month(dateexecution) AS mois'))
+            ->groupBy('mois')
+            ->get();
 
         return view('directeur.statistiques',[
             "BT" => $bt,
@@ -66,7 +67,7 @@ class DirecteurController extends Controller
             $dimanche = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SUNDAY-1));
         }
 
-        $planning = Planning::with(['equipe','actionmaintenance'])->whereBetween('datedepannage',[$dimanche->toDateString(),$samedi->toDateString()])->get();
+        $planning = PreparationActionMaintenance::with(['equipe'])->whereBetween('datedepannage',[$dimanche->toDateString(),$samedi->toDateString()])->get();
         $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->orderBy('chargemaintenance','asc')->get();
 
         return view('directeur.planning',[
@@ -83,7 +84,7 @@ class DirecteurController extends Controller
         ]);
     }
 
-    public function bontravaux($annee=null, $mois=null, $jour=null)
+    public function bontravaux($jour=null, $mois=null, $annee=null)
     {
         $d = Carbon::now();
         $lundi = null;  $mardi = null;  $mercredi = null;  $jeudi = null;

@@ -21,6 +21,14 @@
         var BT = new Array(12);
         var FPAM = new Array(12);
 
+        @foreach($BT as $stats)
+            BT[{{$stats["mois"]}}] = {{$stats["total"]}};
+        @endforeach
+
+        @foreach($FPAM as $stats)
+            FPAM[{{$stats["mois"]}}] = {{$stats["total"]}};
+        @endforeach
+
         var ctx = document.getElementById("mybarChart");
         var mybarChart = new Chart(ctx, {
             type: 'bar',
@@ -29,11 +37,11 @@
                 datasets: [{
                     label: 'Bon de Travaux',
                     backgroundColor: "#26B99A",
-                    data: [51, 30, 40, 28, 92, 50, 45, 20, 45, 89, 78, 45]
+                    data: BT //[51, 30, 40, 28, 92, 50, 45, 20, 45, 89, 78, 45]
                 }, {
                     label: 'FPAM',
                     backgroundColor: "#03586A",
-                    data: [41, 56, 25, 48, 72, 34, 12, 55, 69, 78, 20, 101]
+                    data: FPAM //[41, 56, 25, 48, 72, 34, 12, 55, 69, 78, 20, 101]
                 }]
             },
 

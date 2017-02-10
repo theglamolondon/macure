@@ -11,23 +11,23 @@
         @foreach($notifs as $notification)
         <li>
             <a href="{{route('lire_notification',["notification" => $notification])}}">
-                <span class="image"><img src="{{request()->getBaseUrl()}}/images/img.jpg" alt="Profile Image" /></span>
+                <span class="image">
+                    <img src="{{request()->getBaseUrl()}}/images/profile/{{(\App\IdentiteAcces::with('utilisateur','equipeTravaux')->find($notification->data['from']))->profileimage}}" alt="Profile Image" />
+                </span>
                 <span>
-                  <span>John Smith</span>
+                  <span>{{(\App\IdentiteAcces::with('utilisateur','equipeTravaux')->find($notification->data['from']))->name()}}</span>
                   <span class="time">{{(new Carbon\Carbon($notification->updated_at))->diffForHumans()}}</span>
                 </span>
                 <span class="message">
-                  {{$notification->data['message']}}
+                  {{substr($notification->data['message'],0,50)}}...
                 </span>
             </a>
-
             @if ($user->number == 10) @break @endif
-
         </li>
         @endforeach
         <li>
             <div class="text-center">
-                <a href="{{route('mes_notifications',["user" => \Illuminate\Support\Facades\Auth::user()])}}">
+                <a href="{{route('mes_notifications')}}">
                     <strong>Lire toutes les notifications</strong>
                     <i class="fa fa-angle-right"></i>
                 </a>

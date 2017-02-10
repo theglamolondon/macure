@@ -14,6 +14,10 @@ class PreparationActionMaintenance extends Model
         return $this->belongsTo('App\Bontravaux','bontravaux_id');
     }
 
+    public function equipe() {
+        return $this->belongsTo('App\EquipeTravaux','equipe_id');
+    }
+
     public function moyensHumains() {
         return $this->hasOne('App\MoyenHumain','fpactionmaintenance_id');
     }

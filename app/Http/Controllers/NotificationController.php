@@ -22,9 +22,12 @@ class NotificationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {//IdentiteAcces $user
-        dd(Auth::user());
-        return view('back.notifications.index', compact('user'));
+    {
+        //IdentiteAcces $user
+        $user  = Auth::user();
+        $notifications = $user->notifications;
+        //dd(IdentiteAcces::with('utilisateur','equipeTravaux')->find($notifications[0]->data['from']));
+        return view('notifications.liste', compact('user',"notifications"));
     }
 
     /**

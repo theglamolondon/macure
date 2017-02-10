@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\{BonTravaux,CauseChantier,Direction,EquipeTravaux,EtatBon,Gamme,MoyenHumain,Ouvrage,Planning,PreparationActionMaintenance,
-        SollicitationExterieure,Tache,TypeGamme,TypeOperation,TypeOuvrage,Urgence};
+use App\{ BonTravaux, CauseChantier, Direction, EquipeTravaux, EtatBon, Gamme, MoyenHumain, Ouvrage, PreparationActionMaintenance, SollicitationExterieure, Tache, TypeGamme, TypeOperation, TypeOuvrage, Urgence
+};
 
 use App\Http\HelperFunctions;
 use Carbon\Carbon;
@@ -27,7 +27,7 @@ class RbomController extends Controller
         return view('rtm.home');
     }
 
-    public function showNewFormBT(BonTravaux $bonTravaux,$reference = null)
+    public function showNewFormBT($reference = null)
     {
         $urgence = Urgence::all();
 
@@ -369,9 +369,12 @@ class RbomController extends Controller
 
         try
         {
-            $p = new Planning($request->except(["_token","datedepannage"]));
-            $p->datedepannage = Carbon::createFromFormat("d/m/Y",$request->input("datedepannage"))->toDateString();
-            $p->saveOrFail();
+            $fpam = PreparationActionMaintenance::findOrFail($request->input('actionmaintenance_id'));
+            $fpam->equipe_id = $request->input("equipe_id");
+            $fpam->datedepannage = Carbon::createFromFormat("d/m/Y",$request->input("datedepannage"))->toDateString();
+            $fpam->saveOrFail();
+
+            $this->withSuccess('La FPAM '.$fpam->numerofpam.' a été plannifier');
             return back();
         }catch (ModelNotFoundException $e){
             return back()->withErrors(["exception" => "La planification de cette FPAM à déjà été réalisée"]);
@@ -407,9 +410,8 @@ class RbomController extends Controller
             $dimanche = Carbon::createFromDate($annee,$mois,$jour)->addDay(-($d->dayOfWeek-1) + (Carbon::SUNDAY-1));
         }
 
-        $planning = Planning::with(['equipe','actionmaintenance'])->whereBetween('datedepannage',[$dimanche->toDateString(),$samedi->toDateString()])->get();
+        $planning = PreparationActionMaintenance::with(['equipe'])->whereBetween('datedepannage',[$dimanche->toDateString(),$samedi->toDateString()])->get();
         $equipes = EquipeTravaux::with(["chargeMaintenance","chefEquipe"])->orderBy('chargemaintenance','asc')->get();
-        //dd($planning);
 
         return view('rbom.planning',[
             "planning" => $planning,

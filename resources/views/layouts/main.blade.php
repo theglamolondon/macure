@@ -53,13 +53,18 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="{{route(\Illuminate\Support\Facades\Auth::user()->getHomeUrl())}}" class="site_title"><i class="fa fa-leaf"></i> <span>Marcure !</span></a>
+              <a href="{{route(\Illuminate\Support\Facades\Auth::user()->getHomeUrl())}}" class="site_title">
+                <!-- <img src="{{request()->getBaseUrl()}}/images/logo-djera.jpg" style="width:75px; display: inline-block;"/> -->
+                <span>Marcure</span>
+              </a>
             </div>
+
+            <hr style="border: #AAAAAA solid 1px"/>
 
             <div class="clearfix"></div>
 
             <!-- menu profile quick info -->
-            <div class="profile">
+            <div class="profile" style="margin-bottom: 10px;">
               <div class="profile_pic">
                 <img src="{{request()->getBaseUrl()}}/images/profile/{{\Illuminate\Support\Facades\Auth::user()->profileimage}}" alt="..." class="img-circle profile_img">
               </div>
@@ -69,13 +74,14 @@
               </div>
             </div>
             <!-- /menu profile quick info -->
-
+            <div class="clearfix"></div>
             <br />
+            <hr style="border: #AAAAAA solid 1px"/>
 
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                <h3>General</h3>
+
                 <ul class="nav side-menu">
                   @if( \Illuminate\Support\Facades\Auth::user()->hasRole(\App\Autorisation::ADMIN))
                   <li><a><i class="fa fa-home"></i> ADMIN <span class="fa fa-chevron-down"></span></a>
@@ -167,15 +173,15 @@
                         <ul class="nav child_menu">
                           <li><a href="{{route('nouveau_bt')}}">Nouveau</a></li>
                           <li><a href="{{route('liste_bt')}}">Liste</a></li>
-                          <li><a href="{{route('planning_bt')}}">Planning BT</a></li>
+                          <li><a href="{{route('planning_bt')}}">Planning</a></li>
                         </ul>
                       </li>
                       <li><a href="javascript:void(0);">Actions de maintenance</a>
                         <ul class="nav child_menu">
                           <li><a href="{{route('liste_fpam')}}">Liste</a></li>
+                          <li><a href="{{route('planning')}}">Planning</a></li>
                         </ul>
                       </li>
-                      <li><a href="{{route('planning')}}">Planning</a></li>
                       <li><a href="{{route('map')}}">Cartographie</a></li>
                     </ul>
                   </li>
@@ -235,6 +241,7 @@
                           <li><a href="{{route('plan_fpam_directeur')}}">FPAM</a></li>
                         </ul>
                       </li>
+                      <li><a href="{{route('map_directeur')}}">Cartographie</a></li>
                     </ul>
                   </li>
                   @endif
@@ -366,6 +373,9 @@
           type: '{{\App\Helper\Message::TYPE_INFORMATION}}', //error | info | alert | success
           styling: 'bootstrap3',
           hide: false,
+          nonblock: {
+            nonblock: true
+          },
         });
         @endforeach
         @endif
