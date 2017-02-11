@@ -22,7 +22,7 @@ class RbomController extends Controller
         //$this->middleware('auth');
     }
 
-    public function Index(Request $request)
+    public function Index()
     {
         return view('rtm.home');
     }
@@ -35,20 +35,6 @@ class RbomController extends Controller
             'urgences' => $urgence,
             'today' => date('d/m/Y H:i'),
             'reference' => $reference
-        ]);
-    }
-
-    public function JsonListBT(Request $request)
-    {
-        //$perPage = intval($request->length);
-        $offset  = intval($request->start);
-        $data = BonTravaux::with(['etatbon','urgence'])->offset($offset)->limit(20)->get();
-
-        return response()->json([
-            "draw" => $request->draw,
-            "recordsTotal" => count($data),
-            "record" => count($data),
-            "data" => $data
         ]);
     }
 
