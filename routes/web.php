@@ -59,7 +59,6 @@ Route::group(['prefix' => \App\Autorisation::RBOM, 'middleware' => ['auth','poli
     Route::post('bontravaux/{initiateur}/modifier','RbomController@sendResponseUpdateBT');
     Route::get('bontravaux/{initiateur}/supprimer','RbomController@sendResponseDeleteBT')->name('supprimer_bt');
     Route::get('bontravaux','RbomController@showListBT')->name('liste_bt');
-    Route::get('bontravaux/json','RbomController@JsonListBT')->name('liste_bt_json');
     Route::get('bontravaux/planning/{annee?}/{mois?}/{jour?}','RbomController@planningBT')->name('planning_bt');
     Route::get('bontravaux/planning/week/{annee}/{mois}/{jour}','RbomController@listeBTofWeek')->name('planning_bt_json');
     Route::get('bontravaux/plan/week/{jour?}/{mois?}/{annee?}','RbomController@angularTemplate')->name('template_angular');
