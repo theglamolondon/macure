@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 use App\IdentiteAcces;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 trait UserProfile

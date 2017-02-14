@@ -20,7 +20,7 @@ class WorkFlow extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(string $message, string $link)
+    public function __construct($message, $link)
     {
         $this->message = $message;
         $this->link = $link;

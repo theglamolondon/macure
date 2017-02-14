@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MembreEquipe extends Model
 {
@@ -12,11 +11,13 @@ class MembreEquipe extends Model
     protected $guarded = [];
     protected $primaryKey = ['fpam','equipetravaux_id','intervenant_id'];
 
-    public function intervenant():BelongsTo{
+    public function intervenant()
+    {
         return $this->belongsTo('App\Intervenant','intervenant_id');
     }
 
-    public function equipeTravaux():BelongsTo{
+    public function equipeTravaux()
+    {
         return $this->belongsTo('App\EquipeTravaux','equipetravaux_id');
     }
 }

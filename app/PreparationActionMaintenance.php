@@ -11,7 +11,7 @@ class PreparationActionMaintenance extends Model
     protected $guarded = [];
 
     function bonTravaux() {
-        return $this->belongsTo('App\Bontravaux','bontravaux_id');
+        return $this->belongsTo('App\BonTravaux','bontravaux_id');
     }
 
     public function equipe() {

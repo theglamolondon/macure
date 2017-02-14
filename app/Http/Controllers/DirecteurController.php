@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\BonTravaux;
 use App\EquipeTravaux;
 use App\Ouvrage;
-use App\Planning;
 use App\PreparationActionMaintenance;
 use App\Tache;
 use Carbon\Carbon;
@@ -23,7 +22,8 @@ class DirecteurController extends Controller
 
     public function Index()
     {
-        return view('directeur.home');
+        return redirect()->action('AdminController@index');
+        //return view('directeur.home');
     }
 
     public function statistiques()
@@ -32,7 +32,7 @@ class DirecteurController extends Controller
         ->groupBy('mois')
         ->get();
 
-        $fpam =PreparationActionMaintenance::select(DB::raw('count(id) AS total, month(dateexecution) AS mois'))
+        $fpam =PreparationActionMaintenance::select(DB::raw('count(id) AS total, month(datedepannage) AS mois'))
             ->groupBy('mois')
             ->get();
 
@@ -136,9 +136,9 @@ class DirecteurController extends Controller
         ]);
     }
 
-    public function ouvrage(Request $request, int $annee = null)
+    public function ouvrage(Request $request, $annee = null)
     {
-        $annee = $annee ?? Carbon::now()->year;
+        $annee = $annee ? $annee : Carbon::now()->year;
 
         //Toutes les taches de la période
         $ouvrages = Ouvrage::join('tacheouvrage','tacheouvrage.ouvrage_id','=','ouvrage.id')

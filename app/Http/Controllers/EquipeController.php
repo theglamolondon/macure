@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\{Checklist, EquipeTravaux, GammeCheck, Planning, PreparationActionMaintenance, TypeGamme };
+use App\Checklist;
+use App\EquipeTravaux;
+use App\GammeCheck;
+use App\Planning;
+use App\PreparationActionMaintenance;
+use App\TypeGamme;
 use App\Http\HelperFunctions;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

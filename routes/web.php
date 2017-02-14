@@ -14,6 +14,7 @@ Route::get('/','Auth\LoginController@showLoginForm');
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('utilisateur/courant/modifier','HomeController@updateCurrentUser')->name('maj_current_user');
 
 // Registration Routes...
 Route::get('register', 'Auth\RegisterController@showRegistrationForm');

@@ -4,17 +4,11 @@ namespace App\Http\Controllers;
 
 use App\BonTravaux;
 use App\EquipeTravaux;
-use App\IdentiteAcces;
-use App\Notifications\WorkFlow;
 use App\Ouvrage;
-use App\Planning;
 use App\PreparationActionMaintenance;
 use App\Tache;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 
 class PdfController extends Controller
 {
@@ -60,9 +54,9 @@ class PdfController extends Controller
         return $pdf->download('planningbt.pdf');
     }
 
-    public function planningOuvrage(int $annee = null)
+    public function planningOuvrage($annee = null)
     {
-        $annee = $annee ?? Carbon::now()->year;
+        $annee = $annee ? $annee : Carbon::now()->year;
 
         //Toutes les taches de la période
         $ouvrages = Ouvrage::join('tacheouvrage','tacheouvrage.ouvrage_id','=','ouvrage.id')

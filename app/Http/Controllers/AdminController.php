@@ -2,8 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\{Checklist,EquipeTravaux, IdentiteAcces, Intervenant, TypeGamme, TypeIdentite, Utilisateur, Http\HelperFunctions};
-use Illuminate\{Database\Eloquent\ModelNotFoundException , Http\Request};
+use App\Checklist;
+use App\EquipeTravaux;
+use App\IdentiteAcces;
+use App\Intervenant;
+use App\TypeGamme;
+use App\TypeIdentite;
+use App\Utilisateur;
+use App\Http\HelperFunctions;
+use Illuminate\Database\Eloquent\ModelNotFoundException ;
+use Illuminate\Http\Request;
 use League\Flysystem\Exception;
 
 class AdminController extends Controller

@@ -26,7 +26,6 @@ class NotificationController extends Controller
         //IdentiteAcces $user
         $user  = Auth::user();
         $notifications = $user->notifications;
-        //dd(IdentiteAcces::with('utilisateur','equipeTravaux')->find($notifications[0]->data['from']));
         return view('notifications.liste', compact('user',"notifications"));
     }
 
@@ -41,12 +40,13 @@ class NotificationController extends Controller
     {
         //Notification de l'utilisateur
         $this->withNotification($notification->data['message']);
-
         $notification->markAsRead();
+
+        //redirection vers la cible de la notification
         return redirect($notification->data['link']);
     }
 
-    private function sendNotification(Collection $users, string $message, string $link)
+    private function sendNotification(Collection $users, $message, $link)
     {
         Notification::send($users,new WorkFlow($message,$link));
     }

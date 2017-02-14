@@ -73,57 +73,18 @@
               <div class="clearfix"></div>
 
               <div class="separator">
-                <p class="change_link">Nouvel utilisateur ?
-                  <a href="#signup" class="to_register"> Créer un nouveau compte </a>
-                </p>
-
                 <div class="clearfix"></div>
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-leaf"></i> Macure</h1>
-                  <p>©2016 Tous droits Reservé. GLAMO Corporation! GLAMO Création! Privacy and Terms</p>
+                  <h1>Macure</h1>
+                  <p>©2016 Tous droits Reservé. SOFTN'FIX Technology! Privacy and Terms</p>
                 </div>
               </div>
             </form>
           </section>
         </div>
 
-        <div id="register" class="animate form registration_form">
-          <section class="login_content">
-            <form>
-              <h1>Créer un nouveau compte</h1>
-              <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
-              </div>
-              <div>
-                <input type="email" class="form-control" placeholder="Email" required="" />
-              </div>
-              <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
-              </div>
-              <div>
-                <a class="btn btn-default submit" href="../gentelella/index.html">Submit</a>
-              </div>
-
-              <div class="clearfix"></div>
-
-              <div class="separator">
-                <p class="change_link">Se souvenir de moi ?
-                  <a href="#signin" class="to_register"> Connexion </a>
-                </p>
-
-                <div class="clearfix"></div>
-                <br />
-
-                <div>
-                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
-                </div>
-              </div>
-            </form>
-          </section>
-        </div>
       </div>
     </div>
   </body>

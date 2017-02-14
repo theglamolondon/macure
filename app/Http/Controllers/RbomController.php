@@ -2,8 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\{ BonTravaux, CauseChantier, Direction, EquipeTravaux, EtatBon, Gamme, MoyenHumain, Ouvrage, PreparationActionMaintenance, SollicitationExterieure, Tache, TypeGamme, TypeOperation, TypeOuvrage, Urgence
-};
+use App\BonTravaux;
+use App\CauseChantier;
+use App\Direction;
+use App\EquipeTravaux;
+use App\EtatBon;
+use App\Gamme;
+use App\MoyenHumain;
+use App\Ouvrage;
+use App\PreparationActionMaintenance;
+use App\SollicitationExterieure;
+use App\Tache;
+use App\TypeGamme;
+use App\TypeOperation;
+use App\TypeOuvrage;
+use App\Urgence;
 
 use App\Http\HelperFunctions;
 use Carbon\Carbon;

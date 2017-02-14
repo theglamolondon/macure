@@ -20,10 +20,9 @@
                                     <h4 class="brief"><i>{{$utilisateur->typeIdentite->libelle}}</i></h4>
                                     <div class="left col-xs-7">
                                         <h2>{{$utilisateur->name()}}</h2>
-                                        <p><strong>About: </strong> Web Designer / UI. </p>
                                         <ul class="list-unstyled">
-                                            <li><i class="fa fa-building"></i> Address: </li>
-                                            <li><i class="fa fa-phone"></i> Phone : {{$utilisateur->utilisateur->telephone ?? null}}</li>
+                                            <li><i class="fa fa-building"></i> Email:  {{$utilisateur->utilisateur ? $utilisateur->utilisateur->email : null}}</li>
+                                            <li><i class="fa fa-phone"></i> Phone : {{$utilisateur->utilisateur ? $utilisateur->utilisateur->telephone : null}}</li>
                                         </ul>
                                         <div class="">
                                             <label>

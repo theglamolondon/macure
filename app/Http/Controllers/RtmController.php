@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\{EquipeTravaux, Http\HelperFunctions, Intervenant, MembreEquipe};
-use Carbon\Carbon;
-use Illuminate\{Contracts\View\View,Database\Eloquent\ModelNotFoundException, Http\Request};
+use App\EquipeTravaux;
+use App\Http\HelperFunctions;
+use App\Intervenant;
+use App\MembreEquipe;
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 class RtmController extends Controller
 {
@@ -15,16 +19,16 @@ class RtmController extends Controller
         //$this->middleware('auth');
     }
 
-    public function Index():View
+    public function Index()
     {
         return view('rtm.home');
     }
 
-    public function showDetailsEquipe(int $id):View{
+    public function showDetailsEquipe( $id){
         return view();
     }
 
-    public function showUpdateFormEquipe(Request $request, int $id)
+    public function showUpdateFormEquipe(Request $request, $id)
     {
         try{
             return view('rtm.editequipe',[
@@ -39,7 +43,7 @@ class RtmController extends Controller
         }
     }
 
-    public function sendResponseUpdateFormEquipe(Request $request, int $id)
+    public function sendResponseUpdateFormEquipe(Request $request, $id)
     {
         $this->validate($request,[
             "intervenants" => "required|array"

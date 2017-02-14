@@ -25,4 +25,10 @@ class HomeController extends Controller
     {
         return view('rtm.home');
     }
+
+    public function updateCurrentUser(Request $request)
+    {
+
+        dd($request);
+    }
 }

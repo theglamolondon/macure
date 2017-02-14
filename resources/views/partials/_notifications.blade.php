@@ -9,13 +9,16 @@
     </a>
     <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
         @foreach($notifs as $notification)
+            @php
+            $owner = (\App\IdentiteAcces::with('utilisateur','equipeTravaux')->find($notification->data['from']));
+            @endphp
         <li>
             <a href="{{route('lire_notification',["notification" => $notification])}}">
                 <span class="image">
-                    <img src="{{request()->getBaseUrl()}}/images/profile/{{(\App\IdentiteAcces::with('utilisateur','equipeTravaux')->find($notification->data['from']))->profileimage}}" alt="Profile Image" />
+                    <img src="{{request()->getBaseUrl()}}/images/profile/{{$owner->profileimage}}" alt="Profile Image" />
                 </span>
                 <span>
-                  <span>{{(\App\IdentiteAcces::with('utilisateur','equipeTravaux')->find($notification->data['from']))->name()}}</span>
+                  <span>{{$owner->name()}}</span>
                   <span class="time">{{(new Carbon\Carbon($notification->updated_at))->diffForHumans()}}</span>
                 </span>
                 <span class="message">

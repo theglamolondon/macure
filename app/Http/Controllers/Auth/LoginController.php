@@ -45,12 +45,17 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        if(Auth::user() == null)
+        {
+            $request->session()->regenerate();
+            return redirect('login')->withErrors("Votre session a expiré");
+        }
+
         $error = session('errors') ? session('errors')->first('policy'):null;
 
         Auth::user()->totaltimeconnect += Carbon::now()->diffInMinutes(Carbon::parse(Auth::user()->lastlogin));
         Auth::user()->lastlogout = Carbon::now()->toDateTimeString();
         Auth::user()->save();
-        //dd(Auth::user());
 
         $this->guard()->logout();
         $request->session()->flush();
