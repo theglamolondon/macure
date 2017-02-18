@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    use UserProfile;
     /**
      * Create a new controller instance.
      *
@@ -28,7 +29,6 @@ class HomeController extends Controller
 
     public function updateCurrentUser(Request $request)
     {
-
-        dd($request);
+        $this->sendResponseUpdateUser($request, back());
     }
 }
