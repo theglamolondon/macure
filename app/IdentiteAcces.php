@@ -17,9 +17,9 @@ class IdentiteAcces extends Authenticatable
     {
         $r = null;
         if($this->typeidentite_id == TypeIdentite::TYPE_IDENTITE_UTILISATEUR){
-            $r = $this::with('utilisateur')->first();
+            $r = $this->utilisateur;
         }elseif($this->typeidentite_id == TypeIdentite::TYPE_IDENTITE_EQUIPE_TRAVAUX){
-            $r = $this::with('equipeTravaux')->first();
+            $r = $this->equipeTravaux;
         }
         return $r;
     }

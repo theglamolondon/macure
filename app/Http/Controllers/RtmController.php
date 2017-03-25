@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class RtmController extends Controller
 {
-    use UserProfile, AuthorizationChecker, HelperFunctions;
+    use UserProfile, AuthorizationChecker;
 
     public function __construct()
     {

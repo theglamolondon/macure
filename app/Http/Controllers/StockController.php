@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class StockController extends Controller
 {
-    use UserProfile, AuthorizationChecker, HelperFunctions;
+    use UserProfile, AuthorizationChecker;
 
     public function __construct()
     {

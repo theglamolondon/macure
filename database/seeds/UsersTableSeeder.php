@@ -32,6 +32,13 @@ class UsersTableSeeder extends Seeder
                 'policy' => '-t 08:00 16:20',
             ],
             [
+                'login' => 'test@yahoo.fr',
+                'password' => bcrypt('azerty'),
+                'typeidentite_id'=>1,
+                'autorisation' => json_encode(['admin','cie','rtmdoc','rbom','directeur','stock']),
+                'policy' => null,
+            ],
+            [
                 'login' => 'groupe1',
                 'password' => bcrypt('macure'),
                 'typeidentite_id'=>2,
@@ -68,6 +75,13 @@ class UsersTableSeeder extends Seeder
                 'email' => null,
                 'identiteacces_id' => 2
             ],
+            [
+                'nom' => 'Test',
+                'prenoms' => 'Bonjour',
+                'telephone' => null,
+                'email' => null,
+                'identiteacces_id' => 3
+            ],
         ]);
         DB::table('urgence')->insert([
             [
@@ -91,19 +105,19 @@ class UsersTableSeeder extends Seeder
         ]);
         DB::table('equipetravaux')->insert([
             [
-                "identiteacces_id" => 3,
+                "identiteacces_id" => 4,
                 "nom" => "Equipe 1",
                 "chargemaintenance" => 1,
                 "chefequipe" => 2
             ],
             [
-                "identiteacces_id" => 4,
+                "identiteacces_id" => 5,
                 "nom" => "Equipe 2",
                 "chargemaintenance" => 1,
                 "chefequipe" => 3
             ],
             [
-                "identiteacces_id" => 5,
+                "identiteacces_id" => 6,
                 "nom" => "Equipe 3",
                 "chargemaintenance" => 4,
                 "chefequipe" => 7

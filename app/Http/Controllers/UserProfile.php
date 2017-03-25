@@ -9,12 +9,17 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\HelperFunctions;
 use App\IdentiteAcces;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 trait UserProfile
 {
+    use HelperFunctions;
+
     public function editProfil()
     {
         return view('auth.profile',[
@@ -22,13 +27,13 @@ trait UserProfile
         ]);
     }
 
-    public function sendResponseUpdateUser(Request $request, $returnTo = null)
+    public function sendResponseUpdateUser(Request $request, $returnToBack = null)
     {
         $this->validate($request,[
             "login" => "required|exists:identiteacces,login",
             "password" => "confirmed",
             "typeidentite_id" => "required|numeric",
-            "autorisation" => "required|array",
+            "autorisation" => "optional|array",
             "nom" => "required",
             "chargemaintenance" => "required_if:typeidentite_id,2|numeric",
             "chefequipe" => "required_if:typeidentite_id,2|numeric",
@@ -46,19 +51,22 @@ trait UserProfile
             if(!empty($request->input('password'))) {
                 $updater['password'] = bcrypt($request->input('password'));
             }
-            $updater['autorisation'] = json_encode($request->input('autorisation'));
-            //Policy
-            $d = null;
-            foreach ($request->input('jours') as $j) {
-                if($d){$d .= ',';}
-                $d .= $j;
+
+            if($request->has('autorisation'))
+            {
+                $updater['autorisation'] = json_encode($request->input('autorisation'));
+                //Policy
+                $d = null;
+                foreach ($request->input('jours') as $j) {
+                    if($d){$d .= ',';}
+                    $d .= $j;
+                }
+                $d = '-d '.$d;
+                $h = '-t '.str_replace('-',' ',$request->input('horaires'));
+                $updater['policy'] = $d.' | '.$h;
             }
-            $d = '-d '.$d;
-            $h = '-t '.str_replace('-',' ',$request->input('horaires'));
-            $updater['policy'] = $d.' | '.$h;
 
             $identite->update($updater);
-
 
             $updater = [];
             if($identite->utilisateur){
@@ -78,11 +86,12 @@ trait UserProfile
             }
 
             $this->withSuccess(['L\'utilisateur a été modifié avec succès']);
-            return $returnTo ? $returnTo : redirect()->route('liste_users');
+
+            return $returnToBack ? $returnToBack : redirect()->route('liste_users');
 
         }catch (ModelNotFoundException $e){
             return back()->withErrors([$e->getMessage()]);
-        }catch (Exception $e){
+        }catch (\Exception $e){
             return back()->withErrors([$e->getMessage()]);
         }
     }

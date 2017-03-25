@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EquipeController extends Controller
 {
-    use UserProfile, AuthorizationChecker, HelperFunctions;
+    use UserProfile, AuthorizationChecker;
 
     public function __construct()
     {

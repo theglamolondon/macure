@@ -10,6 +10,7 @@
 | to using a Closure or controller method. Build something great!
 */
 // Authentication Routes...
+//\Illuminate\Support\Facades\Auth::routes();
 Route::get('/','Auth\LoginController@showLoginForm');
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');

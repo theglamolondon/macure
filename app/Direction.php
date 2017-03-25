@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Direction extends Model
 {
-    protected $table = 'Direction';
+    protected $table = 'direction';
     public $timestamps = false;
     protected $guarded = [];
 }

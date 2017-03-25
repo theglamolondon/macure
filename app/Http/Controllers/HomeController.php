@@ -29,6 +29,6 @@ class HomeController extends Controller
 
     public function updateCurrentUser(Request $request)
     {
-        $this->sendResponseUpdateUser($request, back());
+        return $this->sendResponseUpdateUser($request, redirect()->back());
     }
 }

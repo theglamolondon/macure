@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Lang;
 
 class RbomController extends Controller
 {
-    use AuthorizationChecker, UserProfile, HelperFunctions;
+    use AuthorizationChecker, UserProfile;
 
     public function __construct()
     {
